@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.2
-7c02fae5b376890b614102e776e1edfde99e1fd4|mod.ini
+version=1.3
+871154ed826e419909a2c744717ab03ecb3db1d3|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
@@ -25,7 +25,7 @@ a8fb6bbd49b6e95af63291de71413c0581ac51e5|files/Data/ui/themes/rose/game/focused_
 b0beecb5b0a09c8a0b8ca2497fb9903a771724f2|files/Data/ui/themes/rose/game/game_arena.html
 e6ef2b78174ac1e0f49c10a8dad7ea662d1574d0|files/Data/ui/themes/rose/game/gamearena_scoreboard.html
 8413c90ecad8b5f73cf0e774be672bb7f0ad562e|files/Data/ui/themes/rose/game/group_manager.html
-3e854124576208c8cf39bffb8b0a78b1290a4037|files/Data/ui/themes/rose/game/hud.html
+d7a2c94095f728e5aaae165ce68f9386a257fdce|files/Data/ui/themes/rose/game/hud.html
 e8ca6f2816b9ed82ef3ca439c41f8863b5495670|files/Data/ui/themes/rose/game/image_viewer.html
 63c06868ed3a83039d5321f5974277e33c77203d|files/Data/ui/themes/rose/game/inventory.html
 73927991865fc059a85545c8123b1e8520f71477|files/Data/ui/themes/rose/game/item_mall.css
@@ -105,3 +105,26 @@ f57955d73d03acebcd0ff3b89b9e9773b63279f6|files/res/socket_drill.cur
 28289748c14005376ba8dcb0c68978b9dbc6cf91|files/res/tradeunlock.cur
 a5fe8095110d8873c43408443eeefd4d20aaa07d|files/res/user.cur
 23ffdbdb5b8fa9c4f6b073060774e847b03a91fb|files/res/wheel.cur
+8b63ed10a7aafd6361bd90d025d694f39b191fde|launcher/banner.png
+010f3852096cd660ea465bc117e17bec883f9e9d|launcher/bg.png
+c18ad7a76b539e45da93fdcb64137d6a9bb377f1|launcher/close_h.png
+5ef19c8833f9926132e141a6d59b6d2e4c7a75af|launcher/close_n.png
+954bfd05d8c4466f9931f6bc912355807ce3e45e|launcher/dot_off.png
+89100f4f8db8c151541c2afbb16613b1eed6eae4|launcher/dot_on.png
+310ecb5d2f0f93bdf3ec0d64762d2e26f1c7206f|launcher/min_h.png
+5929c6cabfb3e800ba25c2e590adb145feb1b5cc|launcher/min_n.png
+d38b0a1b49cf4a74c356238be836d24fbf6d09f3|launcher/more_h.png
+8477448547e3f66e5882f39e71fdd3e8119092c4|launcher/more_n.png
+caf9161faba6733353a1bc92bf4331414cdf28d1|launcher/nav_forum_h.png
+4fd1c31d6179b0f87f6639d56bd084421bf2c679|launcher/nav_forum_n.png
+d4c6cc21511e9cc4fa7d107575f3abf867bed73c|launcher/nav_powerup_h.png
+fbaf299e258c903062f51128d211f5d8bea4ea77|launcher/nav_powerup_n.png
+0edc6be5c65d1ef86b64efeb275617372cbb716f|launcher/nav_settings_h.png
+d9cbbb31d102efcf2815e8f1fd1bc7fe63e10755|launcher/nav_settings_n.png
+d441b8d09fe85a3e7808a66c02b7e61fa6435d17|launcher/nav_support_h.png
+d41553f4bdf28580ec71e945fa748006a2d596b8|launcher/nav_support_n.png
+04fa980766172b63a1ab339a5cca9d223404e8c3|launcher/nav_website_h.png
+b46c9c77187466d63badfad11704ca315a195dc2|launcher/nav_website_n.png
+56ba963e0c5256d1c0eab95e3d1e4e8b20f00913|launcher/skin.ini
+029ce54c971938339d39d96c01a0a260d7657910|launcher/start_h.png
+ec0e55ceebd83729470e77fc7910a09ca9a37294|launcher/start_n.png

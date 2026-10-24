@@ -293,7 +293,137 @@
 			}
 			.sp-tip-row  { display: block; }
 			.sp-tip-warn { display: block; color: rgb(170, 50, 30); }
+			.sp-tip-note { display: block; color: rgb(120, 86, 46); font-size: 11dp; line-height: 15dp; font-weight: 600; }
+
+			/* Session trackers (XP per hour in the EXP tooltip, zuly in the zuly tooltip) */
+			#sp-track { display: none; }
+			@keyframes sp-track-tick-a { from { opacity: 0; } to { opacity: 0; } }
+			@keyframes sp-track-tick-b { from { opacity: 0; } to { opacity: 0; } }
+			#sp-track-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; animation: 5s sp-track-tick-a; }
+			.sp-zulie { position: relative; pointer-events: auto; cursor: hand; }
+			.sp-zulie .sp-tip { left: auto; right: -6dp; width: 196dp; margin-top: 4dp; }
+			.sp-zulie:hover .sp-tip { visibility: visible; }
 		</style>
+		<script>
+-- Session trackers (steampunk add-on).
+-- Every 5 seconds this notes your EXP and zuly. Hovering the EXP bar shows EXP
+-- per hour (over the last 10 minutes), time to the next level and what this
+-- session has earned; hovering the zuly shows zuly gained or spent this
+-- session and per hour. Double-click the zuly to start a new session. A new
+-- character starts a new session by itself. Text only changes while you hover,
+-- so nothing is redrawn in the background.
+pcall(function()
+    local document = document
+    local function el(id) return document:GetElementById(id) end
+    local STEP, WINDOW = 5, 120          -- seconds per sample, samples kept (10 min)
+    local function num(n)
+        local neg = n < 0
+        local t = string.format('%.0f', math.abs(n))
+        t = t:reverse():gsub('(%d%d%d)', '%1,'):reverse():gsub('^,', '')
+        return (neg and '-' or '') .. t
+    end
+    local function span(secs)
+        secs = math.floor(secs + 0.5)
+        local h, m = math.floor(secs / 3600), math.floor((secs % 3600) / 60)
+        if h >= 100 then return 'over 100h' end
+        if h > 0 then return h .. 'h ' .. m .. 'm' end
+        if m > 0 then return m .. 'm' end
+        return secs .. 's'
+    end
+    local S = nil   -- the session
+    local function fresh(v)
+        return {name = v.name, ticks = 0, xp = 0, lv = v.lv, exp = v.exp, max = v.max,
+                money0 = v.money, money = v.money, hist = {{0, 0, v.money}}}
+    end
+    local function read()
+        local src = el('sp-track')
+        if not src then return nil end
+        local v = {name = src:GetAttribute('sp-name') or '', lv = tonumber(src:GetAttribute('sp-lv')),
+                   exp = tonumber(src:GetAttribute('sp-exp')), max = tonumber(src:GetAttribute('sp-max')),
+                   money = tonumber(src:GetAttribute('sp-money'))}
+        if not v.lv or not v.exp or not v.max or not v.money or v.name == '' then return nil end
+        return v
+    end
+    local function tick()
+        local v = read()
+        if not v then return end
+        if not S or S.name ~= v.name then S = fresh(v); return end
+        -- experience gained since the last sample, counting level-ups
+        local gain
+        if v.lv > S.lv then
+            gain = math.max(0, S.max - S.exp) + v.exp
+        elseif v.lv == S.lv then
+            gain = v.exp - S.exp
+        else
+            gain = 0
+        end
+        S.xp = S.xp + gain
+        S.lv, S.exp, S.max, S.money = v.lv, v.exp, v.max, v.money
+        S.ticks = S.ticks + 1
+        table.insert(S.hist, {S.ticks, S.xp, v.money})
+        if #S.hist > WINDOW + 1 then table.remove(S.hist, 1) end
+    end
+    local function rates()
+        local a, b = S.hist[1], S.hist[#S.hist]
+        local secs = (b[1] - a[1]) * STEP
+        if secs < 60 then return nil end
+        return (b[2] - a[2]) * 3600 / secs, (b[3] - a[3]) * 3600 / secs
+    end
+    local function set(id, text)
+        local e = el(id)
+        if e then e.inner_rml = text end
+    end
+    local function show_xp()
+        if not S then return end
+        local xph = rates()
+        if not xph then
+            set('sp-xp-rate', 'Per hour: gathering data...')
+            set('sp-xp-eta', '')
+        else
+            set('sp-xp-rate', 'Per hour: ' .. num(math.max(0, xph)))
+            if xph > 0 and S.max > 0 then
+                set('sp-xp-eta', 'Next level in: ' .. span((S.max - S.exp) * 3600 / xph))
+            else
+                set('sp-xp-eta', 'Next level in: -')
+            end
+        end
+        set('sp-xp-session', 'This session: +' .. num(math.max(0, S.xp)) .. ' (' .. span(S.ticks * STEP) .. ')')
+    end
+    local function show_zuly()
+        if not S then return end
+        local diff = S.money - S.money0
+        set('sp-zuly-session', (diff >= 0 and 'Gained: +' or 'Spent: ') .. num(diff) .. ' z')
+        local _, zph = rates()
+        set('sp-zuly-rate', zph and ('Per hour: ' .. (zph >= 0 and '+' or '') .. num(zph) .. ' z') or 'Per hour: gathering data...')
+        set('sp-zuly-time', 'Session length: ' .. span(S.ticks * STEP))
+    end
+    -- hover handlers
+    local exp_gauge = nil
+    do
+        local r = el('sp-xp-rate')
+        if r then exp_gauge = r.parent_node and r.parent_node.parent_node end
+    end
+    if exp_gauge then exp_gauge:AddEventListener('mouseover', function() pcall(show_xp) end) end
+    local z = el('sp-zulie')
+    if z then
+        z:AddEventListener('mouseover', function() pcall(show_zuly) end)
+        z:AddEventListener('dblclick', function()
+            local v = read()
+            if v then S = fresh(v) end
+            pcall(show_zuly)
+        end)
+    end
+    local timer = el('sp-track-timer')
+    local flip = false
+    if timer then
+        timer:AddEventListener('animationend', function()
+            pcall(tick)
+            flip = not flip
+            timer.style.animation = STEP .. 's ' .. (flip and 'sp-track-tick-b' or 'sp-track-tick-a')
+        end)
+    end
+end)
+		</script>
 	</head>
 
 	<body id="hud" onclick="self-target">
@@ -303,6 +433,7 @@
 
 			<!-- Character plate -->
 			<div class="sp-plate" data-model="character">
+				<span id="sp-track" data-attr-sp-name="name" data-attr-sp-lv="level" data-attr-sp-exp="experience" data-attr-sp-max="max_experience" data-attr-sp-money="money"></span>
 				<div class="sp-title">
 					<span class="sp-name">{{name}}</span>
 					<span class="sp-job"><span class="sp-level">Lv {{level}}</span><str data-attr-job-name="job">Visitor</str></span>
@@ -347,6 +478,9 @@
 						<div class="sp-tip">
 							<span class="sp-tip-title">Experience</span>
 							<span class="sp-tip-row">{{experience}} / {{max_experience}}</span>
+							<span class="sp-tip-row" id="sp-xp-rate">Per hour: gathering data...</span>
+							<span class="sp-tip-row" id="sp-xp-eta"></span>
+							<span class="sp-tip-row" id="sp-xp-session"></span>
 							<span class="sp-tip-warn" data-if="experience_gain_disabled">Experience gain is turned off</span>
 						</div>
 					</div>
@@ -386,7 +520,15 @@
 			<handle class="sp-drag" move_target="#document" data-model="character">
 				<div class="sp-footer">
 					<span><str string-id="107">Weight</str>: <b>{{weight_percent}}%</b></span>
-					<span class="sp-zulie"><b>{{money | format_number}}</b><img sprite="button-zulie-n" /></span>
+					<span class="sp-zulie" id="sp-zulie"><b>{{money | format_number}}</b><img sprite="button-zulie-n" />
+						<div class="sp-tip">
+							<span class="sp-tip-title">Zuly this session</span>
+							<span class="sp-tip-row" id="sp-zuly-session">Gathering data...</span>
+							<span class="sp-tip-row" id="sp-zuly-rate"></span>
+							<span class="sp-tip-row" id="sp-zuly-time"></span>
+							<span class="sp-tip-note">Double-click the zuly to start a new session.</span>
+						</div>
+					</span>
 				</div>
 			</handle>
 
@@ -402,6 +544,8 @@
 				</div>
 			</div>
 		</div>
+
+		<div id="sp-track-timer"></div>
 
 		<!-- State Icons -->
 		<div id="state-icon-container" onclick="ignore" data-model="hud-statuses">
