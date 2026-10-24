@@ -76,6 +76,7 @@
             .sp-job-badge.job-artisan { decorator: image(gj-artisan); }
             .sp-job-badge.job-bourgeois { decorator: image(gj-bourgeois); }
             .sp-job-source { display: none; }
+            .sp-job-probe { display: none; }
             /* Repeating timer: two identical animations swapped each time one ends */
             @keyframes sp-job-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-job-tick-b { from { opacity: 0; } to { opacity: 0; } }
@@ -116,12 +117,15 @@
 -- character. They are added when the window opens; adding them at load causes
 -- "Could not locate data model" errors. Every name/job seen is also saved to
 -- sp_job_cache.txt, so icons fill in over time and survive restarts.
+-- Each party row also asks the party data for member.job directly (the
+-- original window never showed it); the Party Finder's listings are read too.
 local ok, err = pcall(function()
     local MEMBER_SEL, TAG_PATTERN = '.party-member', '^member%-(%d+)$'
     local SOURCES = {
         [[<div class="sp-job-source" data-model="game-arena"><span data-for="m : members" sp-kind="name" data-attr-sp-tag="m.tag" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span><span data-for="m : friends" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span><span data-for="m : clan" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span></div>]],
         [[<div class="sp-job-source" data-model="clan"><span data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-job="m.job_id"></span></div>]],
         [[<div class="sp-job-source" data-model="character"><span sp-self="1" data-attr-sp-name="name" data-attr-sp-job="job"></span></div>]],
+        [[<div class="sp-job-source" data-model="party-finder"><div data-for="a : party_adverts"><span data-for="m : a.members" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span></div></div>]],
     }
     local IDS = { [0] = 'visitor', [111] = 'soldier', [121] = 'knight', [122] = 'champion',
         [211] = 'muse', [221] = 'mage', [222] = 'cleric', [311] = 'hawker', [321] = 'raider',
@@ -182,7 +186,10 @@ local ok, err = pcall(function()
 
     local function update()
         local by_tag, self_job = {}, nil
-        each(document:QuerySelectorAll('.sp-job-source span'), function(s)
+        local spans = {}
+        each(document:QuerySelectorAll('.sp-job-source span'), function(s) spans[#spans + 1] = s end)
+        each(document:QuerySelectorAll('.sp-job-probe'), function(s) spans[#spans + 1] = s end)
+        for _, s in ipairs(spans) do (function(s)
             local job = job_name(s:GetAttribute('sp-job'))
             if job then
                 local name, tag = trim(s:GetAttribute('sp-name')), s:GetAttribute('sp-tag')
@@ -190,7 +197,7 @@ local ok, err = pcall(function()
                 if s:GetAttribute('sp-self') then self_job = job end
                 remember(name, job)
             end
-        end)
+        end)(s) end
         save()
         each(document:QuerySelectorAll(MEMBER_SEL), function(m)
             local tag = (m.id or ''):match(TAG_PATTERN)
@@ -286,6 +293,7 @@ end
             </div>
             <div id="party-members" data-style-font-size="members_font_size + 'dp'" data-style-min-height="members_min_height + 'dp'" data-style-max-height="members_max_height + 'dp'">
                 <div class="party-member ui-roster-member" data-for="member : members" data-attr-id="'member-' + member.tag" data-attr-onclick="'select:' + member.tag" data-class-selected="member.selected" data-class-leader="member.leader" data-class-sp-self="member.self">
+                    <span class="sp-job-probe" data-attr-sp-tag="member.tag" data-attr-sp-name="member.name" data-attr-sp-job="member.job"></span>
                     <gauge class="member-health ui-vitals horizontal-sm-md red" data-class-unavailable="!member.available" data-attr-gvalue="member.hp_percent" gmax="100"><span class="member-name ui-roster-name">{{member.name}}</span></gauge>
                     <div class="member-statuses ui-status-icons" data-if="member.available && member.statuses.size > 0">
                         <span class="member-status" data-for="status : member.statuses" data-attr-id="'status-' + member.tag + '-' + status.state_id" data-class-blink="status.blink" data-attr-onmouseover="'status-tooltip:' + member.tag + ':' + status.state_id" onmouseout="hide-tooltip"><img data-attr-sprite="'stateicon-' + status.icon" /></span>
