@@ -70,7 +70,7 @@
                 flex-direction: column;
 
                 width: 140dp;
-                height: 15dp;
+                height: auto;
 
                 font-size: 10dp;
                 font-weight: 800;
@@ -130,6 +130,31 @@
                 }
             }
 
+            /* steampunk add-on: free gauge, summon HP numbers, range and low-HP warnings */
+            .sp-free {
+                display: block;
+                margin-top: 2dp;
+                text-align: center;
+                font-size: 11dp;
+                font-weight: 700;
+                color: rgb(243, 211, 138);
+                font-effect: outline(1dp black);
+            }
+            .sp-free.full { color: rgb(255, 120, 90); }
+            .sp-sum-top {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                width: 112dp;
+            }
+            .sp-sum-hp { font-size: 10dp; font-weight: 700; color: rgb(241, 227, 196); }
+            .sp-far { font-size: 10dp; font-weight: 700; color: rgb(201, 180, 138); }
+            @keyframes sp-sum-pulse { from { color: rgb(255, 255, 255); } to { color: rgb(255, 90, 60); } }
+            .summon-item.low .sp-sum-name { animation: infinite cubic-in-out 0.8s alternate sp-sum-pulse; }
+            .summon-item.low .sp-sum-hp { color: rgb(255, 120, 90); }
+            #summon-count { font-size: 10dp; font-weight: 600; color: rgb(201, 180, 138); visibility: hidden; }
+            #gauge-area:hover #summon-count { visibility: visible; }
             .summon-tip {
                 padding-top: 5dp;
                 width: 100%;
@@ -151,15 +176,21 @@
         <div id="gauge-area" data-model="summon-gauge-data">
             <handle class="title" move_target="#document">
                 <label id="summon-title">Summon Gauge</label>
+                <span id="summon-count" data-if="gauge.summons.size > 0"> - {{gauge.summons.size}} out</span>
                 <gauge id="summon-gauge" class="horizontal-sm-md pink" data-attr-gvalue="gauge.value"
                     data-attr-gmax="gauge.max_value">
                     <span><label id="value"/>/<label id="max"/></span>
                 </gauge>
+                <span class="sp-free" data-class-full="gauge.max_value - gauge.value &lt;= 0">{{gauge.max_value - gauge.value}} free</span>
             </handle>
 
             <div id="summons" data-for="summon : gauge.summons">
-                <div data-attr-id="summon.obj_idx" class="summon-item" data-class-selected="summon.obj_idx == gauge.selected_summon_idx" onclick="select">
-                    <span>{{summon.name}}</span>
+                <div data-attr-id="summon.obj_idx" class="summon-item" data-class-selected="summon.obj_idx == gauge.selected_summon_idx" data-class-low="summon.is_near &amp;&amp; summon.max_hp > 0 &amp;&amp; summon.hp * 10 &lt;= summon.max_hp * 3" onclick="select">
+                    <div class="sp-sum-top">
+                        <span class="sp-sum-name">{{summon.name}}</span>
+                        <span class="sp-sum-hp" data-if="summon.is_near">{{summon.hp | format_number}} / {{summon.max_hp | format_number}}</span>
+                        <span class="sp-far" data-if="!summon.is_near">Out of range</span>
+                    </div>
                     <gauge data-if="summon.is_near" class="horizontal-sm-sm red" data-attr-gvalue="summon.hp" data-attr-gmax="summon.max_hp"></gauge>
                     <button data-attr-id="summon.obj_idx" class="window-title-close despawn despawntip" onclick="despawn">
                         <span class="despawntiptext">Despawn summon</span>
