@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.0
-c88e123b872c95ef5af8adddf8a06b846528b99c|mod.ini
+version=1.1
+c94fd865a926baaa10d81ab0da68ef8d726d8cbc|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
@@ -85,3 +85,23 @@ f11a917e9fe57267850131ea4db9ecfd92274302|files/Data/ui/themes/rose/styles/steamp
 07caf221b5e14a6f9cfc1c4bed469a82f6b6ab03|files/Data/ui/themes/rose/templates/window-fixed.html
 e184d110c468ac9074b1f21655fd28d3ce06bc7c|files/Data/ui/themes/rose/templates/window-resizeable.html
 da4632aaf3b25ca5933f53e988b88a28b74a8de5|files/Data/ui/themes/rose/templates/window-small.html
+bc5998bff333e4dd5f9f5f2ea935e2c065291b37|files/res/appraisalstatextract.cur
+2d7b5cf023cf1eac1fbfaa5214b587b4a0e4359d|files/res/appraisalstattransfer.cur
+710eb899e0a5e794ea19d66827a301418b7a262f|files/res/attack.cur
+545f3dd553cd54c4f6aea97057ed13ff8e377e42|files/res/colorpicker.cur
+5dc502dce25cee50d608873565c9c5d3b4423994|files/res/cursor1.cur
+9c2ce25281f01aeebd5ce58092122ffb0483bb9c|files/res/default.cur
+bacdbee6b28e8080754874cf35238b03d14a32a2|files/res/identify.cur
+fdb5f94800ee2927fceb143db281e8274f6e1e5d|files/res/item_invem.cur
+fdb5f94800ee2927fceb143db281e8274f6e1e5d|files/res/item_inven.cur
+102252b9a99a125e19f0865f2af16560e8d59130|files/res/item_pick.cur
+bf56fc923402374390c939d618b60be768c995df|files/res/left.cur
+5dc502dce25cee50d608873565c9c5d3b4423994|files/res/npc.cur
+c8a376c46b5841caaa941e9725cd1cfdfc91d018|files/res/quicksell.cur
+f771909012bd5cc202b79663375beb6c1e56e317|files/res/refinereset.cur
+5aa66dcc0a81bfed973262b4e06152d45d984003|files/res/repair.cur
+df937a5fc888e995dccf753e6e19b94feaeb3829|files/res/right.cur
+f57955d73d03acebcd0ff3b89b9e9773b63279f6|files/res/socket_drill.cur
+28289748c14005376ba8dcb0c68978b9dbc6cf91|files/res/tradeunlock.cur
+a5fe8095110d8873c43408443eeefd4d20aaa07d|files/res/user.cur
+23ffdbdb5b8fa9c4f6b073060774e847b03a91fb|files/res/wheel.cur
