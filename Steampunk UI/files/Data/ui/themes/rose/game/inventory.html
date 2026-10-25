@@ -15,6 +15,10 @@
             .equipment-pane { position: relative; width: 269dp; height: 133dp; margin: 0 auto 12dp; }
             .equipment-cell { position: absolute; width: 43dp; height: 43dp; }
             .equipment-cell > img { position: absolute; width: 43dp; height: 43dp; pointer-events: none; }
+            /* steampunk: brighter slot names (the printed ones are dimmed underneath) */
+            .equipment-pane#equipment-0 .equipment-cell > img, .equipment-pane#equipment-1 .equipment-cell > img { image-color: rgb(110, 110, 110); }
+            .sp-slot-name { position: absolute; left: 2dp; top: 2dp; width: 40dp; height: 40dp; line-height: 40dp; text-align: center; font-size: 9dp; color: rgb(240, 205, 140); font-effect: outline(1dp rgb(30, 18, 8)); pointer-events: none; }
+            .equipment-cell.filled > .sp-slot-name { visibility: hidden; }
             .equipment-cell item-slot { position: absolute; top: 2dp; left: 2dp; width: 40dp; height: 40dp; }
             .equipment-cell.filled > img { visibility: hidden; }
             .bag-grid { width: 260dp; }
@@ -35,30 +39,30 @@
                 <button id="inventory-vehicle" class="default" onclick="mode:2" data-class-selected="mode == 2"><str string-id="930">PAT</str></button>
             </div>
             <div class="equipment-pane" id="equipment-0" data-if="mode == 0">
-                <div class="equipment-cell" style="left: 69dp; top: 0dp;"><img sprite="GEN_INVSLOT17" /><item-slot id="costume-1" /></div>
-                <div class="equipment-cell" style="left: 114dp; top: 0dp;"><img sprite="GEN_INVSLOT18" /><item-slot id="costume-2" /></div>
-                <div class="equipment-cell" style="left: 114dp; top: 45dp;"><img sprite="GEN_INVSLOT20" /><item-slot id="costume-3" /></div>
-                <div class="equipment-cell" style="left: 159dp; top: 0dp;"><img sprite="GEN_INVSLOT19" /><item-slot id="costume-4" /></div>
-                <div class="equipment-cell" style="left: 69dp; top: 90dp;"><img sprite="GEN_INVSLOT21" /><item-slot id="costume-5" /></div>
-                <div class="equipment-cell" style="left: 114dp; top: 90dp;"><img sprite="GEN_INVSLOT22" /><item-slot id="costume-6" /></div>
-                <div class="equipment-cell" style="left: 69dp; top: 45dp;"><img sprite="GEN_INVSLOT08" /><item-slot id="costume-7" /></div>
-                <div class="equipment-cell" style="left: 159dp; top: 45dp;"><img sprite="GEN_INVSLOT07" /><item-slot id="costume-8" /></div>
+                <div class="equipment-cell" style="left: 69dp; top: 0dp;"><img sprite="GEN_INVSLOT17" /><span class="sp-slot-name">Face</span><item-slot id="costume-1" /></div>
+                <div class="equipment-cell" style="left: 114dp; top: 0dp;"><img sprite="GEN_INVSLOT18" /><span class="sp-slot-name">Head</span><item-slot id="costume-2" /></div>
+                <div class="equipment-cell" style="left: 114dp; top: 45dp;"><img sprite="GEN_INVSLOT20" /><span class="sp-slot-name">Body</span><item-slot id="costume-3" /></div>
+                <div class="equipment-cell" style="left: 159dp; top: 0dp;"><img sprite="GEN_INVSLOT19" /><span class="sp-slot-name">Back</span><item-slot id="costume-4" /></div>
+                <div class="equipment-cell" style="left: 69dp; top: 90dp;"><img sprite="GEN_INVSLOT21" /><span class="sp-slot-name">Arms</span><item-slot id="costume-5" /></div>
+                <div class="equipment-cell" style="left: 114dp; top: 90dp;"><img sprite="GEN_INVSLOT22" /><span class="sp-slot-name">Foot</span><item-slot id="costume-6" /></div>
+                <div class="equipment-cell" style="left: 69dp; top: 45dp;"><img sprite="GEN_INVSLOT08" /><span class="sp-slot-name">Weapon</span><item-slot id="costume-7" /></div>
+                <div class="equipment-cell" style="left: 159dp; top: 45dp;"><img sprite="GEN_INVSLOT07" /><span class="sp-slot-name">Shield</span><item-slot id="costume-8" /></div>
             </div>
             <div class="equipment-pane" id="equipment-1" data-if="mode == 1">
-                <div class="equipment-cell" style="left: 69dp; top: 0dp;"><img sprite="GEN_INVSLOT17" /><item-slot id="item-1" /></div>
-                <div class="equipment-cell" style="left: 114dp; top: 0dp;"><img sprite="GEN_INVSLOT18" /><item-slot id="item-2" /></div>
-                <div class="equipment-cell" style="left: 114dp; top: 45dp;"><img sprite="GEN_INVSLOT20" /><item-slot id="item-3" /></div>
-                <div class="equipment-cell" style="left: 159dp; top: 0dp;"><img sprite="GEN_INVSLOT19" /><item-slot id="item-4" /></div>
-                <div class="equipment-cell" style="left: 69dp; top: 90dp;"><img sprite="GEN_INVSLOT21" /><item-slot id="item-5" /></div>
-                <div class="equipment-cell" style="left: 114dp; top: 90dp;"><img sprite="GEN_INVSLOT22" /><item-slot id="item-6" /></div>
-                <div class="equipment-cell" style="left: 69dp; top: 45dp;"><img sprite="GEN_INVSLOT08" /><item-slot id="item-7" /></div>
-                <div class="equipment-cell" style="left: 159dp; top: 45dp;"><img sprite="GEN_INVSLOT07" /><item-slot id="item-8" /></div>
-                <div class="equipment-cell" style="left: 0dp; top: 45dp;"><img sprite="GEN_INVSLOT02" /><item-slot id="item-9" /></div>
-                <div class="equipment-cell" style="left: 0dp; top: 0dp;"><img sprite="GEN_INVSLOT01" /><item-slot id="item-10" /></div>
-                <div class="equipment-cell" style="left: 0dp; top: 90dp;"><img sprite="GEN_INVSLOT03" /><item-slot id="item-11" /></div>
-                <div class="equipment-cell" style="left: 225dp; top: 0dp;"><img sprite="GEN_INVSLOT04" /><item-slot id="item-132" /></div>
-                <div class="equipment-cell" style="left: 225dp; top: 45dp;"><img sprite="GEN_INVSLOT05" /><item-slot id="item-133" /></div>
-                <div class="equipment-cell" style="left: 225dp; top: 90dp;"><img sprite="GEN_INVSLOT06" /><item-slot id="item-134" /></div>
+                <div class="equipment-cell" style="left: 69dp; top: 0dp;"><img sprite="GEN_INVSLOT17" /><span class="sp-slot-name">Face</span><item-slot id="item-1" /></div>
+                <div class="equipment-cell" style="left: 114dp; top: 0dp;"><img sprite="GEN_INVSLOT18" /><span class="sp-slot-name">Head</span><item-slot id="item-2" /></div>
+                <div class="equipment-cell" style="left: 114dp; top: 45dp;"><img sprite="GEN_INVSLOT20" /><span class="sp-slot-name">Body</span><item-slot id="item-3" /></div>
+                <div class="equipment-cell" style="left: 159dp; top: 0dp;"><img sprite="GEN_INVSLOT19" /><span class="sp-slot-name">Back</span><item-slot id="item-4" /></div>
+                <div class="equipment-cell" style="left: 69dp; top: 90dp;"><img sprite="GEN_INVSLOT21" /><span class="sp-slot-name">Arms</span><item-slot id="item-5" /></div>
+                <div class="equipment-cell" style="left: 114dp; top: 90dp;"><img sprite="GEN_INVSLOT22" /><span class="sp-slot-name">Foot</span><item-slot id="item-6" /></div>
+                <div class="equipment-cell" style="left: 69dp; top: 45dp;"><img sprite="GEN_INVSLOT08" /><span class="sp-slot-name">Weapon</span><item-slot id="item-7" /></div>
+                <div class="equipment-cell" style="left: 159dp; top: 45dp;"><img sprite="GEN_INVSLOT07" /><span class="sp-slot-name">Shield</span><item-slot id="item-8" /></div>
+                <div class="equipment-cell" style="left: 0dp; top: 45dp;"><img sprite="GEN_INVSLOT02" /><span class="sp-slot-name">Necklace</span><item-slot id="item-9" /></div>
+                <div class="equipment-cell" style="left: 0dp; top: 0dp;"><img sprite="GEN_INVSLOT01" /><span class="sp-slot-name">Ring</span><item-slot id="item-10" /></div>
+                <div class="equipment-cell" style="left: 0dp; top: 90dp;"><img sprite="GEN_INVSLOT03" /><span class="sp-slot-name">Earring</span><item-slot id="item-11" /></div>
+                <div class="equipment-cell" style="left: 225dp; top: 0dp;"><img sprite="GEN_INVSLOT04" /><span class="sp-slot-name">Arrow</span><item-slot id="item-132" /></div>
+                <div class="equipment-cell" style="left: 225dp; top: 45dp;"><img sprite="GEN_INVSLOT05" /><span class="sp-slot-name">Bullet</span><item-slot id="item-133" /></div>
+                <div class="equipment-cell" style="left: 225dp; top: 90dp;"><img sprite="GEN_INVSLOT06" /><span class="sp-slot-name">Cannon</span><item-slot id="item-134" /></div>
             </div>
             <div class="equipment-pane" id="equipment-2" data-if="mode == 2">
                 <div class="equipment-cell" style="left: 14dp; top: 0dp;"><img sprite="GEN_INVSLOT23" /><item-slot id="item-135" /></div>
