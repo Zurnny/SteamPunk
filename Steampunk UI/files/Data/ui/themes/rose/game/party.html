@@ -6,7 +6,7 @@
         <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
         <link type="text/rcss" href="../styles/steampunk.css" />
         <style>
-            #party { width: 150dp; min-width: 150dp; min-height: 0; max-width: 95vw; padding: 2dp; padding-top: 24dp; }
+            #party { width: 270dp; min-width: 150dp; min-height: 0; max-width: 95vw; padding: 2dp; padding-top: 24dp; }
             #party #window-content { padding: 2dp; }
             #party > .window-title { height: 24dp; line-height: 24dp; padding-left: 4dp; }
             #party > .window-title-close { display: none; }
@@ -33,7 +33,7 @@
             gauge.member-health { height: 1.5em; margin-top: 0; }
             gauge.member-health > .member-name { height: 1.5em; line-height: 1.5em; font-size: 1em; text-align: right; padding-right: 0.2em; box-sizing: border-box; }
             gauge.member-health.unavailable { opacity: 0.5; }
-            .member-statuses { gap: 0.1em; margin-top: 0.1em; }
+            .member-statuses { gap: 0.1em; margin-top: 0.1em; flex-wrap: nowrap; }   /* wide enough for a full row of buffs (window is 18em) */
             .member-statuses > span, .member-statuses > span > img { width: 1em; height: 1em; }
             .member-status.blink { opacity: 0.3; }
             #party-tooltip { visibility: visible; position: absolute; z-index: 100; clip: none; pointer-events: none; padding: 8dp; width: 250dp; max-width: 90vw; max-height: 90vh; background: rgba(226, 208, 170, 245); color: rgb(60, 40, 20); font-effect: none; border: 1dp rgb(122, 86, 36); border-radius: 3dp; }
@@ -279,7 +279,7 @@ end
 
         </script>
     </head>
-    <body template="window-fixed-size" id="party" data-model="party" data-style-width="members_font_size * 10 + 'dp'">
+    <body template="window-fixed-size" id="party" data-model="party" data-style-width="members_font_size * 18 + 'dp'">
         <div id="sp-job-timer"></div>
         <div id="sp-job-source-slot"></div>
         <div data-model="party">

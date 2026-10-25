@@ -26,12 +26,12 @@
             #group-collapse icon { display: block; width: 10dp; height: 10dp; font-size: 10dp; line-height: 10dp; margin: 3dp; pointer-events: none; }
             #arena-group-members { overflow: auto; max-height: 65vh; }
             .group-columns { display: flex; gap: 0.4em; }
-            .group-column { width: 10em; flex-shrink: 0; }
+            .group-column { width: 18em; flex-shrink: 0; }   /* wide enough for a full row of buffs */
             .group-member { padding: 0; margin-bottom: 0.3em; }
             gauge.group-health { height: 1.5em; margin-top: 0; }
             gauge.group-health > .group-name { height: 1.5em; line-height: 1.5em; font-size: 1em; text-align: right; padding-right: 0.2em; box-sizing: border-box; }
             gauge.group-mana { height: 0.2em; margin-top: 0; }
-            .group-statuses { gap: 0.1em; margin-top: 0.1em; min-height: 1em; }
+            .group-statuses { gap: 0.1em; margin-top: 0.1em; min-height: 1em; flex-wrap: nowrap; }
             .group-statuses > span, .group-statuses > span > img { width: 1em; height: 1em; }
             #group-settings-panel { position: absolute; top: 18dp; left: 0dp; z-index: 80; width: 240dp; padding: 4dp; padding-top: 25dp; }
             #group-settings-panel .window-pane { padding: 8dp; }
