@@ -1,11 +1,11 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.31
-de6d32477bd2bd19ac7daf890f7ee7a85c65309d|mod.ini
+version=1.32
+11de656f71970ea0b56e631a9d9e9f473ed26528|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 9831d3b9dd80937c99a9179ccb51003c606b159f|files/Data/ui/themes/rose/game/arena_group.html
 f96e574beca5dda2f23292b4865f99d3538bce94|files/Data/ui/themes/rose/game/avatar_selection.html
-acbc6825fad0faee1c96908acabce67c0aacd768|files/Data/ui/themes/rose/game/avatar_store.html
+1b7771145080a102efca98dc7f4202a466f8a7e6|files/Data/ui/themes/rose/game/avatar_store.html
 ce58ce9bbc7eb03007baddf18eb364cf4971d6a6|files/Data/ui/themes/rose/game/char_actions.html
 fcd4db4d6438c8a1016d09924bb414b8d7be5b3e|files/Data/ui/themes/rose/game/character_create.html
 37627df4c726bf3d66ffca8af118f777c0650744|files/Data/ui/themes/rose/game/character_preview.html
@@ -52,7 +52,7 @@ ffeebb3342299a3ec275494a483382b2044f17ee|files/Data/ui/themes/rose/game/party_op
 00392d857a8b3438061dcf45230cbd3ff6b8e70d|files/Data/ui/themes/rose/game/personal_store.html
 25651492efafa44ac54f35ce38afbdd7bba85892|files/Data/ui/themes/rose/game/personal_store_management.html
 8e386b5094ccb1bece2bcfaf6fe49add9527d586|files/Data/ui/themes/rose/game/personal_store_price.html
-8588f258dc573175b10d5bb666f07ae0762eba7e|files/Data/ui/themes/rose/game/personal_vending.html
+76d7c91433bd34ea5c6cfff492e638fae2f28b30|files/Data/ui/themes/rose/game/personal_vending.html
 467274f18975ba9fa4835789fbdc14210892bdab|files/Data/ui/themes/rose/game/player_trade.html
 1d3ef00968bf94930141551afb58bebb0fa227fb|files/Data/ui/themes/rose/game/private_chat.html
 824fc6ba27be079dfb49afff243e11c06b3e4902|files/Data/ui/themes/rose/game/quest_list.html
