@@ -125,7 +125,6 @@ local ok, err = pcall(function()
         [[<div class="sp-job-source" data-model="game-arena"><span data-for="m : members" sp-kind="name" data-attr-sp-tag="m.tag" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span><span data-for="m : friends" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span><span data-for="m : clan" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span></div>]],
         [[<div class="sp-job-source" data-model="clan"><span data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-job="m.job_id"></span></div>]],
         [[<div class="sp-job-source" data-model="character"><span sp-self="1" data-attr-sp-name="name" data-attr-sp-job="job"></span></div>]],
-        [[<div class="sp-job-source" data-model="party-finder"><div data-for="a : party_adverts"><span data-for="m : a.members" data-attr-sp-name="m.name" data-attr-sp-job="m.job"></span></div></div>]],
     }
     local IDS = { [0] = 'visitor', [111] = 'soldier', [121] = 'knight', [122] = 'champion',
         [211] = 'muse', [221] = 'mage', [222] = 'cleric', [311] = 'hawker', [321] = 'raider',
@@ -293,7 +292,6 @@ end
             </div>
             <div id="party-members" data-style-font-size="members_font_size + 'dp'" data-style-min-height="members_min_height + 'dp'" data-style-max-height="members_max_height + 'dp'">
                 <div class="party-member ui-roster-member" data-for="member : members" data-attr-id="'member-' + member.tag" data-attr-onclick="'select:' + member.tag" data-class-selected="member.selected" data-class-leader="member.leader" data-class-sp-self="member.self">
-                    <span class="sp-job-probe" data-attr-sp-tag="member.tag" data-attr-sp-name="member.name" data-attr-sp-job="member.job"></span>
                     <gauge class="member-health ui-vitals horizontal-sm-md red" data-class-unavailable="!member.available" data-attr-gvalue="member.hp_percent" gmax="100"><span class="member-name ui-roster-name">{{member.name}}</span></gauge>
                     <div class="member-statuses ui-status-icons" data-if="member.available && member.statuses.size > 0">
                         <span class="member-status" data-for="status : member.statuses" data-attr-id="'status-' + member.tag + '-' + status.state_id" data-class-blink="status.blink" data-attr-onmouseover="'status-tooltip:' + member.tag + ':' + status.state_id" onmouseout="hide-tooltip"><img data-attr-sprite="'stateicon-' + status.icon" /></span>
