@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.17
-d29b11431a6c6b964360d81446b3e49bba306dcb|mod.ini
+version=1.18
+96e9845c3169e4cc0675baeb893cf1eda471a7cc|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
@@ -125,6 +125,8 @@ d441b8d09fe85a3e7808a66c02b7e61fa6435d17|launcher/nav_support_h.png
 d41553f4bdf28580ec71e945fa748006a2d596b8|launcher/nav_support_n.png
 04fa980766172b63a1ab339a5cca9d223404e8c3|launcher/nav_website_h.png
 b46c9c77187466d63badfad11704ca315a195dc2|launcher/nav_website_n.png
-56ba963e0c5256d1c0eab95e3d1e4e8b20f00913|launcher/skin.ini
+adac1e8db13a514e51571694c4e34d259362f668|launcher/skin.ini
 029ce54c971938339d39d96c01a0a260d7657910|launcher/start_h.png
 ec0e55ceebd83729470e77fc7910a09ca9a37294|launcher/start_n.png
+14d094ef388d27cf753ca3a42a3002ea2fae5ac0|launcher/btn_h.png
+9e7afd7757abf91490abb31e44df65f9a23aa987|launcher/btn_n.png
