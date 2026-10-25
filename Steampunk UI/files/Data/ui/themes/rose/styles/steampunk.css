@@ -188,7 +188,15 @@ button[disabled]
 button.default:disabled,
 button.default[disabled],
 tab.default:disabled,
-tab.default[disabled]
+tab.default[disabled],
+body button.default[disabled],
+body button.default[disabled]:hover,
+body button.default[disabled]:active,
+body button.default.selected[disabled],
+body button.default.ui-compact[disabled],
+body button.default.ui-compact[disabled]:hover,
+body .ui-tabs > button.default[disabled],
+body tab.default[disabled]:hover
 {
     decorator: tiled-horizontal( sp-btn-d-l, sp-btn-d-c, sp-btn-d-r );
     image-color: rgb(255, 255, 255);
