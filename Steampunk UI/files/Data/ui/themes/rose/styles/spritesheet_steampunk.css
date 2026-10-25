@@ -37,12 +37,12 @@
     sp-btn-h-l: 0px 440px 10px 26px;
     sp-btn-h-c: 32px 440px 1px 26px;
     sp-btn-h-r: 54px 440px 10px 26px;
-    sp-btn-a-l: 0px 470px 10px 26px;
-    sp-btn-a-c: 32px 470px 1px 26px;
-    sp-btn-a-r: 54px 470px 10px 26px;
-    sp-btn-d-l: 0px 500px 10px 26px;
-    sp-btn-d-c: 32px 500px 1px 26px;
-    sp-btn-d-r: 54px 500px 10px 26px;
+    sp-btn-a-l: 70px 410px 10px 26px;
+    sp-btn-a-c: 102px 410px 1px 26px;
+    sp-btn-a-r: 124px 410px 10px 26px;
+    sp-btn-d-l: 70px 440px 10px 26px;
+    sp-btn-d-c: 102px 440px 1px 26px;
+    sp-btn-d-r: 124px 440px 10px 26px;
 }
 
 /* ---- Menu buttons (was spritesheet_steampunk_menu.css) ---- */

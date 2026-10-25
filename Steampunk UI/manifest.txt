@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.16
-79573053307e1229e3f9ad55a56ff642973858ca|mod.ini
+version=1.17
+d29b11431a6c6b964360d81446b3e49bba306dcb|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
@@ -76,9 +76,9 @@ d9b60643fda2f2921c7e2287461b6af8e28aa72f|files/Data/ui/themes/rose/game/zone_not
 2d4a6f82f2b2c90c004c3662b9857f882111c72c|files/Data/ui/themes/rose/imgs/gauge_steampunk.dds
 1b1b761ce1ed132b25f7d2cd78bd1dc8f7bb5d20|files/Data/ui/themes/rose/imgs/steampunk_menu.dds
 98765943aea93d6ee2a8773356839240438397f6|files/Data/ui/themes/rose/imgs/steampunk_minimap.dds
-a37d90b200de0530cfe5ff23c23ffc5d236f1af1|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
+7d55c2e5c984be6301b06542409799b5de39d6da|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
 1726b47293742e3d288cd5bd95600241bc6544de|files/Data/ui/themes/rose/styles/spritesheet_gauge.css
-d1e394c0db3b4df00c4efed086d5b7f25db4d2ab|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
+c4da0432feec4ff7d1ff3dc655ab56e1206c3018|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
 12ff5fe3e963b3b98cf48a924d69bfccd02efc53|files/Data/ui/themes/rose/styles/steampunk.css
 5542d9b2fdde69c57ab002416f7f746c9a8341ca|files/Data/ui/themes/rose/templates/window-box.html
 1234f19c47c7c281c9907565647136686148a286|files/Data/ui/themes/rose/templates/window-fixed-size.html
