@@ -76,7 +76,7 @@ pcall(function()
         if fight.done then head = 'Defeated'
         elseif fight.idle >= 8 then head = 'Paused'
         else head = 'DPS ' .. num(now) end
-        local text = head .. '  ·  Avg ' .. num(avg) .. '  ·  Total ' .. num(fight.total) .. '  ·  ' .. fight.seconds .. 's'
+        local text = head .. '  ·  Avg ' .. num(avg) .. '  ·  ' .. fight.seconds .. 's'
         if text ~= shown then line:SetAttribute('value', text); shown = text end
         box:SetClass('done', fight.done == true)
         box:SetClass('paused', not fight.done and fight.idle >= 8)
