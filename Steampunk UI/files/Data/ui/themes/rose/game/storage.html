@@ -15,118 +15,7 @@
             .storage-pages button { margin: 0; }
             #storage-page { min-width: 60dp; text-align: center; font-size: 13dp; }
             .storage-actions { margin-top: 12dp; }
-
-            /* steampunk add-on: sorted view */
-            .storage-grid { position: relative; }
-            #sp-sort { min-width: 54dp; }
         </style>
-        <script>
--- Sorted view (steampunk add-on). The game doesn't let the UI move items, so
--- Sort only changes how the slots are laid out: items first, grouped by type
--- and item, then empty slots. Every item stays in its real slot, so drag and
--- drop, use and equip all work as normal. The slots are positioned rather
--- than moved, so the game's own slot elements are never taken out of the
--- page. Click Unsort, or change bag/tab/page, to get the normal layout back.
-pcall(function()
-    local document = document
-    local GRIDS, CELL, BUTTON = {'.storage-grid'}, 'item-slot', 'sp-sort'
-    local function each(list, fn)
-        if not list then return end
-        local i = list[0] and 0 or 1
-        while list[i] do fn(list[i]); i = i + 1 end
-    end
-    local sorted = nil   -- the grid that is laid out sorted
-    local function slot_of(cell)
-        if cell.tag_name == 'item-slot' then return cell end
-        return cell:QuerySelector('item-slot')
-    end
-    local function key(cell, i)
-        local s = slot_of(cell)
-        if not s then return {1, 0, 0, 0, i} end
-        local empty = s:GetAttribute('empty')
-        local id = tonumber(s:GetAttribute('item-id') or '') or 0
-        if empty == '1' or empty == 'true' then return {1, 0, 0, 0, i} end
-        local typ = tonumber(s:GetAttribute('item-type') or '') or 0
-        local qty = tonumber(s:GetAttribute('item-quantity') or '') or 0
-        return {0, typ, id, -qty, i}
-    end
-    local function before(a, b)
-        for k = 1, 5 do
-            if a[k] ~= b[k] then return a[k] < b[k] end
-        end
-        return false
-    end
-    local function reset()
-        if not sorted then return end
-        each(sorted:QuerySelectorAll(CELL), function(c) c:RemoveAttribute('style') end)
-        sorted:RemoveAttribute('style')
-        sorted = nil
-    end
-    local function visible_grid()
-        local found = nil
-        for _, id in ipairs(GRIDS) do
-            local g = id:sub(1, 1) == '.' and document:QuerySelector(id) or document:GetElementById(id)
-            if g and g.offset_width > 0 and g.offset_height > 0 then found = found or g end
-        end
-        return found
-    end
-    local function arrange(grid)
-        local cells = {}
-        each(grid:QuerySelectorAll(CELL), function(c) cells[#cells + 1] = c end)
-        local n = #cells
-        if n < 2 then return false end
-        local x0, y0 = cells[1].offset_left, cells[1].offset_top
-        local cols, dy = n, cells[1].offset_height
-        for i = 2, n do
-            if cells[i].offset_top ~= y0 then cols = i - 1; dy = cells[i].offset_top - y0; break end
-        end
-        local dx = cols > 1 and (cells[2].offset_left - x0) or cells[1].offset_width
-        if dx <= 0 or dy <= 0 then return false end
-        local order = {}
-        for i = 1, n do order[i] = {cell = cells[i], k = key(cells[i], i)} end
-        table.sort(order, function(a, b) return before(a.k, b.k) end)
-        grid.style.height = grid.offset_height .. 'px'
-        grid.style.width = grid.offset_width .. 'px'
-        for k, o in ipairs(order) do
-            local col, row = (k - 1) % cols, math.floor((k - 1) / cols)
-            o.cell.style.position = 'absolute'
-            o.cell.style.left = (x0 + col * dx) .. 'px'
-            o.cell.style.top = (y0 + row * dy) .. 'px'
-        end
-        sorted = grid
-        return true
-    end
-    local function label(text)
-        local b = document:GetElementById(BUTTON)
-        if b then b.inner_rml = text end
-    end
-    local btn = document:GetElementById(BUTTON)
-    if btn then
-        btn:AddEventListener('click', function(ev)
-            pcall(function()
-                if sorted then
-                    reset()
-                    label('Sort')
-                else
-                    local g = visible_grid()
-                    if g and arrange(g) then label('Unsort') end
-                end
-            end)
-            ev:StopPropagation()
-        end)
-    end
-    -- any other button (bag, tab, page, deposit...) puts the normal layout back
-    document:AddEventListener('click', function(ev)
-        local t = ev.target_element
-        while t and t.tag_name ~= 'button' do t = t.parent_node end
-        if t and t.id ~= BUTTON and sorted then
-            pcall(reset)
-            label('Sort')
-        end
-    end)
-    document:AddEventListener('hide', function() pcall(reset); label('Sort') end)
-end)
-        </script>
     </head>
     <body template="window-fixed-size" id="storage">
         <div data-model="storage">
@@ -188,7 +77,6 @@ end)
         <div class="storage-actions ui-actions">
             <button id="deposit" class="default" onclick="deposit" data-attrif-disabled="!deposit_enabled">{{ deposit_label }}</button>
             <button id="withdraw" class="default" onclick="withdraw" data-attrif-disabled="!withdraw_enabled">{{ withdraw_label }}</button>
-            <button id="sp-sort" class="default">Sort</button>
         </div>
         </div>
     </body>

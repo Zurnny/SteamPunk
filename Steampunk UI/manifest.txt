@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.6
-c0a60039cbc7ee83a5e38ae78d7a4a0602e35bee|mod.ini
+version=1.7
+3b0f01dda783a712b848af4c77bbe2bbb8df6b2b|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
@@ -27,7 +27,7 @@ e6ef2b78174ac1e0f49c10a8dad7ea662d1574d0|files/Data/ui/themes/rose/game/gamearen
 8413c90ecad8b5f73cf0e774be672bb7f0ad562e|files/Data/ui/themes/rose/game/group_manager.html
 d7a2c94095f728e5aaae165ce68f9386a257fdce|files/Data/ui/themes/rose/game/hud.html
 e8ca6f2816b9ed82ef3ca439c41f8863b5495670|files/Data/ui/themes/rose/game/image_viewer.html
-47b24e82dcf17ee348a768d31583a47f079ccaa0|files/Data/ui/themes/rose/game/inventory.html
+63c06868ed3a83039d5321f5974277e33c77203d|files/Data/ui/themes/rose/game/inventory.html
 73927991865fc059a85545c8123b1e8520f71477|files/Data/ui/themes/rose/game/item_mall.css
 2b75e76d5b6bafefee6bf18fdb74e5ae6f00cef8|files/Data/ui/themes/rose/game/item_mall.html
 a91e1b2ac68e53ba605f77bf595b4d01a3cc2ec8|files/Data/ui/themes/rose/game/item_mall.lua
@@ -63,7 +63,7 @@ e38bf96bf82d7cd9d0d2236a19a3f515a4d65517|files/Data/ui/themes/rose/game/refine.h
 bf20119267ff641fb4339db5a3425288215485ba|files/Data/ui/themes/rose/game/respawn.html
 3ca1207a3df4c77165d8e2ae09d509b79127bdc1|files/Data/ui/themes/rose/game/skill_hud.html
 7c629bdfb445267b0a1adea3eaae0ebdac74111a|files/Data/ui/themes/rose/game/skills.html
-998c6b70e3a7595ffb046567ebf55ca20787b9ff|files/Data/ui/themes/rose/game/storage.html
+c72951df964f65aa2671d1dfc187f6d02dac0773|files/Data/ui/themes/rose/game/storage.html
 dfd25a52e9b5577e0899b653b253b422280c7fb2|files/Data/ui/themes/rose/game/style_change.html
 11fdcb04a896e169d36516bc5406de0d4d0cb48f|files/Data/ui/themes/rose/game/summon_gauge.html
 a1b5af0f1150721c9ef4c762052b4ee28ce4ca41|files/Data/ui/themes/rose/game/system_menu.html
