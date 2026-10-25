@@ -64,6 +64,17 @@ pcall(function()
     -- The line is a read-only text box: only its value changes, so no new text
     -- elements are created each second (that caused font warnings in the log).
     local shown = nil
+    -- time left until the kill: the target's HP now / damage per second so far
+    local function left()
+        if fight.done then return '0s' end
+        if fight.idle >= 8 then return '-' end
+        local avg = fight.total / math.max(1, fight.seconds)
+        if not last_hp or avg <= 0 then return '-' end
+        local secs = math.ceil(last_hp / avg)
+        if secs >= 3600 then return '1h+' end
+        if secs >= 60 then return math.floor(secs / 60) .. 'm ' .. (secs % 60) .. 's' end
+        return secs .. 's'
+    end
     local function render()
         local box, line = el('sp-dps'), el('sp-dps-line')
         if not box or not line then return end
@@ -76,7 +87,7 @@ pcall(function()
         if fight.done then head = 'Defeated'
         elseif fight.idle >= 8 then head = 'Paused'
         else head = 'DPS ' .. num(now) end
-        local text = head .. '  ·  Avg ' .. num(avg) .. '  ·  ' .. fight.seconds .. 's'
+        local text = head .. '  ·  Avg ' .. num(avg) .. '  ·  ' .. 'Kill in ' .. left()
         if text ~= shown then line:SetAttribute('value', text); shown = text end
         box:SetClass('done', fight.done == true)
         box:SetClass('paused', not fight.done and fight.idle >= 8)
