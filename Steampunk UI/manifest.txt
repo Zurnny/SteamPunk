@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.28
-7cf8c5880785e127a44f83ec3fb5c858c4923b1e|mod.ini
+version=1.29
+5739cc091b81abcb89defd5b55fbb0bdb5d35afe|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 4c8862c0f000e473c457e5a60604c3de9d947bbe|files/Data/ui/themes/rose/game/arena_group.html
@@ -57,7 +57,7 @@ ffeebb3342299a3ec275494a483382b2044f17ee|files/Data/ui/themes/rose/game/party_op
 1d3ef00968bf94930141551afb58bebb0fa227fb|files/Data/ui/themes/rose/game/private_chat.html
 824fc6ba27be079dfb49afff243e11c06b3e4902|files/Data/ui/themes/rose/game/quest_list.html
 b4908d44562b2f4a17fcb891898a8be120d9c138|files/Data/ui/themes/rose/game/quest_tracker.html
-b22b9707b149c8e5a395439f30564101ac4021ba|files/Data/ui/themes/rose/game/quickbar.html
+5d2a7af674eb515dbee45c87614e9d08486f4e72|files/Data/ui/themes/rose/game/quickbar.html
 e38bf96bf82d7cd9d0d2236a19a3f515a4d65517|files/Data/ui/themes/rose/game/refine.html
 18e8fa6d085c3e3b344f2a0eece86cf492127543|files/Data/ui/themes/rose/game/reinforcement.html
 bf20119267ff641fb4339db5a3425288215485ba|files/Data/ui/themes/rose/game/respawn.html

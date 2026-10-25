@@ -30,8 +30,13 @@
                 align-items: center;
                 cursor: normal;
                 padding: 0dp;
-                border: 15dp rgba(0, 0, 0, 0);
-                margin: -15dp;
+                /* Gap fix: the invisible grab area round each hotbar was 15dp on every side, so a
+                   second hotbar placed close above or below caught the mouse and drew its frame
+                   over this one. Top and bottom are now 4dp; the sides keep room for the page
+                   buttons. */
+                border-width: 4dp 15dp 4dp 15dp;
+                border-color: rgba(0, 0, 0, 0);
+                margin: -4dp -15dp -4dp -15dp;
                 height: 41dp;
                 position: relative;
             }
@@ -43,6 +48,8 @@
             }
 
             body.vertical handle.quickbar-container {
+                border-width: 15dp 4dp 15dp 4dp;   /* side by side bars: small gap left and right */
+                margin: -15dp -4dp -15dp -4dp;
                 flex-direction: column;
                 height: auto;
                 width: 41dp;
