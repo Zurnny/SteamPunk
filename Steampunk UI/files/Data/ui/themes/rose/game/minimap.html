@@ -3,6 +3,7 @@
     <head>
         <title></title>
         <link type="text/template" href="../templates/window-resizeable.html" />
+        <link type="text/rcss" href="../styles/spritesheet_elementicon.css" />
         <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
         <link type="text/rcss" href="../styles/steampunk.css" />
 
@@ -42,6 +43,42 @@
                 font-size: 12dp; color: rgb(226, 208, 170); font-effect: outline(1dp black); text-align: center;
             }
             #minimap-minimized .day-night-icon-min { position: absolute; right: 40dp; top: 2dp; }
+
+            /* ── Element chart (steampunk add-on): an iron panel under the minimized bar ── */
+            #sp-el-chart {
+                position: absolute; left: -2dp; top: 42dp; width: 210dp; box-sizing: border-box;
+                padding: 4dp 6dp 5dp 6dp;
+                background-color: rgba(30, 24, 19, 215); border: 2dp rgb(180, 138, 69); border-top-width: 0dp;
+                font-size: 11dp; color: rgb(241, 227, 196); font-effect: outline(1dp black);
+                pointer-events: none;
+            }
+            #sp-el-chart.off { display: none; }
+            .sp-el-row { display: flex; flex-direction: row; align-items: center; height: 18dp; border-top: 1dp rgba(180, 138, 69, 70); }
+            .sp-el-head { border-top: 0; height: 18dp; font-weight: 800; color: rgb(243, 211, 138); }
+            .sp-el-head .sp-el-col.strong { color: rgb(150, 220, 110); }
+            .sp-el-head .sp-el-col.weak { color: rgb(240, 120, 90); }
+            .sp-el-who { display: flex; flex-direction: row; align-items: center; width: 66dp; flex-shrink: 0; }
+            .sp-el-name { font-weight: 800; white-space: nowrap; }
+            .sp-el-name.elementicon-l-4 { color: rgb(200, 140, 80); }
+            .sp-el-name.elementicon-l-8 { color: rgb(170, 170, 170); }
+            .sp-el-col { display: flex; flex-direction: row; align-items: center; width: 57dp; flex-shrink: 0; }
+            .sp-el-split { width: 1dp; height: 14dp; margin: 0 4dp 0 2dp; background-color: rgba(180, 138, 69, 160); flex-shrink: 0; }
+            .sp-el-head .sp-el-split { background-color: transparent; }
+            .sp-el-none { color: rgb(201, 180, 138); }
+            .sp-el-ic { display: inline-block; width: 13dp; height: 13dp; margin-right: 1dp; flex-shrink: 0; }
+            .sp-el-ic.big { width: 16dp; height: 15dp; margin-right: 3dp; }
+            .sp-el-0 { decorator: image(elementicon-l-0); }
+            .sp-el-1 { decorator: image(elementicon-l-1); }
+            .sp-el-2 { decorator: image(elementicon-l-2); }
+            .sp-el-3 { decorator: image(elementicon-l-3); }
+            .sp-el-4 { decorator: image(elementicon-l-4); }
+            .sp-el-5 { decorator: image(elementicon-l-5); }
+            .sp-el-6 { decorator: image(elementicon-l-6); }
+            .sp-el-7 { decorator: image(elementicon-l-7); }
+            .sp-el-8 { decorator: image(elementicon-l-8); }
+            @keyframes sp-el-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-el-tick-b { from { opacity: 0; } to { opacity: 0; } }
+            #sp-el-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-el-tick-a; }
 
             /* ── Normal state ── */
             #minimap-normal { position: relative; width: 250dp; height: 294dp; }
@@ -268,6 +305,40 @@ pcall(function()
     end
 end)
         </script>
+        <script>
+-- Element chart (steampunk add-on). Under the minimized minimap: every element
+-- with the elements it is strong and weak against (the game's own lists).
+-- Options > UI > Minimap turns it on and off; that is saved in
+-- sp_element_chart.txt, which this reads every 2 seconds.
+pcall(function()
+    local document = document
+    local function on()
+        local v = true
+        pcall(function()
+            local f = io.open('sp_element_chart.txt', 'r')
+            if not f then return end
+            v = (f:read('*l') or ''):match('show%s*=%s*0') == nil
+            f:close()
+        end)
+        return v
+    end
+    local function apply()
+        local c = document:GetElementById('sp-el-chart')
+        if c then c:SetClass('off', not on()) end
+    end
+    apply()
+    pcall(function() if type(_G) == 'table' then _G.SP_ELEMENT_CHART_APPLY = apply end end)
+    local timer = document:GetElementById('sp-el-timer')
+    local flip = false
+    if timer then
+        timer:AddEventListener('animationend', function()
+            pcall(apply)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-el-tick-b' or 'sp-el-tick-a')
+        end)
+    end
+end)
+        </script>
     </head>
 
     <body id="game-minimap">
@@ -278,6 +349,20 @@ end)
                 <span id="zone-name-min">{{zone_name}}</span>
                 <span id="time-min">{{server_time}}</span>
                 <button class="btn-restore" data-event-click="toggle_minimize"></button>
+                <!-- Element chart (steampunk add-on): shown under the minimized bar; Options > UI turns it off -->
+                <div id="sp-el-chart">
+                    <div class="sp-el-row sp-el-head"><div class="sp-el-who"><span>Element</span></div><div class="sp-el-col strong"><span>Strong</span></div><div class="sp-el-split"></div><div class="sp-el-col weak"><span>Weak</span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-5"></span><span class="sp-el-name elementicon-l-5">Wind</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-7"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-6"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-4"></span><span class="sp-el-name elementicon-l-4">Earth</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-6"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-8"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-2"></span><span class="sp-el-name elementicon-l-2">Fire</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-8"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-6"></span><span class="sp-el-ic sp-el-7"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-3"></span><span class="sp-el-name elementicon-l-3">Water</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-2"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-7"></span><span class="sp-el-ic sp-el-8"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-0"></span><span class="sp-el-name elementicon-l-0">Neutral</span></div><div class="sp-el-col"><span class="sp-el-none">None</span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-8"></span><span class="sp-el-ic sp-el-6"></span><span class="sp-el-ic sp-el-7"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-7"></span><span class="sp-el-name elementicon-l-7">Poison</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-6"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-5"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-1"></span><span class="sp-el-name elementicon-l-1">Sorcery</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-7"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-8"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-8"></span><span class="sp-el-name elementicon-l-8">Ghost</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-4"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-6"></span></div></div>
+                    <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-6"></span><span class="sp-el-name elementicon-l-6">Holy</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-8"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-7"></span></div></div>
+                </div>
+                <div id="sp-el-timer"></div>
             </div>
 
             <!-- ─── Normal state ─── -->

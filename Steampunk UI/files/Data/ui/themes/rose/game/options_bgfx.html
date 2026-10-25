@@ -552,6 +552,29 @@ pcall(function()
     end)
 end)
     </script>
+    <script>
+-- Element chart switch (steampunk add-on). Saved in sp_element_chart.txt; the
+-- minimap reads it every 2 seconds (and straight away when windows can share).
+pcall(function()
+    local document = document
+    local box = document:GetElementById('sp-el-chart-on')
+    if not box then return end
+    local on = true
+    pcall(function()
+        local f = io.open('sp_element_chart.txt', 'r')
+        if f then on = (f:read('*l') or ''):match('show%s*=%s*0') == nil; f:close() end
+    end)
+    if on then box:SetAttribute('checked', '') else box:RemoveAttribute('checked') end
+    box:AddEventListener('change', function()
+        local want = box:HasAttribute('checked')
+        pcall(function()
+            local f = io.open('sp_element_chart.txt', 'w')
+            if f then f:write('show=', want and 1 or 0, '\n'); f:close() end
+        end)
+        pcall(function() if type(_G) == 'table' and type(_G.SP_ELEMENT_CHART_APPLY) == 'function' then _G.SP_ELEMENT_CHART_APPLY() end end)
+    end)
+end)
+    </script>
     </head>
 
     <body id="game-options" template="window-resizeable">
@@ -1814,6 +1837,14 @@ end)
                                             <input id="sp-mm-heading-up" type="checkbox" />
                                             <label for="sp-mm-heading-up">Turn map with player (facing direction always up)</label>
                                             <div id="sp-mm-status" style="font-size: 11dp; color: rgb(201, 180, 138);"></div>
+                                        </td>
+                                    </tr>
+                                    <!-- Steampunk add-on: element chart under the minimized minimap (script at the end of <head>) -->
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <input id="sp-el-chart-on" type="checkbox" checked="" />
+                                            <label for="sp-el-chart-on">Element chart under the minimized minimap</label>
                                         </td>
                                     </tr>
                                 </tbody>
