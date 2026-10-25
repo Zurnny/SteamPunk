@@ -1351,31 +1351,6 @@ end)
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <input id="item-name" type="checkbox" data-checked="game.show_item_name" onchange="game-itemname"/>
-                                        <label for="item-name"><str string-id="1367">Show dropped item name</str></label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <input id="pickup-status" type="checkbox" data-checked="game.show_item_status" onchange="game-itemstatus"/>
-                                        <label for="pickup-status"><str string-id="1371">Show item pickup status</str></label>
-                                    </td>
-                                </tr>
-                                <!-- Label background slider (script at the end of <head>); shown only while pickup status is on -->
-                                <tr data-if="game.show_item_status">
-                                    <td>Label background</td>
-                                    <td>
-                                        <div class="slider-row">
-                                            <input id="sp-label-alpha" type="range" min="0" max="10" step="1" value="0" style="flex: 1" />
-                                            <label class="slider-value" id="sp-label-alpha-value">No Lua</label>
-                                        </div>
-                                        <div id="sp-label-alpha-debug" style="font-size: 11dp; color: rgb(201, 180, 138);"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
                                         <input id="hide-shop-names" type="checkbox" data-checked="game.hide_shop_names" onchange="game-hideshopnames"/>
                                         <label for="hide-shop-names"><str string-id="1373">Hide shop names</str></label>
                                     </td>
@@ -1826,6 +1801,38 @@ end)
             <tab class="default">UI</tab>
             <panel class="content-box">
                 <div class="options-panel">
+                        <div class="settings-group">
+                            <h3>Dropped Items</h3>
+                            <table class="main">
+                                <tbody>
+                                        <tr>
+                                            <td>Item names</td>
+                                            <td>
+                                                <input id="item-name" type="checkbox" data-checked="game.show_item_name" onchange="game-itemname"/>
+                                                <label for="item-name"><str string-id="1367">Show dropped item name</str></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pickup status</td>
+                                            <td>
+                                                <input id="pickup-status" type="checkbox" data-checked="game.show_item_status" onchange="game-itemstatus"/>
+                                                <label for="pickup-status"><str string-id="1371">Show item pickup status</str></label>
+                                            </td>
+                                        </tr>
+                                        <!-- Label background slider (script at the end of <head>); moved here from the Game tab; shown while item names are on -->
+                                        <tr data-if="game.show_item_name">
+                                            <td>Label background</td>
+                                            <td>
+                                                <div class="slider-row">
+                                                    <input id="sp-label-alpha" type="range" min="0" max="10" step="1" value="0" style="flex: 1" />
+                                                    <label class="slider-value" id="sp-label-alpha-value">No Lua</label>
+                                                </div>
+                                                <div id="sp-label-alpha-debug" style="font-size: 11dp; color: rgb(201, 180, 138);"></div>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="settings-group">
                             <h3>Minimap</h3>
                             <table class="main">
