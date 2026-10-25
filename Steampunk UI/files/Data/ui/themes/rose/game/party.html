@@ -61,6 +61,9 @@
                 gj-bourgeois: 326px 43px 40px 40px;
             }
             .party-member.sp-has-job { position: relative; padding-left: 1.9em; }
+            /* a badge with no class known yet stays hidden (it showed as an empty black square) */
+            .sp-job-badge { display: none; }
+            .party-member.sp-has-job .sp-job-badge { display: block; }
             .sp-job-badge { position: absolute; left: 0; top: 0; width: 1.7em; height: 1.7em; box-sizing: border-box; border: 1dp rgb(122, 86, 36); background-color: rgb(36, 30, 25); pointer-events: none; }
             .sp-job-badge.job-visitor { decorator: image(gj-visitor); }
             .sp-job-badge.job-soldier { decorator: image(gj-soldier); }
