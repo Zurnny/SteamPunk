@@ -130,17 +130,7 @@
                 }
             }
 
-            /* steampunk add-on: free gauge, summon HP numbers, range and low-HP warnings */
-            .sp-free {
-                display: block;
-                margin-top: 2dp;
-                text-align: center;
-                font-size: 11dp;
-                font-weight: 700;
-                color: rgb(243, 211, 138);
-                font-effect: outline(1dp black);
-            }
-            .sp-free.full { color: rgb(255, 120, 90); }
+            /* steampunk add-on: summon HP numbers, range and low-HP warnings */
             .sp-sum-top {
                 display: flex;
                 flex-direction: row;
@@ -148,7 +138,7 @@
                 align-items: center;
                 width: 112dp;
             }
-            .sp-sum-hp { font-size: 10dp; font-weight: 700; color: rgb(241, 227, 196); }
+            .sp-sum-hp { white-space: nowrap; font-size: 10dp; font-weight: 700; color: rgb(241, 227, 196); }
             .sp-far { font-size: 10dp; font-weight: 700; color: rgb(201, 180, 138); }
             @keyframes sp-sum-pulse { from { color: rgb(255, 255, 255); } to { color: rgb(255, 90, 60); } }
             .summon-item.low .sp-sum-name { animation: infinite cubic-in-out 0.8s alternate sp-sum-pulse; }
@@ -181,7 +171,6 @@
                     data-attr-gmax="gauge.max_value">
                     <span><label id="value"/>/<label id="max"/></span>
                 </gauge>
-                <span class="sp-free" data-class-full="gauge.max_value - gauge.value &lt;= 0">{{gauge.max_value - gauge.value}} free</span>
             </handle>
 
             <div id="summons" data-for="summon : gauge.summons">

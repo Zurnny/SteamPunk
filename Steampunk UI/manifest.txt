@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.22
-87c451eeb5234548c9d6a35fc7dc4ec556ce310a|mod.ini
+version=1.23
+28923012f004656d7ecef95884230716fd6e0d31|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
@@ -65,7 +65,7 @@ bf20119267ff641fb4339db5a3425288215485ba|files/Data/ui/themes/rose/game/respawn.
 7c629bdfb445267b0a1adea3eaae0ebdac74111a|files/Data/ui/themes/rose/game/skills.html
 c72951df964f65aa2671d1dfc187f6d02dac0773|files/Data/ui/themes/rose/game/storage.html
 dfd25a52e9b5577e0899b653b253b422280c7fb2|files/Data/ui/themes/rose/game/style_change.html
-11fdcb04a896e169d36516bc5406de0d4d0cb48f|files/Data/ui/themes/rose/game/summon_gauge.html
+55cf87d719bab583394dae181f707b881d5a4ae2|files/Data/ui/themes/rose/game/summon_gauge.html
 a1b5af0f1150721c9ef4c762052b4ee28ce4ca41|files/Data/ui/themes/rose/game/system_menu.html
 6ca5bf1f6b242959c395761caaf0de91c2e955b3|files/Data/ui/themes/rose/game/system_message.html
 522d66615ae705e1d3159b804ecf2818845f0e9d|files/Data/ui/themes/rose/game/tooltip.html
