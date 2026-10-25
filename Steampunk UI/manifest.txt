@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.19
-9d61606e5c8f525f2baf3a8afa26ff11e818bf7b|mod.ini
+version=1.20
+43d80cbf765a59a8c4d7d850f83667262b3ffaeb|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
@@ -106,15 +106,13 @@ fd42edf19b9509678d4f470774efcaa19ce04f24|files/res/refinereset.cur
 4d44ea71fda2b1e341e1cd960adbaf5d95de6e0f|files/res/user.cur
 b80155ee7f993c00f699c86b5ef775d4776ff698|files/res/wheel.cur
 8b63ed10a7aafd6361bd90d025d694f39b191fde|launcher/banner.png
-010f3852096cd660ea465bc117e17bec883f9e9d|launcher/bg.png
+a32f9d1f9cafa03b4ca5ac5940a824ea3100f303|launcher/bg.png
 66352cbae61161ad72274287796848246178af5f|launcher/close_h.png
 ae3d0d9781aae2983a482233359418ef028337ea|launcher/close_n.png
 954bfd05d8c4466f9931f6bc912355807ce3e45e|launcher/dot_off.png
 89100f4f8db8c151541c2afbb16613b1eed6eae4|launcher/dot_on.png
 bcec23487e3bd245c7bf2a9d0b5b2ff7523745bf|launcher/min_h.png
 43ded94b2e26a3799c576d4c2f0c2efccb4c0069|launcher/min_n.png
-330d70072634bcddaaa92f9a9258d16c31396934|launcher/more_h.png
-fcff2c51847e67100ae6fca2d0ffdb5fe9942741|launcher/more_n.png
 dcd5162d3ae916fb30b72c4b99e7f41584d0e135|launcher/nav_forum_h.png
 9d4eae0641945e12f49c08624412d0986910aacb|launcher/nav_forum_n.png
 22883f07198e02640d4d1a4cd672d5fcd773902c|launcher/nav_powerup_h.png
@@ -130,3 +128,5 @@ adac1e8db13a514e51571694c4e34d259362f668|launcher/skin.ini
 5a86ec7fe26b192e41696e06179ff4676c883987|launcher/start_n.png
 14d094ef388d27cf753ca3a42a3002ea2fae5ac0|launcher/btn_h.png
 9e7afd7757abf91490abb31e44df65f9a23aa987|launcher/btn_n.png
+0f729bc62edbe9df1f000f94ba08cb9a0ed1edec|launcher/repair_h.png
+decf7f030193405c3d5ef1ef95a752613b800062|launcher/repair_n.png
