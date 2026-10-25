@@ -14,7 +14,10 @@
 			.vending-grid { width: 260dp; }
 			.vending-grid item-slot.listed { background-color: #80682080; }
 			.vending-selection { display: flex; flex-direction: row; align-items: center; min-height: 28dp;	}
-            #selected-name { flex: 1 1 auto; min-width: 0; white-space: normal; overflow: visible; margin-right: 8dp; padding-top: 7dp; }
+            /* centred: item name, then its price under it (Default UI Fixes) */
+            .vending-selection { flex-direction: column; justify-content: center; }
+            #selected-name { flex: 0 0 auto; width: 100%; min-width: 0; white-space: normal; overflow: visible; margin: 0; padding-top: 4dp; text-align: center; }
+            .vending-selection .ui-currency { justify-content: center; margin-top: 2dp; }
             .vending-selection .ui-currency { flex: 0 0 auto; white-space: nowrap; }
 			.vending-help { margin: 8dp 0; }
 			#vending-state { margin-bottom: 8dp; }
