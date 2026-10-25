@@ -1,11 +1,11 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.14
-768f54dc28d2813f084626024a3ad8990b013352|mod.ini
+version=1.15
+1a8fbe553fd5899aca81ce1f866a011d6e097686|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 ac5b9f1efc4d89455193285ebb093b90caf89bf2|files/Data/ui/themes/rose/game/arena_group.html
 6cc1b878fdf6e6fcbbba7ec7207fcb5385a1bcb0|files/Data/ui/themes/rose/game/avatar_selection.html
-99ffc9666717d9771dc5a6d810ddf19a2c23993a|files/Data/ui/themes/rose/game/avatar_store.html
+acbc6825fad0faee1c96908acabce67c0aacd768|files/Data/ui/themes/rose/game/avatar_store.html
 ce58ce9bbc7eb03007baddf18eb364cf4971d6a6|files/Data/ui/themes/rose/game/char_actions.html
 fcd4db4d6438c8a1016d09924bb414b8d7be5b3e|files/Data/ui/themes/rose/game/character_create.html
 37627df4c726bf3d66ffca8af118f777c0650744|files/Data/ui/themes/rose/game/character_preview.html
@@ -76,10 +76,10 @@ d9b60643fda2f2921c7e2287461b6af8e28aa72f|files/Data/ui/themes/rose/game/zone_not
 2d4a6f82f2b2c90c004c3662b9857f882111c72c|files/Data/ui/themes/rose/imgs/gauge_steampunk.dds
 1b1b761ce1ed132b25f7d2cd78bd1dc8f7bb5d20|files/Data/ui/themes/rose/imgs/steampunk_menu.dds
 98765943aea93d6ee2a8773356839240438397f6|files/Data/ui/themes/rose/imgs/steampunk_minimap.dds
-cc5270dab80460ea46b6357f56d57f5d0df06b78|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
+a37d90b200de0530cfe5ff23c23ffc5d236f1af1|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
 1726b47293742e3d288cd5bd95600241bc6544de|files/Data/ui/themes/rose/styles/spritesheet_gauge.css
-85dc6ec2447946ab89363d6adf3771130415bff6|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
-f11a917e9fe57267850131ea4db9ecfd92274302|files/Data/ui/themes/rose/styles/steampunk.css
+d1e394c0db3b4df00c4efed086d5b7f25db4d2ab|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
+c16ce8d3d9b758d8b16550684045bffcd23b2098|files/Data/ui/themes/rose/styles/steampunk.css
 5542d9b2fdde69c57ab002416f7f746c9a8341ca|files/Data/ui/themes/rose/templates/window-box.html
 1234f19c47c7c281c9907565647136686148a286|files/Data/ui/themes/rose/templates/window-fixed-size.html
 07caf221b5e14a6f9cfc1c4bed469a82f6b6ab03|files/Data/ui/themes/rose/templates/window-fixed.html

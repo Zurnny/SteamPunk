@@ -134,15 +134,15 @@ button.window-title-close
 }
 
 /* ---- Buttons ----------------------------------------------------------
- * Uses the GREY (disabled) button art as a base, because grey tints
- * cleanly to brass. The selectors copy button.css so they win on
+ * Dark glass art with a brass rim and a gloss band (sp-btn-* in
+ * spritesheet_steampunk.css). The selectors copy button.css so they win on
  * specificity when this file loads after it.
  * ------------------------------------------------------------------- */
 button.default,
 tab.default
 {
-    decorator: tiled-horizontal( button-disabled-l, button-disabled-c, button-disabled-r );
-    image-color: rgb(214, 170, 96);
+    decorator: tiled-horizontal( sp-btn-n-l, sp-btn-n-c, sp-btn-n-r );
+    image-color: rgb(255, 255, 255);
     color: rgb(255, 240, 210);
     font-effect: outline(1dp rgb(50, 30, 10));
 }
@@ -153,8 +153,8 @@ tab.default:not(button[disabled]):hover,
 .ui-tabs > button.default:not(button[disabled]):hover,
 button.default.ui-compact:not(button[disabled]):hover
 {
-    decorator: tiled-horizontal( button-disabled-l, button-disabled-c, button-disabled-r );
-    image-color: rgb(255, 228, 165);
+    decorator: tiled-horizontal( sp-btn-h-l, sp-btn-h-c, sp-btn-h-r );
+    image-color: rgb(255, 255, 255);
     color: rgb(255, 250, 235);
 }
 
@@ -164,7 +164,9 @@ button.default.selected:not(button[disabled]):hover,
 .ui-tabs > button.selected:not(button[disabled]):hover,
 tab.default:selected:hover
 {
-    image-color: rgb(235, 150, 85);
+    decorator: tiled-horizontal( sp-btn-a-l, sp-btn-a-c, sp-btn-a-r );
+    image-color: rgb(255, 255, 255);
+    color: rgb(255, 245, 210);
 }
 
 button.default:not(button[disabled]):active,
@@ -173,17 +175,23 @@ tab.default:not(button[disabled]):active,
 tab.default:active,
 tab.default:selected
 {
-    decorator: tiled-horizontal( button-disabled-l, button-disabled-c, button-disabled-r );
-    image-color: rgb(205, 120, 60);
+    decorator: tiled-horizontal( sp-btn-a-l, sp-btn-a-c, sp-btn-a-r );
+    image-color: rgb(255, 255, 255);
     color: rgb(255, 230, 160);
 }
 
+button[disabled]
+{
+    image-color: rgb(110, 100, 90);
+    color: rgb(170, 160, 150);
+}
 button.default:disabled,
-button[disabled],
+button.default[disabled],
 tab.default:disabled,
 tab.default[disabled]
 {
-    image-color: rgb(110, 100, 90);
+    decorator: tiled-horizontal( sp-btn-d-l, sp-btn-d-c, sp-btn-d-r );
+    image-color: rgb(255, 255, 255);
     color: rgb(170, 160, 150);
 }
 
@@ -191,8 +199,8 @@ tab.default[disabled]
 .ui-tabs > button.active,
 .ui-tabs > button.selected
 {
-    decorator: tiled-horizontal( button-disabled-l, button-disabled-c, button-disabled-r );
-    image-color: rgb(205, 120, 60);
+    decorator: tiled-horizontal( sp-btn-a-l, sp-btn-a-c, sp-btn-a-r );
+    image-color: rgb(255, 255, 255);
     color: rgb(255, 230, 160);
 }
 
