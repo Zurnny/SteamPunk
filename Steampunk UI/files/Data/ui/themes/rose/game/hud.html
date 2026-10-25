@@ -319,6 +319,7 @@
 
 			/* Session trackers (XP per hour in the EXP tooltip, zuly in the zuly tooltip) */
 			#sp-track { display: none; }
+			#sp-weapon-src { display: none; }
 			@keyframes sp-track-tick-a { from { opacity: 0; } to { opacity: 0; } }
 			@keyframes sp-track-tick-b { from { opacity: 0; } to { opacity: 0; } }
 			#sp-track-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; animation: 5s sp-track-tick-a; }
@@ -446,6 +447,37 @@ pcall(function()
     end
 end)
 		</script>
+		<script>
+-- Weapon durability refresh (steampunk add-on). The HUD's weapon slot only
+-- reads the weapon's details when the weapon changes, so durability and life
+-- lost in a fight didn't show (13/13 in the HUD, 12/13 in the inventory).
+-- Every 5 seconds this compares the live numbers; when they change it sets the
+-- slot's own values again so the slot reloads. Nothing else is touched.
+pcall(function()
+    local document = document
+    local last = nil
+    local function el(id) return document:GetElementById(id) end
+    local function check()
+        local src, slot = el('sp-weapon-src'), el('sp-weapon-slot')
+        if not src or not slot then return end
+        local key = src:GetAttribute('sp-key') or ''
+        local dur = src:GetAttribute('sp-dur') or ''
+        local life = src:GetAttribute('sp-life') or ''
+        local now = key .. '|' .. dur .. '|' .. life
+        if last and now ~= last and key == last:match('^([^|]*)') and key ~= '' and key ~= '0' then
+            slot:SetAttribute('item-durability', dur)
+            slot:SetAttribute('item-life', life)
+            slot:SetAttribute('item-key', '0')
+            slot:SetAttribute('item-key', key)
+        end
+        last = now
+    end
+    local timer = el('sp-track-timer')
+    if timer then
+        timer:AddEventListener('animationend', function() pcall(check) end)
+    end
+end)
+		</script>
 	</head>
 
 	<body id="hud" onclick="self-target">
@@ -509,10 +541,11 @@ end)
 
 			<!-- Weapon / ammo slot (its own data model, so it sits beside the plate, not inside it) -->
 			<div class="weapon-slot" data-model="inventory">
+				<span id="sp-weapon-src" data-attr-sp-key="equipped_weapon.key" data-attr-sp-dur="equipped_weapon.durability" data-attr-sp-life="equipped_weapon.life"></span>
 				<img sprite="GEN_INVSLOT08"
 					data-if="equipped_weapon.id == 0 &amp;&amp; equipped_shot_item.id == 0" />
 
-				<item-slot data-if="equipped_shot_item.id == 0"
+				<item-slot id="sp-weapon-slot" data-if="equipped_shot_item.id == 0"
 					data-attr-item-key="equipped_weapon.key"
 					data-attr-item-id="equipped_weapon.id"
 					data-attr-item-type="equipped_weapon.type"
