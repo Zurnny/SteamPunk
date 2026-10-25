@@ -165,6 +165,28 @@
 				animation: 1.5s cubic-in-out infinite alternate sp-low;
 			}
 
+			/* The game's own HP / MP / EXP bars, sized to sit between the brass caps */
+			.sp-gauge gauge { flex: 0 0 auto; width: 148dp; height: 18dp; }
+			.sp-gauge.exp gauge { width: 150dp; height: 11dp; }
+			@keyframes low { from { color: red; } to { color: white; } }
+			gauge.low-value-animation { animation: 1.5s cubic-in-out infinite alternate low; }
+			#exp { position: relative; }
+			#exp > span.exp-text
+			{
+				position: absolute;
+				left: 0dp;
+				top: 0dp;
+				width: 100%;
+				height: 11dp;
+				line-height: 11dp;
+				text-align: center;
+				font-size: 11dp;
+				font-weight: 800;
+				color: rgb(255, 255, 255);
+				font-effect: outline(1dp black);
+				pointer-events: none;
+			}
+
 			/* EXP: a slimmer pipe */
 			.sp-gauge.exp { height: 14dp; margin-bottom: 0; }
 			.sp-gauge.exp .sp-cap { width: 6dp; height: 14dp; }
@@ -442,10 +464,9 @@ end)
 				<div class="sp-bars">
 					<div class="sp-gauge">
 						<div class="sp-cap left"></div>
-						<div class="sp-track">
-							<div class="sp-fill hp" data-style-width="health_percent + '%'"></div>
-							<span class="sp-gauge-text" data-class-low="max_health > 0 &amp;&amp; health * 5 &lt;= max_health">HP {{health}} / {{max_health}}</span>
-						</div>
+						<gauge id="health" class="horizontal-lg-lg red" data-class-low-value-animation="health_percent &lt;= 20" data-attr-gvalue="health" data-attr-gmax="max_health">
+							<template src="gauge-info-vmp" />
+						</gauge>
 						<div class="sp-cap right"></div>
 						<div class="sp-tip">
 							<span class="sp-tip-title">HP</span>
@@ -456,10 +477,9 @@ end)
 
 					<div class="sp-gauge">
 						<div class="sp-cap left"></div>
-						<div class="sp-track">
-							<div class="sp-fill mp" data-style-width="mana_percent + '%'"></div>
-							<span class="sp-gauge-text" data-class-low="max_mana > 0 &amp;&amp; mana * 5 &lt;= max_mana">MP {{mana}} / {{max_mana}}</span>
-						</div>
+						<gauge id="mana" class="horizontal-lg-lg blue" data-class-low-value-animation="mana_percent &lt;= 20" data-attr-gvalue="mana" data-attr-gmax="max_mana">
+							<template src="gauge-info-vmp" />
+						</gauge>
 						<div class="sp-cap right"></div>
 						<div class="sp-tip">
 							<span class="sp-tip-title">MP</span>
@@ -470,10 +490,10 @@ end)
 
 					<div class="sp-gauge exp">
 						<div class="sp-cap left"></div>
-						<div class="sp-track">
-							<div class="sp-fill exp" data-style-width="(max_experience > 0 ? experience * 100 / max_experience : 0) + '%'"></div>
-							<span class="sp-gauge-text">EXP {{(max_experience > 0 ? experience * 100 / max_experience : 0) | format(1)}}%</span>
-						</div>
+						<gauge id="exp" class="horizontal-sm-lg yellow" data-attr-gvalue="experience" data-attr-gmax="max_experience">
+							<span class="marker"><img sprite="gauge-bg-sm-lg-markers" /></span>
+							<span class="exp-text"><label id="percent" />%</span>
+						</gauge>
 						<div class="sp-cap right"></div>
 						<div class="sp-tip">
 							<span class="sp-tip-title">Experience</span>
