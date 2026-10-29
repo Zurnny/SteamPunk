@@ -16,10 +16,6 @@
         <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
 
         <style>
-            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
-            #quickbar.sp-theme-default .sp-only-steampunk { display: none; }
-            #quickbar.sp-theme-steampunk .sp-only-default { display: none; }
-
             /* ==== Both looks ==== */
             body#quickbar { z-index: 950; padding: 0; margin: 0; color: white; font-effect: outline(1dp black); }
             handle.quickbar-container { display: inline-flex; flex-direction: row; align-items: center; cursor: normal; padding: 0dp; border-width: 4dp 15dp 4dp 15dp; border-color: rgba(0, 0, 0, 0); margin: -4dp -15dp -4dp -15dp; height: 41dp; position: relative; }
@@ -114,95 +110,22 @@
             .sp-theme-default .gsep { position: absolute; width: 5dp; height: 43dp; decorator: image(qb-sep-v); }
 
             /* ==== Steampunk look only ==== */
-            body.sp-theme-steampunk#quickbar { z-index: 950; padding: 0; margin: 0; color: white; font-effect: outline(1dp black); }
-            .sp-theme-steampunk handle.quickbar-container { display: inline-flex; flex-direction: row; align-items: center; cursor: normal; padding: 0dp; border-width: 4dp 15dp 4dp 15dp; border-color: rgba(0, 0, 0, 0); margin: -4dp -15dp -4dp -15dp; height: 41dp; position: relative; }
             .sp-theme-steampunk handle.quickbar-container:hover[move_target] { decorator: tiled-box(qb-wnd-tl, qb-wnd-t, qb-wnd-tr, qb-wnd-l, qb-wnd-c, qb-wnd-r, qb-wnd-bl, qb-wnd-b, qb-wnd-br) border-box; }
-            body.sp-theme-steampunk.vertical handle.quickbar-container { border-width: 15dp 4dp 15dp 4dp; margin: -15dp -4dp -15dp -4dp; flex-direction: column; height: auto; width: 41dp; }
-            body.sp-theme-steampunk.vertical .sep-v { left: -1dp; top: -3dp; width: 40dp; height: 5dp; decorator: image(qb-sep-h); }
-            body.sp-theme-steampunk.vertical .sep-end { left: -1dp; right: auto; top: auto; bottom: -3dp; width: 40dp; height: 5dp; decorator: image(qb-sep-h); }
-            body.sp-theme-steampunk.vertical .btn-rotate { margin-top: -9dp; margin-left: 22dp; }
-            .sp-theme-steampunk .btn-rotate:disabled { visibility: hidden; }
-            body.sp-theme-steampunk.vertical .page-area { right: auto; top: auto; bottom: -20dp; left: 1dp; width: 39dp; height: 18dp; }
-            body.sp-theme-steampunk.vertical .page-btn { right: auto; left: 0dp; bottom: -6dp; width: 38dp; height: 18dp; border-radius: 0dp 0dp 4dp 4dp; }
             body.sp-theme-steampunk.vertical handle.quickbar-container:hover[move_target] .page-btn { decorator: vertical-gradient(rgba(45, 55, 75, 150) rgba(45, 55, 75, 125)); }
-            body.sp-theme-steampunk.vertical .page-arrow-up { left: 0dp; top: 0dp; width: 20dp; height: 40dp; }
-            body.sp-theme-steampunk.vertical .page-arrow-down { left: auto; top: 0dp; right: 0dp; width: 13dp; height: 20dp; }
-            body.sp-theme-steampunk.vertical .page-indicator { left: 9dp; top: 4dp; }
             .sp-theme-steampunk .slots-area { display: flex; flex-direction: row; align-items: center; }
-            body.sp-theme-steampunk.vertical .slots-area { flex-direction: column; }
-            .sp-theme-steampunk .slot-cell { position: relative; width: 41dp; height: 41dp; }
             .sp-theme-steampunk .sep-v { position: absolute; left: -3dp; top: -1dp; width: 5dp; height: 40dp; decorator: image(qb-sep-v); z-index: -1; }
-            .sp-theme-steampunk .last-sep { display: none; }
-            .sp-theme-steampunk .sep-end { left: auto; right: -3dp; }
             .sp-theme-steampunk .slot-bg { position: absolute; left: 10dp; top: 10dp; width: 21dp; height: 21dp; decorator: image(slot-icon); z-index: -1; opacity: 0.8; }
-            .sp-theme-steampunk quickbar-slot.quickbar-slot { position: absolute; left: 0dp; top: 0dp; width: 41dp; height: 41dp; margin: 0dp; border-width: 0dp; border-color: rgba(0, 0, 0, 0); decorator: none; }
             body.sp-theme-steampunk.gamepad .slot-cell.highlight { border-width: 3dp; border-color: rgb(199, 54, 54); z-index: 2; }
             .sp-theme-steampunk quickbar-slot > item-slot { position: absolute; left: 0; top: 0; width: 40dp; height: 40dp; pointer-events: none; }
-            .sp-theme-steampunk quickbar-slot > skill-slot { position: absolute; left: 0; top: 0; width: 40dp; height: 40dp; pointer-events: none; }
-            .sp-theme-steampunk quickbar-slot > img { position: absolute; left: 0; top: 0; width: 40dp; height: 40dp; pointer-events: none; }
             .sp-theme-steampunk .keybind-label { position: absolute; bottom: 1dp; right: 3dp; font-size: 12dp; font-weight: 800; color: white; font-effect: outline(1dp black); pointer-events: none; text-align: right; width: 41dp; }
-            body.sp-theme-steampunk.gamepad .keybind-label { bottom: auto; right: auto; left: 5dp; top: 25dp; width: 30dp; font-size: 11dp; font-weight: 700; text-align: center; }
             .sp-theme-steampunk .btn-rotate { position: absolute; width: 29dp; height: 25dp; padding: 0; visibility: hidden; decorator: image(qb-rotate-n); margin-top: 25dp; margin-left: -9dp; z-index: 1; }
-            .sp-theme-steampunk .disabled { visibility: hidden; }
-            .sp-theme-steampunk handle.quickbar-container:hover[move_target] .btn-rotate:not(.disabled) { visibility: visible; }
-            .sp-theme-steampunk .btn-rotate:not(.disabled):hover { decorator: image(qb-rotate-o); }
-            .sp-theme-steampunk .btn-rotate:not(.disabled):active { decorator: image(qb-rotate-d); }
-            .sp-theme-steampunk .page-area { position: absolute; right: -20dp; top: 1dp; width: 18dp; height: 39dp; visibility: hidden; }
-            .sp-theme-steampunk handle.quickbar-container:hover[move_target] .page-area { visibility: visible; }
             .sp-theme-steampunk handle.quickbar-container:hover[move_target] .page-btn { decorator: horizontal-gradient(rgba(45, 55, 75, 150) rgba(45, 55, 75, 125)); }
-            .sp-theme-steampunk .page-btn { position: absolute; right: 0dp; width: 13dp; height: 38dp; padding: 0; border-radius: 0dp 4dp 4dp 0dp; }
             .sp-theme-steampunk .page-arrow-up { position: absolute; left: 0dp; top: 0dp; width: 40dp; height: 20dp; decorator: image(qb-arrow-ind-up); pointer-events: none; }
             .sp-theme-steampunk .page-arrow-down { position: absolute; left: 0dp; top: 37dp; width: 13dp; height: 20dp; decorator: image(qb-arrow-ind-down); pointer-events: none; }
             .sp-theme-steampunk .page-indicator { position: absolute; left: 4dp; top: 9dp; width: 20dp; height: 20dp; pointer-events: none; }
-            .sp-theme-steampunk .page-indicator.page-1 { decorator: image(qb-page-1); }
-            .sp-theme-steampunk .page-indicator.page-2 { decorator: image(qb-page-2); }
-            .sp-theme-steampunk .page-indicator.page-3 { decorator: image(qb-page-3); }
             .sp-theme-steampunk .shift-label { display: none; }
-            body.sp-theme-steampunk.extension .shift-label { display: block; position: absolute; right: -20dp; top: 1dp; width: 20dp; height: 43dp; decorator: image(qb-shift); pointer-events: none; }
-            body.sp-theme-steampunk.extension .page-area { display: none; }
-            .sp-theme-steampunk .gamepad-triggers { display: none; }
-            body.sp-theme-steampunk.gamepad .gamepad-triggers { display: flex; flex-direction: row; width: 535dp; padding: 8dp 0 0 0; }
-            body.sp-theme-steampunk.gamepad .gamepad-triggers .trigger-label { position: absolute; padding-top: 10dp; }
-            body.sp-theme-steampunk.gamepad #trigger-lt { left: 51dp; }
-            body.sp-theme-steampunk.gamepad #trigger-ltrt { left: 243dp; }
-            body.sp-theme-steampunk.gamepad #trigger-rt { left: 460dp; }
-            body.sp-theme-steampunk.gamepad .btn-rotate { display: none; }
-            body.sp-theme-steampunk.gamepad .shift-label { display: none; }
-            body.sp-theme-steampunk.gamepad .page-area { right: -20dp; top: 26dp; }
-            .sp-theme-steampunk .trigger-label { font-size: 16dp; font-weight: 800; color: white; font-effect: outline(1dp black); text-align: center; }
             .sp-theme-steampunk .trigger-label.highlight { color: rgb(255, 255, 0); }
-            body.sp-theme-steampunk.gamepad handle.quickbar-container { height: auto; flex-direction: column; }
-            body.sp-theme-steampunk.gamepad .slots-area { position: relative; height: 91dp; width: 535dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell { position: absolute; }
-            body.sp-theme-steampunk.gamepad .sep-v { display: none; }
-            .sp-theme-steampunk .gamepad-seps { display: none; }
-            body.sp-theme-steampunk.gamepad .gamepad-seps { display: block; position: absolute; left: 0dp; top: 0dp; width: 100%; height: 100%; pointer-events: none; }
             .sp-theme-steampunk .gsep { position: absolute; width: 5dp; height: 43dp; decorator: image(qb-sep-v); }
-            .sp-theme-steampunk .gsep-g1-l { left: -3dp; top: 22dp; }
-            .sp-theme-steampunk .gsep-g1-m1 { left: 38dp; top: -3dp; height: 93dp; }
-            .sp-theme-steampunk .gsep-g1-m2 { left: 79dp; top: -3dp; height: 93dp; }
-            .sp-theme-steampunk .gsep-g1-r { left: 120dp; top: 22dp; }
-            .sp-theme-steampunk .gsep-g2-l { left: 202dp; top: 22dp; }
-            .sp-theme-steampunk .gsep-g2-m1 { left: 243dp; top: -3dp; height: 93dp; }
-            .sp-theme-steampunk .gsep-g2-m2 { left: 284dp; top: -3dp; height: 93dp; }
-            .sp-theme-steampunk .gsep-g2-r { left: 325dp; top: 22dp; }
-            .sp-theme-steampunk .gsep-g3-l { left: 407dp; top: 22dp; }
-            .sp-theme-steampunk .gsep-g3-m1 { left: 448dp; top: -3dp; height: 93dp; }
-            .sp-theme-steampunk .gsep-g3-m2 { left: 489dp; top: -3dp; height: 93dp; }
-            .sp-theme-steampunk .gsep-g3-r { left: 530dp; top: 22dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(1) { left: 0dp; top: 25dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(2) { left: 41dp; top: 0dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(3) { left: 82dp; top: 25dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(4) { left: 41dp; top: 50dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(5) { left: 205dp; top: 25dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(6) { left: 246dp; top: 0dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(7) { left: 287dp; top: 25dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(8) { left: 246dp; top: 50dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(9) { left: 410dp; top: 25dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(10) { left: 451dp; top: 0dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(11) { left: 492dp; top: 25dp; }
-            body.sp-theme-steampunk.gamepad .slot-cell:nth-child(12) { left: 451dp; top: 50dp; }
-            body.sp-theme-steampunk.gamepad { height: 160dp; }
             .sp-theme-steampunk .slots-area { padding: 3dp; background-color: rgba(30, 24, 19, 200); border: 2dp rgb(180, 138, 69); border-radius: 3dp; }
             .sp-theme-steampunk .slot-bg { left: 0dp; top: 0dp; width: 41dp; height: 41dp; decorator: image(sp-slot); opacity: 1; }
             .sp-theme-steampunk .sep-v { visibility: hidden; }

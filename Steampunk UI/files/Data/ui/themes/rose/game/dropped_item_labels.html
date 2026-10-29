@@ -4,10 +4,6 @@
         <link type="text/rcss" href="../styles/html.css" />
         <link type="text/rcss" href="../styles/components.css" />
         <style>
-            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
-            #dropped-item-labels.sp-theme-default .sp-only-steampunk { display: none; }
-            #dropped-item-labels.sp-theme-steampunk .sp-only-default { display: none; }
-
             /* ==== Both looks ==== */
             body { z-index: -100; }
             .dropped-item { position: absolute; display: inline-block; box-sizing: border-box; width: auto; max-width: 100vw; max-height: 100vh; overflow: hidden; padding: 2dp 8dp; white-space: nowrap; pointer-events: none; }
@@ -29,10 +25,7 @@
             .sp-theme-default #dropped-item-labels-root.sp-alpha-10 .dropped-item { background-color: rgba(0, 0, 0, 255); border-color: rgba(120, 120, 120, 255); }
 
             /* ==== Steampunk look only ==== */
-            body.sp-theme-steampunk { z-index: -100; }
             .sp-theme-steampunk .dropped-item { position: absolute; display: inline-block; box-sizing: border-box; width: auto; max-width: 100vw; max-height: 100vh; overflow: hidden; padding: 2dp 8dp; white-space: nowrap; pointer-events: none; }
-            .sp-theme-steampunk .pickup-status { margin-left: 4dp; color: rgb(255, 80, 80); pointer-events: none; }
-            .sp-theme-steampunk .pickup-status.available { color: rgb(90, 230, 110); }
             .sp-theme-steampunk #dropped-item-labels-root .dropped-item { background-color: rgba(36, 30, 25, 0); border: 1dp rgba(122, 86, 36, 0); border-radius: 2dp; }
             .sp-theme-steampunk #dropped-item-labels-root.sp-alpha-0 .dropped-item { background-color: rgba(36, 30, 25, 0); border-color: rgba(122, 86, 36, 0); }
             .sp-theme-steampunk #dropped-item-labels-root.sp-alpha-1 .dropped-item { background-color: rgba(36, 30, 25, 26); border-color: rgba(122, 86, 36, 26); }

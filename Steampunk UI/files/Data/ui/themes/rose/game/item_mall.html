@@ -84,11 +84,6 @@ local function wish_rank(item)
     for i, k in ipairs(wish_order) do if k == key then return i end end
     return math.huge
 end
-local function wish_pin(item)
-    local on = is_wished(item)
-    return '<button class="mall-wish-pin' .. (on and ' on' or '') .. '" data-wish="' .. item.listing ..
-        '" mall-tooltip="' .. (on and 'Remove from wishlist' or 'Add to wishlist') .. '"/>'
-end
 local premium_open = false
 local function show_premium(open)
     premium_open = open
@@ -551,10 +546,6 @@ end)
 
     </script>
         <style>
-            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
-            #item-mall.sp-theme-default .sp-only-steampunk { display: none; }
-            #item-mall.sp-theme-steampunk .sp-only-default { display: none; }
-
             /* ==== Both looks ==== */
 
             /* ==== Default UI look only ==== */

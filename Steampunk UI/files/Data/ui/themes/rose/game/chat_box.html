@@ -7,10 +7,6 @@
         <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
 
         <style>
-            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
-            #game-chat-box.sp-theme-default .sp-only-steampunk { display: none; }
-            #game-chat-box.sp-theme-steampunk .sp-only-default { display: none; }
-
             /* ==== Both looks ==== */
             body { width: 405dp; height: 340dp; min-width: 340dp; min-height: 150dp; margin-top: -3dp; margin-left: 3dp; padding-bottom: 64dp; }
             scrollbarvertical { margin-right: -20dp; }
@@ -201,59 +197,17 @@
             .sp-theme-default .timestamp { color: #a0a0a0; }
 
             /* ==== Steampunk look only ==== */
-            body.sp-theme-steampunk { width: 405dp; height: 340dp; min-width: 340dp; min-height: 150dp; margin-top: -3dp; margin-left: 3dp; padding-bottom: 64dp; }
-            .sp-theme-steampunk scrollbarvertical { margin-right: -20dp; }
-            body.sp-theme-steampunk scrollbarvertical { display: none; }
-            body.sp-theme-steampunk:hover scrollbarvertical { display: inline-block; }
-            body.sp-theme-steampunk #resizer { display: none; }
-            body.sp-theme-steampunk:hover #resizer { display: inline-block; }
-            body.sp-theme-steampunk #chat-settings { display: none; }
-            body.sp-theme-steampunk #mover { display: none; }
-            body.sp-theme-steampunk:hover #chat-settings { display: inline-block; }
-            body.sp-theme-steampunk:hover #mover { display: inline-block; }
-            .sp-theme-steampunk #resizer { position: absolute; top: 2dp; right: 2dp; }
-            .sp-theme-steampunk #mover { position: absolute; top: 2dp; right: 27dp; }
-            .sp-theme-steampunk #chat-settings { position: absolute; top: 2dp; right: 52dp; }
-            .sp-theme-steampunk handle { cursor: drag; }
-            .sp-theme-steampunk percentage-handle { position: relative; left: 0dp; top: -8dp; width: 100%; height: 10dp; display: inline-block; cursor: drag; }
             .sp-theme-steampunk #percentage-handle-icon { display: none; position: absolute; top: -8dp; left: 50%; width: 24dp; height: 20dp; decorator: tiled-vertical(scrollbar-button-t, scrollbar-button-c, scrollbar-button-b); }
-            .sp-theme-steampunk percentage-handle:hover > #percentage-handle-icon { display: inline-block; }
             .sp-theme-steampunk #virtual-messages { display: block; word-break: break-word; font-effect: outline(1dp black); overflow: hidden scroll; decorator: horizontal-gradient(rgba(36, 30, 25, 180) rgba(36, 30, 25, 60)); padding-left: 15dp; height: 65%; }
             .sp-theme-steampunk #virtual-system { display: block; word-break: break-word; font-effect: outline(1dp black); overflow: hidden scroll; decorator: horizontal-gradient(rgba(36, 30, 25, 180) rgba(36, 30, 25, 60)); padding-left: 15dp; height: 35%; }
             .sp-theme-steampunk #chat-separator { width: 100%; height: 1dp; }
-            .sp-theme-steampunk select#category { width: 80dp; }
             .sp-theme-steampunk select#category selectvalue { display: none; }
             .sp-theme-steampunk select#category selectbox { width: 120dp; }
             .sp-theme-steampunk span#category-text { position: absolute; left: 10dp; padding-top: 4dp; pointer-events: none; }
             .sp-theme-steampunk #input-container { decorator: horizontal-gradient(rgba(36, 30, 25, 180) rgba(36, 30, 25, 60)); height: 64dp; }
             .sp-theme-steampunk #input-tab-container { font-effect: outline(1dp black); height: 34dp; overflow: hidden auto; }
-            .sp-theme-steampunk #input-tab-container > button { min-width: 5dp; }
-            .sp-theme-steampunk .window { width: 100%; height: 100%; }
             .sp-theme-steampunk tab.default { min-width: 5dp; }
-            .sp-theme-steampunk .chat-message { margin: 0dp 0dp; }
-            .sp-theme-steampunk .chat-message-from:hover { text-decoration: underline; }
-            .sp-theme-steampunk .chat-message-link:hover { text-decoration: underline; }
             .sp-theme-steampunk .timestamp { color: #a0a0a0; }
-            .sp-theme-steampunk .chat-message-chat { color: #ffffff; }
-            .sp-theme-steampunk .chat-message-shout { color: #ff6969; }
-            .sp-theme-steampunk .chat-message-party { color: #bdfaff; }
-            .sp-theme-steampunk .chat-message-clan { color: #ffe47a; }
-            .sp-theme-steampunk .chat-message-clan-notification { color: #ffe47a; }
-            .sp-theme-steampunk .chat-message-trade { color: #00d232; }
-            .sp-theme-steampunk .chat-message-whisper { color: #ff9ee8; }
-            .sp-theme-steampunk .chat-message-social-notification { color: #c8a8ff; }
-            .sp-theme-steampunk .chat-message-notice { color: #ffbdac; }
-            .sp-theme-steampunk .chat-message-system { color: #ffe0e5; }
-            .sp-theme-steampunk .chat-message-error { color: #ff0000; }
-            .sp-theme-steampunk .chat-message-quest { color: #97ddf1; }
-            .sp-theme-steampunk .chat-message-quest-reward { color: #e0a2d1; }
-            .sp-theme-steampunk .chat-message-group { color: #9caff3; }
-            .sp-theme-steampunk .chat-message-group-leader { color: #577cdd; }
-            .sp-theme-steampunk .chat-name-gm { color: rgb(172, 145, 255); }
-            .sp-theme-steampunk .chat-name-cm { color: rgb(255, 128, 85); }
-            .sp-theme-steampunk .chat-name-dev { color: rgb(145, 172, 255); }
-            .sp-theme-steampunk .chat-name-mod { color: rgb(255, 159, 65); }
-            .sp-theme-steampunk .chat-name-event { color: rgb(0, 153, 77); }
             body.sp-theme-steampunk#game-chat-box { background-color: rgba(30, 24, 19, 150); border: 2dp rgb(180, 138, 69); border-radius: 3dp; }
             .sp-theme-steampunk #virtual-messages { decorator: none; background-color: transparent; }
             .sp-theme-steampunk #virtual-system { decorator: none; background-color: transparent; }
@@ -263,138 +217,6 @@
             .sp-theme-steampunk #input-tab-container { padding: 3dp 2dp 0dp 2dp; }
             .sp-theme-steampunk span#category-text { color: rgb(243, 211, 138); }
             .sp-theme-steampunk .timestamp { color: rgb(170, 150, 120); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-1 .chat-message-chat { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-2 .chat-message-chat { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-3 .chat-message-chat { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-4 .chat-message-chat { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-5 .chat-message-chat { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-6 .chat-message-chat { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-7 .chat-message-chat { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-8 .chat-message-chat { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-9 .chat-message-chat { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-10 .chat-message-chat { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-11 .chat-message-chat { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-chat-12 .chat-message-chat { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-1 .chat-message-shout { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-2 .chat-message-shout { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-3 .chat-message-shout { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-4 .chat-message-shout { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-5 .chat-message-shout { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-6 .chat-message-shout { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-7 .chat-message-shout { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-8 .chat-message-shout { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-9 .chat-message-shout { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-10 .chat-message-shout { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-11 .chat-message-shout { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-shout-12 .chat-message-shout { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-1 .chat-message-whisper { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-2 .chat-message-whisper { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-3 .chat-message-whisper { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-4 .chat-message-whisper { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-5 .chat-message-whisper { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-6 .chat-message-whisper { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-7 .chat-message-whisper { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-8 .chat-message-whisper { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-9 .chat-message-whisper { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-10 .chat-message-whisper { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-11 .chat-message-whisper { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-whisper-12 .chat-message-whisper { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-1 .chat-message-trade { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-2 .chat-message-trade { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-3 .chat-message-trade { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-4 .chat-message-trade { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-5 .chat-message-trade { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-6 .chat-message-trade { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-7 .chat-message-trade { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-8 .chat-message-trade { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-9 .chat-message-trade { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-10 .chat-message-trade { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-11 .chat-message-trade { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-trade-12 .chat-message-trade { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-party-1 .chat-message-party { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-party-2 .chat-message-party { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-party-3 .chat-message-party { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-party-4 .chat-message-party { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-party-5 .chat-message-party { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-party-6 .chat-message-party { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-party-7 .chat-message-party { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-party-8 .chat-message-party { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-party-9 .chat-message-party { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-party-10 .chat-message-party { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-party-11 .chat-message-party { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-party-12 .chat-message-party { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-1 .chat-message-clan { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-1 .chat-message-clan-notification { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-2 .chat-message-clan { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-2 .chat-message-clan-notification { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-3 .chat-message-clan { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-3 .chat-message-clan-notification { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-4 .chat-message-clan { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-4 .chat-message-clan-notification { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-5 .chat-message-clan { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-5 .chat-message-clan-notification { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-6 .chat-message-clan { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-6 .chat-message-clan-notification { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-7 .chat-message-clan { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-7 .chat-message-clan-notification { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-8 .chat-message-clan { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-8 .chat-message-clan-notification { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-9 .chat-message-clan { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-9 .chat-message-clan-notification { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-10 .chat-message-clan { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-10 .chat-message-clan-notification { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-11 .chat-message-clan { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-11 .chat-message-clan-notification { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-12 .chat-message-clan { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-clan-12 .chat-message-clan-notification { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-group-1 .chat-message-group { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-group-1 .chat-message-group-leader { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-group-2 .chat-message-group { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-group-2 .chat-message-group-leader { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-group-3 .chat-message-group { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-group-3 .chat-message-group-leader { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-group-4 .chat-message-group { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-group-4 .chat-message-group-leader { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-group-5 .chat-message-group { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-group-5 .chat-message-group-leader { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-group-6 .chat-message-group { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-group-6 .chat-message-group-leader { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-group-7 .chat-message-group { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-group-7 .chat-message-group-leader { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-group-8 .chat-message-group { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-group-8 .chat-message-group-leader { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-group-9 .chat-message-group { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-group-9 .chat-message-group-leader { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-group-10 .chat-message-group { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-group-10 .chat-message-group-leader { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-group-11 .chat-message-group { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-group-11 .chat-message-group-leader { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-group-12 .chat-message-group { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-group-12 .chat-message-group-leader { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-1 .chat-message-quest { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-2 .chat-message-quest { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-3 .chat-message-quest { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-4 .chat-message-quest { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-5 .chat-message-quest { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-6 .chat-message-quest { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-7 .chat-message-quest { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-8 .chat-message-quest { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-9 .chat-message-quest { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-10 .chat-message-quest { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-11 .chat-message-quest { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-quest-12 .chat-message-quest { color: rgb(110, 220, 110); }
-            #game-chat-box.sp-theme-steampunk.sp-system-1 .chat-message-system { color: rgb(255, 255, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-system-2 .chat-message-system { color: rgb(226, 208, 170); }
-            #game-chat-box.sp-theme-steampunk.sp-system-3 .chat-message-system { color: rgb(214, 170, 96); }
-            #game-chat-box.sp-theme-steampunk.sp-system-4 .chat-message-system { color: rgb(255, 215, 90); }
-            #game-chat-box.sp-theme-steampunk.sp-system-5 .chat-message-system { color: rgb(205, 120, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-system-6 .chat-message-system { color: rgb(255, 150, 60); }
-            #game-chat-box.sp-theme-steampunk.sp-system-7 .chat-message-system { color: rgb(255, 90, 80); }
-            #game-chat-box.sp-theme-steampunk.sp-system-8 .chat-message-system { color: rgb(255, 150, 220); }
-            #game-chat-box.sp-theme-steampunk.sp-system-9 .chat-message-system { color: rgb(190, 150, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-system-10 .chat-message-system { color: rgb(120, 170, 255); }
-            #game-chat-box.sp-theme-steampunk.sp-system-11 .chat-message-system { color: rgb(120, 230, 240); }
-            #game-chat-box.sp-theme-steampunk.sp-system-12 .chat-message-system { color: rgb(110, 220, 110); }
 
         </style>
         <script>
@@ -438,15 +260,6 @@ pcall(function()
 end)
 if _G and type(_G.SP_CHAT_PICKS) == 'table' then
     for k, v in pairs(_G.SP_CHAT_PICKS) do if picks[k] == nil then picks[k] = v end end
-end
-local function save()
-    if _G then _G.SP_CHAT_PICKS = picks end
-    pcall(function()
-        local f = io.open(SAVE_FILE, 'w')
-        if not f then return end
-        for _, c in ipairs(CHANNELS) do f:write(c.id, '=', tostring(picks[c.id] or 0), '\n') end
-        f:close()
-    end)
 end
 -- Put class sp-<channel>-<n> on the chat window body
 local function apply_to(doc)

@@ -10,10 +10,6 @@
         <link type="text/rcss" href="../styles/sp_addons_steampunk_sprites.css" />
         <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
         <style>
-            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
-            #skill-hud.sp-theme-default .sp-only-steampunk { display: none; }
-            #skill-hud.sp-theme-steampunk .sp-only-default { display: none; }
-
             /* ==== Both looks ==== */
             #skill-hud { position: absolute; top: 10dp; right: 240dp; width: auto; max-width: 70vw; max-height: 40vh; pointer-events: none; font-effect: outline(1dp black), shadow(1dp 1dp black); }
             #skill-hud-list { display: flex; flex-direction: row-reverse; flex-wrap: wrap; overflow-y: auto; max-height: 40vh; pointer-events: none; }
@@ -37,24 +33,7 @@
             .sp-theme-default .skill-tooltip-name { display: block; color: yellow; margin-bottom: 8dp; }
 
             /* ==== Steampunk look only ==== */
-            #skill-hud.sp-theme-steampunk { position: absolute; top: 10dp; right: 240dp; width: auto; max-width: 70vw; max-height: 40vh; pointer-events: none; font-effect: outline(1dp black), shadow(1dp 1dp black); }
-            .sp-theme-steampunk #skill-hud-list { display: flex; flex-direction: row-reverse; flex-wrap: wrap; overflow-y: auto; max-height: 40vh; pointer-events: none; }
-            .sp-theme-steampunk #skill-hud-list scrollbarvertical { pointer-events: auto; }
-            .sp-theme-steampunk .hud-skill { position: relative; width: 40dp; min-width: 40dp; height: 60dp; flex-shrink: 0; pointer-events: auto; }
-            .sp-theme-steampunk .hud-skill-icon { display: block; width: 40dp; height: 40dp; pointer-events: none; }
-            .sp-theme-steampunk .hud-skill.dimmed .hud-skill-icon { image-color: rgb(128, 128, 128); }
-            .sp-theme-steampunk .hud-skill.invalid-clan:not(.dimmed) .hud-skill-icon { image-color: rgb(128, 128, 255); }
-            .sp-theme-steampunk .hud-skill-level { position: absolute; top: 22dp; right: 4dp; font-size: 12dp; font-weight: 820; pointer-events: none; }
-            .sp-theme-steampunk .hud-skill-timer { display: block; width: 40dp; height: 20dp; line-height: 20dp; text-align: center; font-size: 12dp; font-weight: 820; pointer-events: none; }
-            .sp-theme-steampunk .hud-skill-element { position: absolute; top: 0dp; left: 20dp; width: 18dp; height: 18dp; pointer-events: none; }
-            .sp-theme-steampunk .hud-skill.dimmed .hud-skill-element { image-color: rgb(128, 128, 128); }
-            .sp-theme-steampunk #skill-hud-tooltip { position: absolute; z-index: 100; clip: none; pointer-events: none; width: 260dp; max-width: 90vw; max-height: 90vh; }
             .sp-theme-steampunk .skill-tooltip-name { display: block; color: rgb(243, 211, 138); margin-bottom: 8dp; }
-            .sp-theme-steampunk .skill-tooltip-name.invalid-clan { color: rgb(128, 128, 128); }
-            .sp-theme-steampunk .skill-tooltip-description { display: block; margin-bottom: 8dp; }
-            .sp-theme-steampunk .skill-tooltip-time { display: block; color: rgb(90, 230, 110); }
-            .sp-theme-steampunk .skill-tooltip-time.warning { color: rgb(255, 170, 60); }
-            .sp-theme-steampunk .skill-tooltip-time.danger { color: rgb(255, 80, 80); }
 
         </style>
         <script>

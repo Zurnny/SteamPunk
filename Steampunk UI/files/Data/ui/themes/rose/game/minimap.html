@@ -117,7 +117,6 @@
             /* ==== Steampunk look only ==== */
             body.sp-theme-steampunk { width: 250dp; }
             .sp-theme-steampunk .title { position: absolute; display: inline-block; width: 100%; height: 30dp; top: 0dp; left: 0dp; }
-            .sp-theme-steampunk .hidden { display: none; }
             .sp-theme-steampunk #minimap-root { position: relative; width: 250dp; }
             .sp-theme-steampunk #minimap-minimized { position: relative; width: 206dp; height: 40dp; background-color: rgba(30, 24, 19, 230); border: 2dp rgb(180, 138, 69); }
             .sp-theme-steampunk #minimap-minimized .btn-restore { position: absolute; right: 6dp; top: 6dp; width: 26dp; height: 26dp; decorator: image(mm-plus-n); }
@@ -125,42 +124,17 @@
             .sp-theme-steampunk #minimap-minimized .btn-restore:active { decorator: image(mm-plus-a); }
             .sp-theme-steampunk #minimap-minimized #zone-name-min { position: absolute; left: 8dp; top: 4dp; width: 150dp; height: 18dp; font-weight: 800; font-effect: outline(1dp black); color: rgb(243, 211, 138); text-align: center; overflow: hidden; white-space: nowrap; }
             .sp-theme-steampunk #minimap-minimized #time-min { position: absolute; left: 43dp; top: 21dp; width: 80dp; height: 14dp; font-size: 12dp; color: rgb(226, 208, 170); font-effect: outline(1dp black); text-align: center; }
-            .sp-theme-steampunk #minimap-minimized .day-night-icon-min { position: absolute; right: 40dp; top: 2dp; }
             .sp-theme-steampunk #sp-el-chart-sp { position: absolute; left: -2dp; top: 42dp; width: 210dp; box-sizing: border-box; padding: 4dp 6dp 5dp 6dp; background-color: rgba(30, 24, 19, 215); border: 2dp rgb(180, 138, 69); border-top-width: 0dp; font-size: 11dp; color: rgb(241, 227, 196); font-effect: outline(1dp black); pointer-events: none; }
             .sp-theme-steampunk #sp-el-chart-sp.off { display: none; }
             .sp-theme-steampunk .sp-el-row { display: flex; flex-direction: row; align-items: center; height: 18dp; border-top: 1dp rgba(180, 138, 69, 70); }
             .sp-theme-steampunk .sp-el-head { border-top: 0; height: 18dp; font-weight: 800; color: rgb(243, 211, 138); }
             .sp-theme-steampunk .sp-el-head .sp-el-col.strong { color: rgb(150, 220, 110); }
             .sp-theme-steampunk .sp-el-head .sp-el-col.weak { color: rgb(240, 120, 90); }
-            .sp-theme-steampunk .sp-el-who { display: flex; flex-direction: row; align-items: center; width: 66dp; flex-shrink: 0; }
-            .sp-theme-steampunk .sp-el-name { font-weight: 800; white-space: nowrap; }
-            .sp-theme-steampunk .sp-el-name.elementicon-l-4 { color: rgb(200, 140, 80); }
-            .sp-theme-steampunk .sp-el-name.elementicon-l-8 { color: rgb(170, 170, 170); }
-            .sp-theme-steampunk .sp-el-col { display: flex; flex-direction: row; align-items: center; width: 57dp; flex-shrink: 0; }
             .sp-theme-steampunk .sp-el-split { width: 1dp; height: 14dp; margin: 0 4dp 0 2dp; background-color: rgba(180, 138, 69, 160); flex-shrink: 0; }
-            .sp-theme-steampunk .sp-el-head .sp-el-split { background-color: transparent; }
             .sp-theme-steampunk .sp-el-none { color: rgb(201, 180, 138); }
-            .sp-theme-steampunk .sp-el-ic { display: inline-block; width: 13dp; height: 13dp; margin-right: 1dp; flex-shrink: 0; }
-            .sp-theme-steampunk .sp-el-ic.big { width: 16dp; height: 15dp; margin-right: 3dp; }
-            .sp-theme-steampunk .sp-el-0 { decorator: image(elementicon-l-0); }
-            .sp-theme-steampunk .sp-el-1 { decorator: image(elementicon-l-1); }
-            .sp-theme-steampunk .sp-el-2 { decorator: image(elementicon-l-2); }
-            .sp-theme-steampunk .sp-el-3 { decorator: image(elementicon-l-3); }
-            .sp-theme-steampunk .sp-el-4 { decorator: image(elementicon-l-4); }
-            .sp-theme-steampunk .sp-el-5 { decorator: image(elementicon-l-5); }
-            .sp-theme-steampunk .sp-el-6 { decorator: image(elementicon-l-6); }
-            .sp-theme-steampunk .sp-el-7 { decorator: image(elementicon-l-7); }
-            .sp-theme-steampunk .sp-el-8 { decorator: image(elementicon-l-8); }
             .sp-theme-steampunk #sp-el-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-el-tick-a; }
             .sp-theme-steampunk #minimap-normal { position: relative; width: 250dp; height: 294dp; }
             .sp-theme-steampunk #minimap-viewport { position: absolute; left: 41dp; top: 28dp; width: 142dp; height: 142dp; overflow: hidden; clip: always; transform: scale(1.1831); transform-origin: 0 0; }
-            .sp-theme-steampunk #minimap-map { position: relative; }
-            .sp-theme-steampunk #minimap-map img.map-image { position: absolute; }
-            .sp-theme-steampunk #minimap-map img.npc-icon { position: absolute; transform: translate(-50%, -50%); }
-            .sp-theme-steampunk #minimap-map img.party-icon { position: absolute; transform: translate(-50%, -50%); }
-            .sp-theme-steampunk #minimap-map img.coord-indicator { position: absolute; transform: translate(-50%, -50%); }
-            .sp-theme-steampunk #minimap-map img.avatar-icon { position: absolute; transform: translate(-50%, -50%); }
-            .sp-theme-steampunk #minimap-map img.player-arrow { position: absolute; }
             .sp-theme-steampunk #minimap-frame { position: absolute; left: 15dp; top: 2dp; width: 220dp; height: 220dp; decorator: image(mm-bezel); pointer-events: none; }
             .sp-theme-steampunk #minimap-normal .title { left: 33dp; top: 238dp; width: 184dp; height: 24dp; }
             .sp-theme-steampunk #zone-name { position: absolute; left: 0dp; top: 0dp; width: 184dp; height: 24dp; line-height: 21dp; box-sizing: border-box; display: block; font-size: 13dp; font-weight: 800; color: rgb(243, 211, 138); font-effect: outline(1dp rgb(30, 18, 8)); text-align: center; overflow: hidden; white-space: nowrap; padding: 0dp 22dp; background-color: rgb(52, 39, 24); border: 2dp rgb(180, 138, 69); border-bottom-width: 0dp; border-radius: 8dp 8dp 0dp 0dp; }
@@ -179,7 +153,6 @@
             .sp-theme-steampunk .btn-giftbox:active { decorator: image(mm-gift-a); }
             .sp-theme-steampunk .btn-giftbox.blink { animation: giftbox-blink-steampunk 1s infinite; }
             .sp-theme-steampunk #giftbox-tooltip { position: absolute; left: -175dp; top: 98dp; width: 182dp; height: 29dp; }
-            .sp-theme-steampunk #giftbox-tooltip-bg { width: 182dp; height: 29dp; decorator: image(GEN_DECO65); }
             .sp-theme-steampunk #giftbox-tooltip-text { position: absolute; top: 0; left: 0; width: 178dp; height: 29dp; font-size: 12dp; font-weight: 800; color: white; text-align: center; line-height: 29dp; }
             .sp-theme-steampunk .btn-itemmall { position: absolute; left: 106dp; top: 193dp; width: 38dp; height: 38dp; decorator: image(mm-mall-n); }
             .sp-theme-steampunk .btn-itemmall:hover { decorator: image(mm-mall-h); }
@@ -197,9 +170,6 @@
             .sp-theme-steampunk #time-area { position: absolute; left: 122dp; top: 266dp; width: 82dp; height: 18dp; line-height: 18dp; text-align: center; white-space: nowrap; }
             .sp-theme-steampunk #time-text { display: block; width: 82dp; height: 18dp; font-size: 12dp; font-weight: 800; white-space: nowrap; overflow: hidden; color: rgb(226, 208, 170); font-effect: outline(1dp black); text-align: center; }
             .sp-theme-steampunk .minimap-tooltip { display: none; position: absolute; background-color: rgba(30, 24, 19, 240); border: 1dp rgb(180, 138, 69); padding: 3dp 6dp; color: rgb(241, 227, 196); white-space: nowrap; font-effect: none; }
-            .sp-theme-steampunk .btn-worldmap:hover > .minimap-tooltip { display: block; }
-            .sp-theme-steampunk .btn-itemmall:hover > .minimap-tooltip { display: block; }
-            .sp-theme-steampunk #time-area:hover > .minimap-tooltip { display: block; }
             .sp-theme-steampunk .minimap-tooltip-left { top: 50%; left: 0; transform: translate(-100%, -50%); margin-left: -4dp; width: 104dp; box-sizing: border-box; }
             .sp-theme-steampunk #time-tooltip { width: 210dp; bottom: 22dp; left: 50%; transform: translateX(-50%); font-size: 13dp; text-align: left; }
             .sp-theme-steampunk .time-tooltip-label { color: rgb(243, 211, 138); }

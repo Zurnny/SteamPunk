@@ -8,10 +8,6 @@
         <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
 
         <style>
-            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
-            #game-summon-gauge.sp-theme-default .sp-only-steampunk { display: none; }
-            #game-summon-gauge.sp-theme-steampunk .sp-only-default { display: none; }
-
             /* ==== Both looks ==== */
             .title { display: inline-block; cursor: drag; text-align: center; }
             #gauge-area { display: block; align-items: center; width: 150dp; padding: 5dp; border-radius: 3.5dp; transition: background 0.4s; }
@@ -47,30 +43,14 @@
             .sp-theme-default .summon-tip b { animation: infinite cubic-in-out 2s alternate swap-colors; }
 
             /* ==== Steampunk look only ==== */
-            .sp-theme-steampunk .title { display: inline-block; cursor: drag; text-align: center; }
             .sp-theme-steampunk .title #summon-title { visibility: hidden; font-size: 12dp; font-weight: 600; color: rgb(243, 211, 138); }
-            .sp-theme-steampunk #gauge-area { display: block; align-items: center; width: 150dp; padding: 5dp; border-radius: 3.5dp; transition: background 0.4s; }
-            .sp-theme-steampunk #summon-gauge { width: 100%; margin: 0dp; }
-            .sp-theme-steampunk #summons { display: inline-block; margin-top: 4dp; line-height: 1.5; color: white; font-effect: outline(1dp black); }
             .sp-theme-steampunk #gauge-area:hover { background: rgba(36, 30, 25, 178); transition: background 0.2s; }
-            .sp-theme-steampunk #gauge-area:hover .summon-item { opacity: 1; }
-            .sp-theme-steampunk #gauge-area:hover #summon-title { visibility: visible; }
-            .sp-theme-steampunk #gauge-area:hover .despawn { visibility: visible; }
-            .sp-theme-steampunk .summon-item { padding: 5dp; opacity: 0.6; position: relative; display: flex; flex-direction: column; width: 140dp; height: auto; font-size: 10dp; font-weight: 800; line-height: 1; transition: opacity 0.5s; border-radius: 3dp; }
             .sp-theme-steampunk .summon-item:hover { background: rgba(214, 170, 96, 80); transition: background 0.2s; cursor: hand; }
             .sp-theme-steampunk .summon-item.selected { background: rgba(214, 170, 96, 80); }
-            .sp-theme-steampunk .summon-item .despawn { visibility: hidden; }
-            .sp-theme-steampunk .despawntip { position: relative; display: inline-block; }
             .sp-theme-steampunk .despawntip .despawntiptext { z-index: 1; position: absolute; visibility: hidden; font-size: 12dp; width: 120dp; background-color: rgba(36, 30, 25, 220); color: #ff6f6f; text-align: center; padding: 5dp 0; border-radius: 6px; top: 2dp; left: 25dp; }
-            .sp-theme-steampunk .despawntip:hover .despawntiptext { visibility: visible; }
-            .sp-theme-steampunk .sp-sum-top { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 112dp; }
             .sp-theme-steampunk .sp-sum-hp { white-space: nowrap; font-size: 10dp; font-weight: 700; color: rgb(241, 227, 196); }
             .sp-theme-steampunk .sp-far { font-size: 10dp; font-weight: 700; color: rgb(201, 180, 138); }
-            .sp-theme-steampunk .summon-item.low .sp-sum-name { animation: infinite cubic-in-out 0.8s alternate sp-sum-pulse; }
-            .sp-theme-steampunk .summon-item.low .sp-sum-hp { color: rgb(255, 120, 90); }
             .sp-theme-steampunk #summon-count { font-size: 10dp; font-weight: 600; color: rgb(201, 180, 138); visibility: hidden; }
-            .sp-theme-steampunk #gauge-area:hover #summon-count { visibility: visible; }
-            .sp-theme-steampunk .summon-tip { padding-top: 5dp; width: 100%; text-align: center; color: white; font-weight: 800; font-size: 12dp; font-effect: outline(1dp black); }
             .sp-theme-steampunk .summon-tip b { animation: infinite cubic-in-out 2s alternate swap-colors-steampunk; }
 
             @keyframes swap-colors {
