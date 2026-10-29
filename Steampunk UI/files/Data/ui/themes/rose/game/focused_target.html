@@ -115,9 +115,9 @@ pcall(function()
         local box = el('sp-dps')
         if not box then return end
         if not fight or fight.total <= 0 then box:SetClass('active', false); return end
-        local recent = 0
-        for _, d in ipairs(fight.recent) do recent = recent + d end
-        local now = #fight.recent > 0 and recent / #fight.recent or 0
+        local recent, span = 0, 0
+        for _, r in ipairs(fight.recent) do recent = recent + r[1]; span = span + r[2] end
+        local now = span > 0 and recent / span or 0
         local avg = fight.total / math.max(1, fight.seconds)
         put('sp-dps-now', num(now))
         put('sp-dps-avg', num(avg))
@@ -136,7 +136,16 @@ pcall(function()
         box:SetClass('paused', not fight.done and fight.idle >= 8)   -- grey: nobody has hit it for 8s
         box:SetClass('active', true)
     end
+    -- The meter checks once per attack: your Attacks/Second (the same number the
+    -- character window shows) sets how often. Without it, once a second.
+    local step = 1
+    local function speed()
+        local a = el('sp-aps-src')
+        local aps = a and tonumber(a:GetAttribute('sp-aps'))
+        if aps and aps > 0 then step = math.max(0.25, math.min(2, 1 / aps)) else step = 1 end
+    end
     local function tick()
+        pcall(speed)
         local src = el('sp-dps-values')
         if not src then return end
         local visible = src:GetAttribute('sp-visible') == '1'
@@ -159,12 +168,18 @@ pcall(function()
             fight.total = fight.total + dealt
             fight.idle = 0
         elseif fight then
-            fight.idle = fight.idle + 1
+            fight.idle = fight.idle + step
         end
         if fight and not fight.done and fight.idle < 8 then
-            fight.seconds = fight.seconds + 1
-            table.insert(fight.recent, math.max(0, dealt))
-            if #fight.recent > 1 then table.remove(fight.recent, 1) end   -- "DPS" = the last second
+            fight.seconds = fight.seconds + step
+            table.insert(fight.recent, {math.max(0, dealt), step})
+            -- "DPS" = about the last second (at least one attack's worth)
+            local span = 0
+            for _, r in ipairs(fight.recent) do span = span + r[2] end
+            while #fight.recent > 1 and span - fight.recent[1][2] >= math.max(1, step) - 0.001 do
+                span = span - fight.recent[1][2]
+                table.remove(fight.recent, 1)
+            end
             if hp <= 0 then fight.done = true end
         end
         render()
@@ -174,7 +189,7 @@ pcall(function()
         timer:AddEventListener('animationend', function()
             pcall(tick)
             flip = not flip
-            timer.style.animation = '1s ' .. (flip and 'sp-dps-tick-b' or 'sp-dps-tick-a')
+            timer.style.animation = string.format('%.2fs ', step) .. (flip and 'sp-dps-tick-b' or 'sp-dps-tick-a')
         end)
     end
 end)
@@ -268,6 +283,7 @@ end)
         <!-- DPS meter: hidden copy of the target's data for the script, plus its timer -->
         <div id="sp-dps-source" data-model="focused-target"><span id="sp-dps-values" data-attr-sp-visible="visible ? 1 : 0" data-attr-sp-name="name" data-attr-sp-hp="hp" data-attr-sp-max="max_hp"></span></div>
         <div id="sp-dps-timer"></div>
+        <div id="sp-aps-source" data-model="character"><span id="sp-aps-src" data-attr-sp-aps="attacks_per_second"></span></div>
         <div id="sp-switch-timer"></div>
     </body>
 </rml>
