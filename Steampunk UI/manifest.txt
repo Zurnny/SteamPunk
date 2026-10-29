@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.47
-c5b244dc07431f65efb956f7ca347d0e122654a7|mod.ini
+version=1.48
+f990ffbdcd72ea1d826e818d6e89420f4aa644a7|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 375c28a63ceedfa20511bec767aaab5ccb1b527b|files/Data/ui/themes/rose/game/arena_group.html
@@ -25,7 +25,7 @@ f3cfc26f21d6000d5d5c2e3bec235c6181fdfbd2|files/Data/ui/themes/rose/game/friend_l
 b0beecb5b0a09c8a0b8ca2497fb9903a771724f2|files/Data/ui/themes/rose/game/game_arena.html
 e6ef2b78174ac1e0f49c10a8dad7ea662d1574d0|files/Data/ui/themes/rose/game/gamearena_scoreboard.html
 7334b4fc746f5b3d5535f319655a94fe1614b3f5|files/Data/ui/themes/rose/game/group_manager.html
-d7e2c2c3a0b34b74ebefd27b0d69327b5088a7ac|files/Data/ui/themes/rose/game/hud.html
+ac898284993cbf704e1f6050592566a66f068dbd|files/Data/ui/themes/rose/game/hud.html
 e8ca6f2816b9ed82ef3ca439c41f8863b5495670|files/Data/ui/themes/rose/game/image_viewer.html
 8f17dc2ee09961b11e90fc8c843f1b99c456e25b|files/Data/ui/themes/rose/game/inventory.html
 8bfa6a7f8c5d1721c2274ab7186b4cfdb3d95521|files/Data/ui/themes/rose/game/item_mall.css
@@ -76,9 +76,9 @@ d9b60643fda2f2921c7e2287461b6af8e28aa72f|files/Data/ui/themes/rose/game/zone_not
 2d4a6f82f2b2c90c004c3662b9857f882111c72c|files/Data/ui/themes/rose/imgs/gauge_steampunk.dds
 1b1b761ce1ed132b25f7d2cd78bd1dc8f7bb5d20|files/Data/ui/themes/rose/imgs/steampunk_menu.dds
 98765943aea93d6ee2a8773356839240438397f6|files/Data/ui/themes/rose/imgs/steampunk_minimap.dds
-7d55c2e5c984be6301b06542409799b5de39d6da|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
+1ad022dcfc6a5aee4541a04534317040b3a95f40|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
 1726b47293742e3d288cd5bd95600241bc6544de|files/Data/ui/themes/rose/styles/spritesheet_gauge.css
-c4da0432feec4ff7d1ff3dc655ab56e1206c3018|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
+810314c12a56fe2014f80e9187a3ac20f1a8df09|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
 12ff5fe3e963b3b98cf48a924d69bfccd02efc53|files/Data/ui/themes/rose/styles/steampunk.css
 5542d9b2fdde69c57ab002416f7f746c9a8341ca|files/Data/ui/themes/rose/templates/window-box.html
 1234f19c47c7c281c9907565647136686148a286|files/Data/ui/themes/rose/templates/window-fixed-size.html
@@ -135,4 +135,4 @@ d79a66976d6b3eadb0e585a5bb13c06b67be7582|launcher/acct_h.png
 330d70072634bcddaaa92f9a9258d16c31396934|launcher/more_h.png
 fcff2c51847e67100ae6fca2d0ffdb5fe9942741|launcher/more_n.png
 c9735755117dd4fa76a010d9d13085fefdd2dfb1|files/Data/ui/themes/rose/styles/sp_addons_steampunk.css
-80a26b6252e1b6dde9cd64c23911e2d2adae0d54|files/Data/ui/themes/rose/styles/sp_addons_steampunk_sprites.css
+62a3c46f80ba6f216e811173802298d1936215ff|files/Data/ui/themes/rose/styles/sp_addons_steampunk_sprites.css
