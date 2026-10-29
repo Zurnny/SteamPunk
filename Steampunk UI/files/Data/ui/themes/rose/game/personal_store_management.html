@@ -7,118 +7,58 @@
         <link type="text/rcss" href="../styles/spritesheet_itemicon.css" />
         <link type="text/rcss" href="../styles/spritesheet_socketgem.css" />
         <link type="text/rcss" href="../styles/item_slot.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
 
         <style>
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-personal-store-management.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-personal-store-management.sp-theme-steampunk .sp-only-default { display: none; }
+
+            /* ==== Both looks ==== */
             item-slot.default { width: 40dp; height: 40dp; margin: 2dp; flex-shrink: 0; decorator: image(slot-icon); }
             .slot-grid { display: flex; flex-wrap: wrap; width: 220dp; }
             .slot-grid br { display: none; }
+            body { width: 650dp; }
+            #top-container { display: flex; flex-direction: row; }
+            #button-container { text-align: center; width: 100%; margin: 5dp; vertical-align: middle; }
+            #inventory-container { display: flex; flex-direction: column; justify-content:center; align-items:center; text-align: center; width: 50%; margin: 5dp; }
+            #sell-container { display: flex; flex-direction: column; align-items:center; width: 50%; margin: 5dp; }
+            #inventory-panel { overflow-y: auto; height: 352dp; width: 240dp; margin-top: 10dp; margin-bottom: 10dp; }
+            #store-title:disabled { color:rgb(187, 187, 187); opacity: 0.8; }
+            tabset { display: inline-block; margin: 5dp; height: 400dp; width: 240dp; }
+            tab.default { margin-top: 5dp; font-weight: 800; min-width: 100dp; }
+            tabset panels panel { position: relative; display: block; justify-content:center; align-items:center; text-align: center; }
+            button.small { min-width: 90dp; }
+            .money-panel { margin: 5dp; }
 
-            body
-            {
-                width: 650dp;
-            }
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .money { font-size: 12dp; color: yellow; }
+            .sp-theme-default input#store-title { margin: 10dp; font-weight: 800; font-effect: outline(1dp black); text-align: center; color: yellow; }
 
-            #top-container
-            {
-                display: flex;
-                flex-direction: row;
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .money { font-size: 12dp; color: rgb(243, 211, 138); }
+            .sp-theme-steampunk input#store-title { margin: 10dp; font-weight: 800; font-effect: outline(1dp black); text-align: center; color: rgb(243, 211, 138); }
 
-            }
-
-            #button-container
-            {
-                text-align: center;
-                width: 100%;
-                margin: 5dp;
-                vertical-align: middle;
-            }
-
-            #inventory-container
-            {
-                display: flex;
-                flex-direction: column;
-                justify-content:center;
-                align-items:center;
-                text-align: center;
-
-                width: 50%;
-                margin: 5dp;
-            }
-
-            #sell-container
-            {
-                display: flex;
-                flex-direction: column;
-                align-items:center;
-
-                width: 50%;
-                margin: 5dp;
-            }
-
-            #inventory-panel
-            {
-                overflow-y: auto;
-                height: 352dp;
-                width: 240dp;
-                margin-top: 10dp;
-                margin-bottom: 10dp;
-            }
-
-            .money {
-                font-size: 12dp;
-                color: rgb(243, 211, 138);
-            }
-
-            input#store-title
-            {
-                margin: 10dp;
-                font-weight: 800;
-                font-effect: outline(1dp black);
-                text-align: center;
-                color: rgb(243, 211, 138);
-            }
-
-            #store-title:disabled
-            {
-                color:rgb(187, 187, 187);
-                opacity: 0.8;
-            }
-
-            tabset
-            {
-                display: inline-block;
-                margin: 5dp;
-                height: 400dp;
-                width: 240dp;
-            }
-
-            tab.default
-            {
-                margin-top: 5dp;
-                font-weight: 800;
-                min-width: 100dp;
-            }
-
-            tabset panels panel
-            {
-                position: relative;
-                display: block;
-                justify-content:center;
-                align-items:center;
-                text-align: center;
-            }
-
-            button.small
-            {
-                min-width: 90dp;
-            }
-
-            .money-panel {
-                margin: 5dp;
-            }
         </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-personal-store-management')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     </head>
 
     <body id="game-personal-store-management" template="window-fixed-size" data-model="personalstore-manager-data">

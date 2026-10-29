@@ -8,9 +8,7 @@
     <link type="text/rcss" href="../styles/spritesheet_overlayicon.css" />
     <link type="text/rcss" href="../styles/components.css" />
     <link type="text/rcss" href="item_mall.css" />
-    <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-    <link type="text/rcss" href="../styles/steampunk.css" />
-    <!-- Steampunk test: the item mall script is written in here, because the game ignores edits to item_mall.lua. To undo, put back the original item_mall.html. -->
+    <!-- Item Mall Wishlist add-on: the item mall script is written in here, because the game ignores edits to item_mall.lua. To undo, put back the original item_mall.html. -->
     <script>
 -- Presentation only. Native code supplies catalog snapshots and validates every action.
 local function el(id) return document:GetElementById(id) end
@@ -36,7 +34,7 @@ local rendered_key = '5:-1'
 local featured_label, buy_label = 'Monthly', 'Buy'
 local scale, last_width, narrow, last_time, toast_until = 1, 0, false, 0, 0
 local function grid_columns(width) return math.max(1, math.floor((width / scale + tile_gap) / (tile_width + tile_gap))) end
--- Steampunk theme: measure the item area minus a fixed scrollbar gutter, instead of
+-- Measure the item area minus a fixed scrollbar gutter, instead of
 -- the list's own width (which shrinks when the scrollbar appears and shifted the cards).
 local SCROLLBAR_GUTTER = 18
 local function grid_width()
@@ -46,7 +44,7 @@ local toast = ''
 local render, render_detail, navigate
 
 -- ---------------------------------------------------------------------
--- Wishlist (steampunk add-on). Items are remembered by item key, so a
+-- Wishlist (add-on). Items are remembered by item key, so a
 -- wish survives catalog refreshes. Saved to a small file when the game's
 -- Lua allows it; otherwise it lasts until the game is closed.
 -- ---------------------------------------------------------------------
@@ -552,7 +550,39 @@ document:AddEventListener('mall-tick', function(event)
 end)
 
     </script>
-</head>
+        <style>
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #item-mall.sp-theme-default .sp-only-steampunk { display: none; }
+            #item-mall.sp-theme-steampunk .sp-only-default { display: none; }
+
+            /* ==== Both looks ==== */
+
+            /* ==== Default UI look only ==== */
+
+            /* ==== Steampunk look only ==== */
+
+        </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('item-mall')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
+    </head>
 <body id="item-mall" template="window-fixed-size">
     <div id="mall-balance" class="ui-currency content-box"><img sprite="mall-points" /><b id="mall-points">0</b><span>PTS</span></div>
     <div id="mall-shell">

@@ -6,46 +6,74 @@
         <link type="text/rcss" href="../styles/gauge.css" />
         <link type="text/rcss" href="../styles/spritesheet_stateicon.css" />
         <link type="text/rcss" href="../styles/components.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk_sprites.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
         <style>
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #focused-target.sp-theme-default .sp-only-steampunk { display: none; }
+            #focused-target.sp-theme-steampunk .sp-only-default { display: none; }
+
+            /* ==== Both looks ==== */
             body { position: absolute; top: 50dp; left: 50%; width: 240dp; margin-left: -120dp; z-index: -20; pointer-events: none; }
             #focused-target-root.duel { margin-top: 50dp; }
             #target-name { font-size: 14dp; font-weight: 820; line-height: 20dp; max-height: 40dp; overflow: hidden; word-break: break-word; text-align: center; font-effect: outline(1dp black); }
             #target-statuses { width: 100%; }
             .target-status-icon { pointer-events: auto; }
-
-            /* ---- DPS meter (steampunk add-on, filled in by the script below) ---- */
-            #sp-dps
-            {
-                display: none; margin: 3dp auto 0 auto; width: 228dp; box-sizing: border-box;
-                padding: 2dp 6dp; text-align: center; font-size: 12dp; line-height: 16dp;
-                background-color: rgba(30, 24, 19, 210);
-                border: 1dp rgb(180, 138, 69);
-                color: rgb(226, 208, 170); font-effect: outline(1dp black);
-            }
-            #sp-dps.active { display: block; }
-            /* The line is a read-only text box: it redraws its own text, so changing
-               it every second never creates new text elements (which made the
-               game log "No font face defined" warnings). */
-            #sp-dps-line
-            {
-                display: block; width: 100%; height: 16dp; padding: 0; margin: 0;
-                decorator: none; background: transparent; border: 0;
-                font-family: Nunito; font-weight: 800; font-size: 12dp; line-height: 16dp;
-                color: rgb(243, 211, 138); text-align: center;
-                pointer-events: none; tab-index: none; image-color: rgb(255, 255, 255);
-            }
-            #sp-dps.done #sp-dps-line { color: rgb(150, 220, 110); }
-            #sp-dps.paused #sp-dps-line { color: rgb(201, 180, 138); }
+            .sp-dps-lbl { color: yellow; margin-right: 3dp; white-space: nowrap; flex-shrink: 0; font-effect: outline(1dp black); }
+            .sp-dps-dot { color: rgb(170, 170, 170); margin: 0 3dp; flex-shrink: 0; font-effect: outline(1dp black); }
+            .sp-dps-num { display: block; height: 16dp; padding: 0; margin: 0; flex-shrink: 0; decorator: none; background: transparent; border: 0; font-family: Nunito; font-weight: 800; font-size: 12dp; line-height: 16dp; color: white; font-effect: outline(1dp black); text-align: left; pointer-events: none; tab-index: none; image-color: rgb(255, 255, 255); }
+            #sp-dps.done .sp-dps-num { color: rgb(150, 220, 110); }
+            #sp-dps.paused .sp-dps-num { color: rgb(180, 180, 180); }
             #sp-dps-source { display: none; }
-            /* Repeating 1 second timer: two identical animations swapped each time one ends */
+            #sp-dps-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; animation: 1s sp-dps-tick-a; }
+            #focused-target.sp-dps-off #sp-dps { display: none; }
+            #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
+
+            /* ==== Default UI look only ==== */
+            .sp-theme-default #sp-dps { display: none; margin: 2dp auto 0 auto; width: 280dp; height: 16dp; white-space: nowrap; flex-direction: row; justify-content: center; align-items: center; font-family: Nunito; font-weight: 800; font-size: 12dp; font-effect: outline(1dp black); }
+            .sp-theme-default #sp-dps.active { display: flex; }
+
+            /* ==== Steampunk look only ==== */
+            body.sp-theme-steampunk { position: absolute; top: 50dp; left: 50%; width: 240dp; margin-left: -120dp; z-index: -20; pointer-events: none; }
+            .sp-theme-steampunk #focused-target-root.duel { margin-top: 50dp; }
+            .sp-theme-steampunk #target-name { font-size: 14dp; font-weight: 820; line-height: 20dp; max-height: 40dp; overflow: hidden; word-break: break-word; text-align: center; font-effect: outline(1dp black); }
+            .sp-theme-steampunk #target-statuses { width: 100%; }
+            .sp-theme-steampunk .target-status-icon { pointer-events: auto; }
+            .sp-theme-steampunk #sp-dps { display: none; margin: 3dp auto 0 auto; width: 228dp; box-sizing: border-box; padding: 2dp 6dp; text-align: center; font-size: 12dp; line-height: 16dp; background-color: rgba(30, 24, 19, 210); border: 1dp rgb(180, 138, 69); color: rgb(226, 208, 170); font-effect: outline(1dp black); }
+            .sp-theme-steampunk #sp-dps.active { display: block; }
+            .sp-theme-steampunk #sp-dps-line { display: block; width: 100%; height: 16dp; padding: 0; margin: 0; decorator: none; background: transparent; border: 0; font-family: Nunito; font-weight: 800; font-size: 12dp; line-height: 16dp; color: rgb(243, 211, 138); text-align: center; pointer-events: none; tab-index: none; image-color: rgb(255, 255, 255); }
+            .sp-theme-steampunk #sp-dps.done #sp-dps-line { color: rgb(150, 220, 110); }
+            .sp-theme-steampunk #sp-dps.paused #sp-dps-line { color: rgb(201, 180, 138); }
+            .sp-theme-steampunk #sp-dps-source { display: none; }
+            .sp-theme-steampunk #sp-dps-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; animation: 1s sp-dps-tick-a; }
+
             @keyframes sp-dps-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-dps-tick-b { from { opacity: 0; } to { opacity: 0; } }
-            #sp-dps-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; animation: 1s sp-dps-tick-a; }
+            @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
         </style>
         <script>
--- DPS meter (steampunk add-on). The game gives the UI no damage numbers, so
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('focused-target')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
+        <script>
+-- DPS meter (add-on). The game gives the UI no damage numbers, so
 -- this watches the target's HP once a second: HP lost = damage per second.
 -- It measures damage TAKEN by your target, so in a party it includes your
 -- party's hits too. It resets when you change target; when the target dies or
@@ -64,6 +92,14 @@ pcall(function()
     -- The line is a read-only text box: only its value changes, so no new text
     -- elements are created each second (that caused font warnings in the log).
     local shown = nil
+    -- each number sits in its own read-only text box, sized to its text
+    local function put(id, text)
+        local e = el(id)
+        if not e or e:GetAttribute('sp-shown') == text then return end
+        e:SetAttribute('value', text)
+        e:SetAttribute('sp-shown', text)
+        e.style.width = (#text * 7 + 2) .. 'dp'
+    end
     -- time left until the kill: the target's HP now / damage per second so far
     local function left()
         if fight.done then return '0s' end
@@ -76,21 +112,28 @@ pcall(function()
         return secs .. 's'
     end
     local function render()
-        local box, line = el('sp-dps'), el('sp-dps-line')
-        if not box or not line then return end
+        local box = el('sp-dps')
+        if not box then return end
         if not fight or fight.total <= 0 then box:SetClass('active', false); return end
         local recent = 0
         for _, d in ipairs(fight.recent) do recent = recent + d end
         local now = #fight.recent > 0 and recent / #fight.recent or 0
         local avg = fight.total / math.max(1, fight.seconds)
-        local head
-        if fight.done then head = 'Defeated'
-        elseif fight.idle >= 8 then head = 'Paused'
-        else head = 'DPS ' .. num(now) end
-        local text = head .. '  ·  Avg ' .. num(avg) .. '  ·  ' .. 'Kill in ' .. left()
-        if text ~= shown then line:SetAttribute('value', text); shown = text end
-        box:SetClass('done', fight.done == true)
-        box:SetClass('paused', not fight.done and fight.idle >= 8)
+        put('sp-dps-now', num(now))
+        put('sp-dps-avg', num(avg))
+        put('sp-dps-time', left())
+        -- the Steampunk look shows it all on one line
+        local line = el('sp-dps-line')
+        if line and SP_THEME == 'steampunk' then
+            local head
+            if fight.done then head = 'Defeated'
+            elseif fight.idle >= 8 then head = 'Paused'
+            else head = 'DPS ' .. num(now) end
+            local text = head .. '  ·  Avg ' .. num(avg) .. '  ·  ' .. 'Kill in ' .. left()
+            if text ~= shown then line:SetAttribute('value', text); shown = text end
+        end
+        box:SetClass('done', fight.done == true)              -- green: target defeated
+        box:SetClass('paused', not fight.done and fight.idle >= 8)   -- grey: nobody has hit it for 8s
         box:SetClass('active', true)
     end
     local function tick()
@@ -136,6 +179,79 @@ pcall(function()
     end
 end)
         </script>
+    <script>
+-- Add-on switches (the same script in every add-on window).
+-- SP_ADDON_SWITCH dps_meter
+-- An add-on counts as installed while its marker file
+-- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
+-- the add-on and takes it out again with it, so a window that several add-ons
+-- share only runs the parts of the add-ons that are installed.
+-- The on/off switches are in Options > UI > Add-ons and are saved in
+-- sp_addons.txt (the Ice UI uses the same file; nobody removes anyone else's
+-- lines). This window reads it every 2 seconds. Everything is on by default.
+pcall(function()
+    local BODY = 'focused-target'
+    -- key, class put on this window while that add-on is off or not installed ('' = none)
+    local MINE = {{'dps_meter', 'sp-dps-off'}}
+    local installed = {}
+    SP_ADDON_INSTALLED = function(key)
+        -- the Steampunk UI theme has every add-on built in
+        if SP_THEME == 'steampunk' then return true end
+        if installed[key] == nil then
+            installed[key] = true      -- if the game won't let the UI read files, assume installed
+            pcall(function()
+                local f = io.open('Data/ui/sp_addons/' .. key .. '.txt', 'r')
+                if f then f:close() else installed[key] = false end
+            end)
+        end
+        return installed[key]
+    end
+    local flags = {}
+    local function read_flags()
+        flags = {}
+        pcall(function()
+            local f = io.open('sp_addons.txt', 'r')
+            if not f then return end
+            for line in f:lines() do
+                local k, v = line:match('^%s*([%w_]+)%s*=%s*(%d)')
+                if k then flags[k] = v end
+            end
+            f:close()
+        end)
+    end
+    -- SP_ADDON_ON(key): installed and not switched off. Reads the switches fresh
+    -- unless called with fresh == false.
+    SP_ADDON_ON = function(key, fresh)
+        if not SP_ADDON_INSTALLED(key) then return false end
+        if fresh ~= false then read_flags() end
+        return flags[key] ~= '0'
+    end
+    local doc = document
+    local function apply()
+        read_flags()
+        for _, m in ipairs(MINE) do
+            local on = SP_ADDON_ON(m[1], false)
+            if m[2] ~= '' then pcall(function() (doc:GetElementById(BODY) or doc):SetClass(m[2], not on) end) end
+            -- a script in this window can register SP_ADDON_HOOK['<key>@<body id>'] = function(on) ... end
+            local hook = SP_ADDON_HOOK and SP_ADDON_HOOK[m[1] .. '@' .. BODY]
+            if hook then pcall(hook, on) end
+        end
+    end
+    apply()
+    doc:AddEventListener('show', function() pcall(apply) end)
+    doc:AddEventListener('mouseover', function() pcall(apply) end)
+    -- repeating 2 second check: two identical animations swapped each time one ends
+    pcall(function()
+        local timer = doc:GetElementById('sp-switch-timer')   -- the empty div at the end of the body
+        local flip = false
+        timer:AddEventListener('animationend', function()
+            pcall(apply)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-switch-tick-b' or 'sp-switch-tick-a')
+        end)
+    end)
+end)
+    </script>
     </head>
     <body id="focused-target" onclick="ignore">
         <!-- The model binds on a child: a body-level model attaches after parsing, too late for data-for templates. -->
@@ -144,7 +260,7 @@ end)
             <gauge id="target-health" class="ui-vitals horizontal-sm-md red" animation-enabled="false" data-if="show_health" data-attr-gmax="max_hp" data-attr-gvalue="hp">
                 <span><label id="value" /> / <label id="max" /></span>
             </gauge>
-            <div id="sp-dps"><input id="sp-dps-line" type="text" readonly="" value="" /></div>
+            <div id="sp-dps"><span class="sp-dps-lbl sp-only-default">DPS</span><input id="sp-dps-now" class="sp-dps-num sp-only-default" type="text" readonly="" value="" /><span class="sp-dps-dot sp-only-default">·</span><span class="sp-dps-lbl sp-only-default">Avg</span><input id="sp-dps-avg" class="sp-dps-num sp-only-default" type="text" readonly="" value="" /><span class="sp-dps-dot sp-only-default">·</span><span class="sp-dps-lbl sp-only-default">Kill in</span><input id="sp-dps-time" class="sp-dps-num sp-only-default" type="text" readonly="" value="" /><input id="sp-dps-line" class="sp-only-steampunk" type="text" readonly="" value="" /></div>
             <div id="target-statuses" class="ui-status-icons">
                 <span class="target-status-icon" data-for="status, index : statuses" data-attr-status-index="index"><img data-attr-sprite="status.sprite"/></span>
             </div>
@@ -152,5 +268,6 @@ end)
         <!-- DPS meter: hidden copy of the target's data for the script, plus its timer -->
         <div id="sp-dps-source" data-model="focused-target"><span id="sp-dps-values" data-attr-sp-visible="visible ? 1 : 0" data-attr-sp-name="name" data-attr-sp-hp="hp" data-attr-sp-max="max_hp"></span></div>
         <div id="sp-dps-timer"></div>
+        <div id="sp-switch-timer"></div>
     </body>
 </rml>

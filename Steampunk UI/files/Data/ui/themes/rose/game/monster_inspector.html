@@ -7,268 +7,79 @@
         <link type="text/rcss" href="../styles/spritesheet_itemicon.css" />
         <link type="text/rcss" href="../styles/spritesheet_socketgem.css" />
         <link type="text/rcss" href="../styles/item_slot.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
 
         <style>
-            #game-monster-inspector {
-                width: 650dp;
-                height: 465dp;
-                min-width: 650dp;
-                min-height: 465dp;
-            }
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-monster-inspector.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-monster-inspector.sp-theme-steampunk .sp-only-default { display: none; }
 
-            .header {
-                color: rgb(243, 211, 138);
-                font-weight: bold;
-                margin: 2dp;
-            }
+            /* ==== Both looks ==== */
+            #game-monster-inspector { width: 650dp; height: 465dp; min-width: 650dp; min-height: 465dp; }
+            .center { justify-content: center; }
+            #monster-view-panel { width: 40%; height: 100%; }
+            #monster-view-panel > npc-preview { display: block; width: 100%; height: 100%; }
+            #right-container { flex: 1; display: flex; flex-direction: column; row-gap: 4dp; }
+            #info-panel { margin: 5dp; height: 225dp; overflow: hidden auto; }
+            #drop-list-panel { flex: 1; overflow: hidden auto; }
+            .stat-row { display: flex; flex-direction: row; margin: 1dp; font-size: 12dp; color: #fff; }
+            span.stat { position: relative; font-size: 13dp; text-align: center; }
+            #stats { display: flex; flex-direction: row; flex-wrap: wrap; column-gap: 8dp; align-items: center; justify-content: center; }
+            .drop-stats { display: flex; flex-direction: row; flex-wrap: wrap; column-gap: 8dp; align-items: center; justify-content: center; }
+            .stat-column { display: table; flex: 1 1 160dp; max-width: 160dp; margin: 5dp; }
+            .stat-column-2 { display: table; flex: 1 1 200dp; max-width: 220dp; margin: 5dp; }
+            label.custom { width: 80dp; }
+            .stat-line { display: table-row; }
+            .stat-line > .stat-name { display: table-cell; text-align: center; vertical-align: middle; white-space: nowrap; padding-right: 8dp; font-size: 12dp; color: #fff; }
+            .stat-line > .stat-value { display: table-cell; text-align: center; vertical-align: middle; }
+            .stat-row > span { margin-top: 2dp; }
+            #drop-list { display: flex; flex-direction: row; flex-wrap: wrap; column-gap: 4dp; row-gap: 4dp; padding: 4dp; }
+            #drop-list > div { width: 40dp; height: 40dp; line-height: 0; }
+            #npc-info-panel { margin: 5dp; width: 100%; }
+            #element-panel { display: flex; flex-direction: row; justify-content: center; align-items: center; }
+            .element-label { width: 100dp; font-weight: 800; }
+            .eltooltip { z-index: 2; position: relative; display: flex; flex-direction: row; justify-content: center; align-items: center; }
+            .eltooltip:hover .eltooltiptext { z-index: 2; display: block; }
+            .droptooltip { z-index: 2; position: relative; display: flex; flex-direction: row; justify-content: center; align-items: center; }
+            .droptooltip:hover .droptooltiptext { z-index: 2; display: flex; flex-direction: column; text-decoration: none; font-size: 15dp; }
+            .element-name { font-size: 16dp; font-weight: 800; }
+            #health { height: 22dp; margin-bottom: 5dp; }
+            .drop-rate-reduction { font-weight: 800; }
 
-            .center {
-                justify-content: center;
-            }
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .header { color: rgb(255, 255, 102); font-weight: bold; margin: 2dp; }
+            .sp-theme-default .monster-name { display: flex; color: rgb(255, 255, 102); font-weight: bold; margin-bottom: 2dp; text-align: center; justify-content: center; align-items: center; column-gap: 8dp; margin-top: 3dp; }
+            .sp-theme-default .eltooltiptext { z-index: 2; display: none; position: absolute; left: 0; top: 100%; background: rgba(0, 0, 0, 200); color: #fff; padding: 6dp 14dp 6dp 8dp; white-space: normal; width: 230dp; clip: none; text-align: left; border-radius: 3dp; padding: 6dp 14dp 6dp 8dp; margin: 15dp; }
+            .sp-theme-default .droptooltiptext { z-index: 2; display: none; position: absolute; left: 0; top: 100%; background: rgba(0, 0, 0, 200); color: #fff; padding: 6dp 14dp 6dp 8dp; white-space: normal; width: 320dp; clip: none; text-align: left; border-radius: 3dp; padding: 6dp 14dp 6dp 8dp; margin: 15dp; }
+            .sp-theme-default span.stat-title { color: rgb(185, 221, 255); font-size: 14dp; font-weight: 800; }
 
-            #monster-view-panel {
-                width: 40%;
-                height: 100%;
-            }
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .header { color: rgb(243, 211, 138); font-weight: bold; margin: 2dp; }
+            .sp-theme-steampunk .monster-name { display: flex; color: rgb(243, 211, 138); font-weight: bold; margin-bottom: 2dp; text-align: center; justify-content: center; align-items: center; column-gap: 8dp; margin-top: 3dp; }
+            .sp-theme-steampunk .eltooltiptext { z-index: 2; display: none; position: absolute; left: 0; top: 100%; background: rgba(36, 30, 25, 240); border: 1dp rgb(122, 86, 36); color: #fff; padding: 5dp; white-space: normal; width: 230dp; clip: none; text-align: left; border-radius: 3dp; padding: 6dp 14dp 6dp 8dp; margin: 15dp; }
+            .sp-theme-steampunk .droptooltiptext { z-index: 2; display: none; position: absolute; left: 0; top: 100%; background: rgba(36, 30, 25, 240); border: 1dp rgb(122, 86, 36); color: #fff; padding: 5dp; white-space: normal; width: 320dp; clip: none; text-align: left; border-radius: 3dp; padding: 6dp 16dp 6dp 8dp; margin: 15dp; }
+            .sp-theme-steampunk span.stat-title { color: rgb(243, 211, 138); font-size: 14dp; font-weight: 800; }
 
-            #monster-view-panel > npc-preview {
-                display: block;
-                width: 100%;
-                height: 100%;
-            }
-
-            #right-container {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                row-gap: 4dp;
-            }
-
-            #info-panel {
-                margin: 5dp;
-                height: 225dp;
-                overflow: hidden auto;
-            }
-
-            #drop-list-panel {
-                flex: 1;
-                overflow: hidden auto;
-            }
-
-            .stat-row {
-                display: flex;
-                flex-direction: row;
-                margin: 1dp;
-                font-size: 12dp;
-                color: #fff;
-            }
-
-            span.stat {
-                position: relative;
-                font-size: 13dp;
-                text-align: center;
-            }
-
-            #stats {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                column-gap: 8dp;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .drop-stats {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                column-gap: 8dp;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .stat-column {
-                display: table;
-                flex: 1 1 160dp;
-                max-width: 160dp;
-                margin: 5dp;
-            }
-
-            .stat-column-2 {
-                display: table;
-                flex: 1 1 200dp;
-                max-width: 220dp;
-                margin: 5dp;
-            }
-
-            label.custom {
-                width: 80dp;
-            }
-
-            .stat-line {
-                display: table-row;
-            }
-
-            .stat-line > .stat-name {
-                display: table-cell;
-                text-align: center;
-                vertical-align: middle;
-                white-space: nowrap;
-                padding-right: 8dp;
-                font-size: 12dp;
-                color: #fff;
-            }
-
-            .stat-line > .stat-value {
-                display: table-cell;
-                text-align: center;
-                vertical-align: middle;
-            }
-
-            .stat-row > span {
-                margin-top: 2dp;
-            }
-
-            .monster-name {
-                display: flex;
-                color: rgb(243, 211, 138);
-                font-weight: bold;
-                margin-bottom: 2dp;
-                text-align: center;
-                justify-content: center;
-                align-items: center;
-                column-gap: 8dp;
-                margin-top: 3dp;
-            }
-            
-
-            #drop-list {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                column-gap: 4dp;
-                row-gap: 4dp;
-                padding: 4dp;
-            }
-
-            #drop-list > div {
-                width: 40dp;
-                height: 40dp;
-                line-height: 0;
-            }
-
-            #npc-info-panel {
-                margin: 5dp;
-                width: 100%;
-            }
-
-            #element-panel {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .element-label {
-                width: 100dp;
-                font-weight: 800;
-            }
-            
-            .eltooltip {
-                z-index: 2;
-                position: relative;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .eltooltiptext {
-                z-index: 2;
-                display: none;
-                position: absolute;
-                left: 0;
-                top: 100%;
-                background: rgba(36, 30, 25, 240);
-                border: 1dp rgb(122, 86, 36);
-                color: #fff;
-                padding: 5dp;
-                white-space: normal;   /* long lists wrap onto the next line */
-                width: 230dp;
-                clip: none;
-                text-align: left;
-                border-radius: 3dp;
-                /* a little extra room on the right: the game measures coloured text
-                   slightly narrower than it draws it */
-                padding: 6dp 14dp 6dp 8dp;
-                margin: 15dp;
-            }
-            
-            .eltooltip:hover .eltooltiptext {
-                z-index: 2;
-                display: block;
-            }
-            
-            .droptooltip {
-                z-index: 2;
-                position: relative;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .droptooltiptext {
-                z-index: 2;
-                display: none;
-                position: absolute;
-                left: 0;
-                top: 100%;
-                background: rgba(36, 30, 25, 240);
-                border: 1dp rgb(122, 86, 36);
-                color: #fff;
-                padding: 5dp;
-                white-space: normal;   /* long lines wrap */
-                width: 320dp;
-                clip: none;
-                text-align: left;
-                border-radius: 3dp;
-                /* a little extra room on the right: the game measures coloured text
-                   slightly narrower than it draws it */
-                padding: 6dp 16dp 6dp 8dp;
-                margin: 15dp;
-            }
-            
-            .droptooltip:hover .droptooltiptext {
-                z-index: 2;
-                display: flex;
-                flex-direction: column;
-                text-decoration: none;
-                font-size: 15dp;
-            }
-
-            .element-name {
-                font-size: 16dp;
-                font-weight: 800;
-            }
-
-            span.stat-title {
-                color: rgb(243, 211, 138);
-                font-size: 14dp;
-                font-weight: 800;
-            }
-
-            #health {
-                height: 22dp;
-                margin-bottom: 5dp;
-            }
-
-            .drop-rate-reduction {
-                font-weight: 800;
-            }
         </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-monster-inspector')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     </head>
 
     <body id="game-monster-inspector" template="window-resizeable">
@@ -351,9 +162,9 @@
                                     <span class="stat-name droptooltip" style="text-decoration: underline;">
                                         <span>Drop Rate Reduction</span>
                                         <div class="droptooltiptext">
-                                            <span>In <b>ROSE Online</b>, monsters lower level than you </span>
+                                            <span>In <b>ROSE Online</b>, monster lower level than you </span>
                                             <span>get a reduction in drop rate.</span> 
-                                            <span>You can block your XP in the character stat info.</span>
+                                            <span>You can blockyour XP in the character stat info.</span>
                                             <span>&nbsp;</span> 
                                             <span data-style-color="drop_reduction_color(00.0)">- <b>Yellow:</b> No reduction in drop chance.</span> 
                                             <span data-style-color="drop_reduction_color(10.0)">- <b>Green:</b> 10% Reduction in drop chance.</span> 

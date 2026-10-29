@@ -3,46 +3,44 @@
         <title>Number Input</title>
 
         <link type="text/template" href="../templates/window-small.html" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
 
         <style>
-            body
-            {
-                width: 180dp;
-                text-align: center;
-            }
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-number-input.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-number-input.sp-theme-steampunk .sp-only-default { display: none; }
 
-            #number-input
-            {
-                display: block;
-                width: 140dp;
-                margin: auto;
-                font-size: 16dp;
-                font-weight: 800;
-            }
+            /* ==== Both looks ==== */
+            body { width: 180dp; text-align: center; }
+            #number-input { display: block; width: 140dp; margin: auto; font-size: 16dp; font-weight: 800; }
+            .input-container { width: 100%; height: 2em; }
+            .button-container { width: 100%; display: flex; flex-direction: row; }
+            button.default { flex: 1; min-width: 22dp; font-size: 16dp; font-weight: 800; }
 
-            .input-container
-            {
-                width: 100%;
-                height: 2em;
-            }
+            /* ==== Default UI look only ==== */
 
-            .button-container
-            {
-                width: 100%;
-                display: flex;
-                flex-direction: row;
-            }
+            /* ==== Steampunk look only ==== */
 
-            button.default
-            {
-                flex: 1;
-                min-width: 22dp;
-                font-size: 16dp;
-                font-weight: 800;
-            }
         </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-number-input')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     </head>
 
     <body id="game-number-input" data-model="number-input" template="window-small" onkeyup="input">

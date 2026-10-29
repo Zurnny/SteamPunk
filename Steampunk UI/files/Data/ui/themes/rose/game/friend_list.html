@@ -3,56 +3,61 @@
         <title>Community</title>
 
         <link type="text/template" href="../templates/window-resizeable.html" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
 
         <style>
-            #game-friend-list
-            {
-                width: 300dp;
-                height: 380dp;
-                min-width: 280dp;
-                min-height: 200dp;
-            }
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-friend-list.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-friend-list.sp-theme-steampunk .sp-only-default { display: none; }
 
-            listbox {
-                padding-right: 15dp;
-            }
+            /* ==== Both looks ==== */
+            #game-friend-list { width: 300dp; height: 380dp; min-width: 280dp; min-height: 200dp; }
+            listbox { padding-right: 15dp; }
+            listbox-item { padding: 4dp; }
+            button.default { min-width: 110dp; }
+            tabset { width: 100%; height: 100%; display: flex; flex-direction: column; }
+            tab.default { min-width: 0dp; flex: 1; box-sizing: border-box; }
+            tabset > panels { flex: 1; }
+            #game-friend-list.sp-levels-off .sp-friend-level { display: none; }
+            #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
+            #sp-catch-slot { display: none; }
+            #sp-catch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 8s sp-catch-tick-a; }
 
-            listbox-item {
-                padding: 4dp;
-            }
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .sp-friend-level { width: 52dp; flex-shrink: 0; text-align: right; margin-right: 10dp; color: rgb(180, 180, 180); font-size: 13dp; }
 
-            button.default {
-                min-width: 110dp;
-            }
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .sp-friend-level { width: 52dp; flex-shrink: 0; text-align: right; margin-right: 10dp; color: rgb(201, 180, 138); font-size: 13dp; }
+            .sp-theme-steampunk .sp-button-row { display: flex; flex-direction: row; gap: 4dp; margin-top: 4dp; }
+            .sp-theme-steampunk .sp-button-row > button.default { flex: 1; min-width: 0dp; white-space: nowrap; font-size: 13dp; padding-left: 2dp; padding-right: 2dp; }
 
-            tabset {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-            }
-
-            tab.default {
-                min-width: 0dp;
-                flex: 1;
-                box-sizing: border-box;
-            }
-
-            tabset > panels {
-                flex: 1;
-            }
-
-            /* Steampunk: action buttons in one even row under the list */
-            /* Remembered level next to each friend (script below) */
-            .sp-friend-level { width: 52dp; flex-shrink: 0; text-align: right; margin-right: 10dp; color: rgb(201, 180, 138); font-size: 13dp; }
-            .sp-button-row { display: flex; flex-direction: row; gap: 4dp; margin-top: 4dp; }
-            .sp-button-row > button.default { flex: 1; min-width: 0dp; white-space: nowrap; font-size: 13dp; padding-left: 2dp; padding-right: 2dp; }
+            @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-catch-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-catch-tick-b { from { opacity: 0; } to { opacity: 0; } }
         </style>
         <script>
--- Friend levels (steampunk add-on). Shows each friend's level as remembered by
--- the Group Manager (sp_level_cache.txt): levels seen in your group and clan.
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-friend-list')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
+        <script>
+-- Friend levels (add-on). Shows each friend's level as remembered by
+-- the level catcher below and the Group Manager (sp_level_cache.txt).
 -- Friends it has never seen show no level. Updates when the window opens and
 -- when the mouse moves over it (never on a timer, so no mid-frame text).
 pcall(function()
@@ -95,6 +100,153 @@ pcall(function()
     document:AddEventListener('mouseover', function() pcall(refresh) end)
 end)
         </script>
+    <script>
+-- Add-on switches (the same script in every add-on window).
+-- SP_ADDON_SWITCH friend_levels
+-- An add-on counts as installed while its marker file
+-- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
+-- the add-on and takes it out again with it, so a window that several add-ons
+-- share only runs the parts of the add-ons that are installed.
+-- The on/off switches are in Options > UI > Add-ons and are saved in
+-- sp_addons.txt (the Ice UI uses the same file; nobody removes anyone else's
+-- lines). This window reads it every 2 seconds. Everything is on by default.
+pcall(function()
+    local BODY = 'game-friend-list'
+    -- key, class put on this window while that add-on is off or not installed ('' = none)
+    local MINE = {{'friend_levels', 'sp-levels-off'}}
+    local installed = {}
+    SP_ADDON_INSTALLED = function(key)
+        -- the Steampunk UI theme has every add-on built in
+        if SP_THEME == 'steampunk' then return true end
+        if installed[key] == nil then
+            installed[key] = true      -- if the game won't let the UI read files, assume installed
+            pcall(function()
+                local f = io.open('Data/ui/sp_addons/' .. key .. '.txt', 'r')
+                if f then f:close() else installed[key] = false end
+            end)
+        end
+        return installed[key]
+    end
+    local flags = {}
+    local function read_flags()
+        flags = {}
+        pcall(function()
+            local f = io.open('sp_addons.txt', 'r')
+            if not f then return end
+            for line in f:lines() do
+                local k, v = line:match('^%s*([%w_]+)%s*=%s*(%d)')
+                if k then flags[k] = v end
+            end
+            f:close()
+        end)
+    end
+    -- SP_ADDON_ON(key): installed and not switched off. Reads the switches fresh
+    -- unless called with fresh == false.
+    SP_ADDON_ON = function(key, fresh)
+        if not SP_ADDON_INSTALLED(key) then return false end
+        if fresh ~= false then read_flags() end
+        return flags[key] ~= '0'
+    end
+    local doc = document
+    local function apply()
+        read_flags()
+        for _, m in ipairs(MINE) do
+            local on = SP_ADDON_ON(m[1], false)
+            if m[2] ~= '' then pcall(function() (doc:GetElementById(BODY) or doc):SetClass(m[2], not on) end) end
+            -- a script in this window can register SP_ADDON_HOOK['<key>@<body id>'] = function(on) ... end
+            local hook = SP_ADDON_HOOK and SP_ADDON_HOOK[m[1] .. '@' .. BODY]
+            if hook then pcall(hook, on) end
+        end
+    end
+    apply()
+    doc:AddEventListener('show', function() pcall(apply) end)
+    doc:AddEventListener('mouseover', function() pcall(apply) end)
+    -- repeating 2 second check: two identical animations swapped each time one ends
+    pcall(function()
+        local timer = doc:GetElementById('sp-switch-timer')   -- the empty div at the end of the body
+        local flip = false
+        timer:AddEventListener('animationend', function()
+            pcall(apply)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-switch-tick-b' or 'sp-switch-tick-a')
+        end)
+    end)
+end)
+    </script>
+    <script>
+-- Level catcher (Friend Levels add-on). From the moment you are in game it
+-- quietly reads levels from every list the game already has: your clan's
+-- member list and the Game Arena (group, friends, clan). (Party Finder
+-- adverts are not read: their nested lists made the game log index errors.) Every name with a real level goes into sp_level_cache.txt, so
+-- friends get their levels without opening the Group Manager first.
+-- The lists are added about 15 seconds after this window loads (adding them
+-- straight away, before you are in game, makes the game log "Could not
+-- locate data model"). It only reads attributes, never draws text, and
+-- checks every 10 seconds.
+pcall(function()
+    local document = document
+    local FILE = 'sp_level_cache.txt'
+    local SOURCES = '<div data-model="clan"><span class="sp-catch-src" data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span></div>'
+        .. '<div data-model="game-arena"><span class="sp-catch-src" data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span>'
+        .. '<span class="sp-catch-src" data-for="m : friends" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span>'
+        .. '<span class="sp-catch-src" data-for="m : clan" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span></div>'
+    local function each(list, fn)
+        if not list then return end
+        local i = list[0] and 0 or 1
+        while list[i] do fn(list[i]); i = i + 1 end
+    end
+    local ticks, added = 0, false
+    local function catch()
+        ticks = ticks + 1
+        if not added then
+            if ticks < 2 then return end          -- wait about 15 seconds first
+            local slot = document:GetElementById('sp-catch-slot')
+            if not slot then return end
+            added = true
+            pcall(function() slot.inner_rml = SOURCES end)
+            return
+        end
+        if SP_ADDON_ON and not SP_ADDON_ON('friend_levels') then return end
+        local seen, any = {}, false
+        each(document:QuerySelectorAll('.sp-catch-src'), function(e)
+            local name, lvl = e:GetAttribute('sp-name'), tonumber(e:GetAttribute('sp-level'))
+            if name and name ~= '' and lvl and lvl > 1 then seen[name] = lvl; any = true end
+        end)
+        if not any then return end
+        -- merge with the file (the Group Manager writes it too)
+        local cache, changed = {}, false
+        pcall(function()
+            local f = io.open(FILE, 'r')
+            if not f then return end
+            for line in f:lines() do
+                local n, l = line:match('^(.-)=(%d+)%s*$')
+                if n and n ~= '' then cache[n] = tonumber(l) end
+            end
+            f:close()
+        end)
+        for n, l in pairs(seen) do
+            if cache[n] ~= l then cache[n] = l; changed = true end
+        end
+        if changed then
+            pcall(function()
+                local f = io.open(FILE, 'w')
+                if not f then return end
+                for n, l in pairs(cache) do f:write(n, '=', l, '\n') end
+                f:close()
+            end)
+        end
+    end
+    local timer = document:GetElementById('sp-catch-timer')
+    local flip = false
+    if timer then
+        timer:AddEventListener('animationend', function()
+            pcall(catch)
+            flip = not flip
+            timer.style.animation = (added and '10s ' or '8s ') .. (flip and 'sp-catch-tick-b' or 'sp-catch-tick-a')
+        end)
+    end
+end)
+    </script>
     </head>
 
     <body id="game-friend-list" template="window-resizeable">
@@ -117,7 +269,19 @@ end)
                             </listbox>
                         </div>
                     </div>
-                    <div class="sp-button-row">
+                    <div class="sp-only-default">
+                    <div style="display: flex; flex-direction: row;">
+                        <div style="width: 110dp">
+                            <button class="default" onclick="add_friend">Add Friend</button>
+                            <button class="default" onclick="delete_friend">Delete Friend</button>
+                        </div>
+                        <div style="flex: 1"></div>
+                        <div style="width: 110dp">
+                            <button class="default" onclick="mail_or_message_friend">Message</button>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="sp-button-row sp-only-steampunk">
                         <button class="default" onclick="add_friend">Add Friend</button>
                         <button class="default" onclick="mail_or_message_friend">Message</button>
                         <button class="default" onclick="delete_friend">Delete Friend</button>
@@ -140,12 +304,22 @@ end)
                             </listbox>
                         </div>
                     </div>
-                    <div class="sp-button-row">
+                    <div class="sp-only-default">
+                    <div style="display: flex; flex-direction: column;">
+                        <button class="default" onclick="add_ignore">Add Ignore</button>
+                        <button class="default" onclick="delete_ignore">Delete Ignore</button>
+                    </div>
+                    </div>
+                    <div class="sp-button-row sp-only-steampunk">
                         <button class="default" onclick="add_ignore">Add Ignore</button>
                         <button class="default" onclick="delete_ignore">Delete Ignore</button>
                     </div>
                 </div>
             </panel>
         </tabset>
+        <div id="sp-switch-timer"></div>
+        <!-- Level catcher: hidden lists (filled in by the script) and its timer -->
+        <div id="sp-catch-slot"></div>
+        <div id="sp-catch-timer"></div>
     </body>
 </rml>

@@ -3,17 +3,46 @@
         <title>Party Options</title>
         <link type="text/template" href="../templates/window-fixed-size.html" />
         <link type="text/rcss" href="../styles/components.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
         <style>
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #party-options.sp-theme-default .sp-only-steampunk { display: none; }
+            #party-options.sp-theme-steampunk .sp-only-default { display: none; }
+
+            /* ==== Both looks ==== */
             body { width: 340dp; max-width: 92vw; }
             .option-section { margin-bottom: 8dp; }
             .ui-section-title { display: block; }
-            .sp-extras { margin-top: 8dp; padding-top: 8dp; border-top: 1dp rgb(122, 86, 36); }
+
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .sp-extras { margin-top: 8dp; padding-top: 8dp; border-top: 1dp rgb(120, 120, 120); }
+
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .sp-extras { margin-top: 8dp; padding-top: 8dp; border-top: 1dp rgb(122, 86, 36); }
+
         </style>
         <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('party-options')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
+        <script>
 
--- Party HUD extras (steampunk add-on): buff icons on/off, buff icon size and
+-- Party HUD extras (add-on): buff icons on/off, buff icon size and
 -- whether the title bar always shows (the game hides it until hovered). Set in party_options.html, applied in party.html, saved to
 -- sp_party_hud.txt. Written inline because the game ignores edited .lua files.
 local SAVE_FILE = 'sp_party_hud.txt'
@@ -113,7 +142,7 @@ end)
             <label for="party-scale"><span>Scale</span><span class="ui-detail-value">{{scale_percent}}%</span></label>
             <input id="party-scale" type="range" min="55" max="160" step="5" data-value="scale_percent" onchange="appearance" />
         </div>
-        <!-- Steampunk extras (script at the end of <head>); saved to sp_party_hud.txt -->
+        <!-- Extras (script at the end of <head>); saved to sp_party_hud.txt -->
         <div class="sp-extras">
             <label class="ui-choice-row"><input type="checkbox" id="sp-buffs-on" checked="" /><span>Show buff icons</span></label>
             <div class="ui-range-setting">

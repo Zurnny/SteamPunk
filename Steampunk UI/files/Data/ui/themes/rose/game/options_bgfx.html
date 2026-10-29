@@ -3,277 +3,100 @@
         <title>Options</title>
 
         <link type="text/template" href="../templates/window-resizeable.html" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
 
         <style>
-            #game-options
-            {
-                min-width: 650dp;
-                min-height: 350dp;
-                width: 870dp;
-                height: 570dp;
-            }
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-options.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-options.sp-theme-steampunk .sp-only-default { display: none; }
 
-            tabset
-            {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                flex-direction: row;
-                gap: 4dp;
-                box-sizing: border-box;
-            }
-
-            tabset > tabs
-            {
-                width: 140dp;
-                display: block;
-            }
-
-            tabset > panels
-            {
-                flex: 1;
-            }
-
-            panel
-            {
-                height: 100%;
-                padding: 4dp;
-                box-sizing: border-box;
-            }
-
-            .options-panel
-            {
-                display: block;
-                width: 100%;
-                height: 100%;
-                overflow: hidden auto;
-                box-sizing: border-box;
-                padding: 2dp 2dp 2dp 4dp;
-            }
-
-            tab.default
-            {
-                display: inline-block;
-                font-weight: 800;
-                font-effect: outline(1dp black);
-                width: 100%;
-            }
-
-            /* ── Section group boxes ── */
-            .settings-group
-            {
-                display: block;
-                padding: 8dp 10dp;
-                margin-bottom: 6dp;
-                background: rgba(24, 18, 14, 150);
-                border: 1dp rgb(122, 86, 36);
-                border-radius: 4dp;
-                box-sizing: border-box;
-            }
-
-            .settings-group > h3
-            {
-                margin-top: 0;
-                margin-bottom: 4dp;
-                font-size: 1.05em;
-                color: rgb(243, 211, 138);
-                font-effect: outline(1dp black);
-            }
-
-            /* ── Collapsible advanced sections ── */
-            .options-panel details
-            {
-                display: block;
-                margin-bottom: 6dp;
-                padding: 4dp 6dp 8dp 6dp;
-                background: rgba(24, 18, 14, 150);
-                border: 1dp rgb(122, 86, 36);
-                border-radius: 4dp;
-                box-sizing: border-box;
-            }
-
-            .options-panel details > summary
-            {
-                margin-bottom: 4dp;
-            }
-
-            .options-panel details > summary > summary-text
-            {
-                color: rgb(243, 211, 138);
-                font-weight: 800;
-                font-effect: outline(1dp black);
-            }
-
-            /* ── Table layout ── */
-            table.main tr
-            {
-                margin: 3dp 0dp;
-            }
-
-            tr
-            {
-                min-height: 10dp;
-            }
-
-            tr > td:nth-child(1)
-            {
-                width: 185dp;
-                text-align: left;
-            }
-
-            table.sub tr
-            {
-                margin: 0dp;
-            }
-
-            table.sub td
-            {
-                vertical-align: middle;
-            }
-
-            tr.container td
-            {
-                vertical-align: top;
-            }
-
-            /* ── Shortcut sub ── */
-            table.shortcut-sub td
-            {
-                margin-left: 25dp;
-            }
-
-            tr.shortcut-sub > td:nth-child(1)
-            {
-                width: 100%;
-            }
-
-            /* ── Form controls ── */
-            select
-            {
-                width: 180dp;
-            }
-
-            select.small
-            {
-                width: 100dp;
-            }
-
-            select.medium,
-            select.medium#text
-            {
-                width: 130dp;
-            }
-
-            input.range.big
-            {
-                width: 230dp;
-            }
-
-            input.range.full
-            {
-                width: 100%;
-            }
-
-            /* ── Slider row layout ── */
-            .slider-row
-            {
-                display: flex;
-                flex-direction: row;
-                gap: 4dp;
-                padding-right: 4dp;
-            }
-
-            .slider-row input.range
-            {
-                flex: 1;
-            }
-
-            .slider-value
-            {
-                display: inline-block;
-                min-width: 38dp;
-                text-align: right;
-            }
-
-            /* ── Checkbox grid ── */
-            .checkbox-grid
-            {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 2dp 0dp;
-            }
-
-            .checkbox-grid > span
-            {
-                width: 100dp;
-            }
-
-            .checkbox-grid > span.wide
-            {
-                width: 200dp;
-            }
-
-            /* ── Key Bindings ── */
-            .keybind-table
-            {
-                width: 100%;
-            }
-
-            .keybind-table tr
-            {
-                margin: 2dp 0dp;
-            }
-
-            .keybind-table thead td
-            {
-                font-weight: 800;
-                font-size: 0.9em;
-                color: #ccc;
-                font-effect: outline(1dp black);
-                padding-bottom: 2dp;
-            }
-
-            .keybind-table td:nth-child(1)
-            {
-                width: auto;
-                line-height: 34dp;
-            }
-
-            .keybind-table td:nth-child(2),
-            .keybind-table td:nth-child(3)
-            {
-                width: 140dp;
-                text-align: center;
-            }
-
-            .keybind-table button.default
-            {
-                min-width: 0dp;
-                width: 130dp;
-            }
-
-            /* ── Misc ── */
-            h3
-            {
-                margin-bottom: 3dp;
-            }
-
-            .button-row
-            {
-                display: flex;
-                justify-content: flex-end;
-                margin-top: 6dp;
-            }
-            /* Message colour picker */
+            /* ==== Both looks ==== */
+            #game-options { min-width: 650dp; min-height: 350dp; width: 870dp; height: 570dp; }
+            tabset { width: 100%; height: 100%; display: flex; flex-direction: row; gap: 4dp; box-sizing: border-box; }
+            tabset > tabs { width: 140dp; display: block; }
+            tabset > panels { flex: 1; }
+            panel { height: 100%; padding: 4dp; box-sizing: border-box; }
+            .options-panel { display: block; width: 100%; height: 100%; overflow: hidden auto; box-sizing: border-box; padding: 2dp 2dp 2dp 4dp; }
+            tab.default { display: inline-block; font-weight: 800; font-effect: outline(1dp black); width: 100%; }
+            .options-panel details > summary { margin-bottom: 4dp; }
+            table.main tr { margin: 3dp 0dp; }
+            tr { min-height: 10dp; }
+            tr > td:nth-child(1) { width: 185dp; text-align: left; }
+            table.sub tr { margin: 0dp; }
+            table.sub td { vertical-align: middle; }
+            tr.container td { vertical-align: top; }
+            table.shortcut-sub td { margin-left: 25dp; }
+            tr.shortcut-sub > td:nth-child(1) { width: 100%; }
+            select { width: 180dp; }
+            select.small { width: 100dp; }
+            select.medium { width: 130dp; }
+            select.medium#text { width: 130dp; }
+            input.range.big { width: 230dp; }
+            input.range.full { width: 100%; }
+            .slider-row { display: flex; flex-direction: row; gap: 4dp; padding-right: 4dp; }
+            .slider-row input.range { flex: 1; }
+            .slider-value { display: inline-block; min-width: 38dp; text-align: right; }
+            .checkbox-grid { display: flex; flex-wrap: wrap; gap: 2dp 0dp; }
+            .checkbox-grid > span { width: 100dp; }
+            .checkbox-grid > span.wide { width: 200dp; }
+            .keybind-table { width: 100%; }
+            .keybind-table tr { margin: 2dp 0dp; }
+            .keybind-table thead td { font-weight: 800; font-size: 0.9em; color: #ccc; font-effect: outline(1dp black); padding-bottom: 2dp; }
+            .keybind-table td:nth-child(1) { width: auto; line-height: 34dp; }
+            .keybind-table td:nth-child(2) { width: 140dp; text-align: center; }
+            .keybind-table td:nth-child(3) { width: 140dp; text-align: center; }
+            .keybind-table button.default { min-width: 0dp; width: 130dp; }
+            h3 { margin-bottom: 3dp; }
+            .button-row { display: flex; justify-content: flex-end; margin-top: 6dp; }
             .sp-swatch-row { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 3dp; }
-            .sp-swatch { display: inline-block; width: 16dp; height: 16dp; box-sizing: border-box; border: 1dp rgb(60, 45, 28); cursor: hand; }
-            .sp-swatch:hover { border-color: rgb(243, 211, 138); }
             .sp-swatch.selected { border: 2dp rgb(255, 240, 200); }
             .sp-swatch-default { min-width: 5dp; margin-right: 4dp; }
+            .sp-addon-row { display: block; margin: 3dp 0; }
+            .sp-addon-name { color: rgb(180, 180, 180); font-size: 11dp; }
             .sp-chat-sample { font-weight: 800; font-effect: outline(1dp black); }
+            .sp-note { font-size: 11dp; color: rgb(180, 180, 180); }
+            .sp-sec { display: none; }
+            .sp-sec.sp-shown { display: block; }
+            #game-options.sp-has-item_labels tr.sp-game-item-row { display: none; }
+            #game-options.sp-no-ui-tab #sp-ui-tab { display: none; }
+
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .settings-group { display: block; padding: 8dp 10dp; margin-bottom: 6dp; background: rgba(0, 0, 0, 50); border: 1dp rgba(120, 120, 120, 80); border-radius: 4dp; box-sizing: border-box; }
+            .sp-theme-default .settings-group > h3 { margin-top: 0; margin-bottom: 4dp; font-size: 1.05em; color: #f39c12; font-effect: outline(1dp black); }
+            .sp-theme-default .options-panel details { display: block; margin-bottom: 6dp; padding: 4dp 6dp 8dp 6dp; background: rgba(0, 0, 0, 50); border: 1dp rgba(120, 120, 120, 80); border-radius: 4dp; box-sizing: border-box; }
+            .sp-theme-default .options-panel details > summary > summary-text { color: #f39c12; font-weight: 800; font-effect: outline(1dp black); }
+            .sp-theme-default .sp-swatch { display: inline-block; width: 16dp; height: 16dp; box-sizing: border-box; border: 1dp rgb(60, 60, 60); cursor: hand; }
+            .sp-theme-default .sp-swatch:hover { border-color: rgb(255, 230, 110); }
+
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .settings-group { display: block; padding: 8dp 10dp; margin-bottom: 6dp; background: rgba(24, 18, 14, 150); border: 1dp rgb(122, 86, 36); border-radius: 4dp; box-sizing: border-box; }
+            .sp-theme-steampunk .settings-group > h3 { margin-top: 0; margin-bottom: 4dp; font-size: 1.05em; color: rgb(243, 211, 138); font-effect: outline(1dp black); }
+            .sp-theme-steampunk .options-panel details { display: block; margin-bottom: 6dp; padding: 4dp 6dp 8dp 6dp; background: rgba(24, 18, 14, 150); border: 1dp rgb(122, 86, 36); border-radius: 4dp; box-sizing: border-box; }
+            .sp-theme-steampunk .options-panel details > summary > summary-text { color: rgb(243, 211, 138); font-weight: 800; font-effect: outline(1dp black); }
+            .sp-theme-steampunk .sp-swatch { display: inline-block; width: 16dp; height: 16dp; box-sizing: border-box; border: 1dp rgb(60, 45, 28); cursor: hand; }
+            .sp-theme-steampunk .sp-swatch:hover { border-color: rgb(243, 211, 138); }
+
+            .sp-theme-steampunk .sp-note { color: rgb(201, 180, 138); }
         </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-options')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     <script>
 -- Dropped item label background: a 0-10 slider (0 = clear, 10 = solid).
 -- Shared by options_bgfx.html (the slider) and dropped_item_labels.html
@@ -379,7 +202,7 @@ end
     </script>
     <script>
 
--- Chat message colours (steampunk add-on). Shared by options_bgfx.html (the
+-- Chat message colours (Message Colours add-on). Shared by options_bgfx.html (the
 -- picker) and chat_box.html (the messages). Written inline because the game
 -- ignores edited .lua files. Choices are saved to sp_chat_colors.txt.
 local CHANNELS = {{id='chat', name='Chat', default='rgb(255, 255, 255)'}, {id='shout', name='Shout', default='rgb(255, 105, 105)'}, {id='whisper', name='Whisper', default='rgb(255, 158, 232)'}, {id='trade', name='Trade', default='rgb(0, 210, 50)'}, {id='party', name='Party', default='rgb(189, 250, 255)'}, {id='clan', name='Clan', default='rgb(255, 228, 122)'}, {id='group', name='Group', default='rgb(156, 175, 243)'}, {id='quest', name='Quest', default='rgb(151, 221, 241)'}, {id='system', name='System', default='rgb(255, 224, 229)'}}
@@ -482,7 +305,7 @@ end
 
     </script>
     <script>
--- "Bring all windows on screen" (steampunk add-on). Moves any window that sits
+-- "Bring all windows on screen" (Window Rescue add-on). Moves any window that sits
 -- partly or fully outside the game window back inside it. Windows already on
 -- screen, and full-screen layers (names, labels), are left alone.
 local ok, err = pcall(function()
@@ -522,6 +345,135 @@ local ok, err = pcall(function()
 end)
     </script>
     <script>
+-- Add-on settings (shared: every add-on that adds something to Options ships
+-- this same file, so it doesn't matter which or how many are installed).
+-- An add-on counts as installed while its marker file
+-- Data/ui/sp_addons/<key>.txt exists; the launcher copies it in with the
+-- add-on and takes it out with it. Only installed add-ons show: the first one
+-- on the first line of Options > UI > Add-ons, the next one underneath, and
+-- so on. Add-ons with their own settings (Dropped Items, Windows, Message
+-- Colours) show their own section the same way.
+-- The switches are saved in sp_addons.txt as key=0/1. The Ice UI uses that
+-- file too, so every line is kept as it is and in the same order; only the
+-- switch that was changed is rewritten.
+pcall(function()
+    local document = document
+    local FLAGS = 'sp_addons.txt'
+    -- add-ons with an on/off switch: key, switch text, add-on name (listed in this order)
+    local SWITCHES = {
+        {'dps_meter', 'DPS meter under the target', 'DPS Meter'},
+        {'exp_tracker', 'EXP per hour when hovering the EXP bar', 'EXP Tracker'},
+        {'weapon_slot', 'Weapon slot beside the HUD bars', 'HUD Weapon Slot'},
+        {'weapon_refresh', 'Keep the HUD weapon durability up to date', 'Weapon Refresh'},
+        {'hud_move', 'Move the HUD by holding its footer', 'Movable HUD'},
+        {'friend_levels', 'Remembered levels in the friend and group lists', 'Friend Levels'},
+        {'class_icons', 'Class icons in party and group', 'Class Icons'},
+        {'party_buffs', 'Buff icon options in party and group', 'Party Buff Options'},
+        {'summon_extras', 'Summon HP, range and low-HP warning', 'Summon Gauge Plus'},
+        {'mob_levels', 'Monster level above monster names', 'Monster Levels'},
+        {'minimap_pad', 'Window under the minimized minimap', 'Minimap Window'},
+    }
+    -- add-ons with a section of their own: key, id of that section
+    local SECTIONS = {
+        {'item_labels', 'sp-sec-item_labels'},
+        {'window_rescue', 'sp-sec-window_rescue'},
+        {'msg_colors', 'sp-sec-msg_colors'},
+    }
+    local UI_TAB = {item_labels = true, window_rescue = true}   -- sections in the UI tab
+    local function el(id) return document:GetElementById(id) end
+    local function installed(key)
+        local yes = true      -- if the game won't let the UI read files, show everything
+        pcall(function()
+            local f = io.open('Data/ui/sp_addons/' .. key .. '.txt', 'r')
+            if f then f:close() else yes = false end
+        end)
+        return yes
+    end
+    -- sp_addons.txt: every line kept, in order
+    local function read_flags()
+        local vals, order = {}, {}
+        pcall(function()
+            local f = io.open(FLAGS, 'r')
+            if not f then return end
+            for line in f:lines() do
+                local k, v = line:match('^%s*([%w_]+)%s*=%s*(%d+)')
+                if k then
+                    if vals[k] == nil then order[#order + 1] = k end
+                    vals[k] = v
+                end
+            end
+            f:close()
+        end)
+        return vals, order
+    end
+    local function set_flag(key, on)
+        local vals, order = read_flags()
+        if vals[key] == nil then order[#order + 1] = key end
+        vals[key] = on and '1' or '0'
+        local ok = pcall(function()
+            local f = assert(io.open(FLAGS, 'w'))
+            for _, k in ipairs(order) do f:write(k, '=', vals[k], '\n') end
+            f:close()
+        end)
+        local st = el('sp-addon-status')
+        if st and not ok then st.inner_rml = 'Could not save the switch.' end
+    end
+    local shown = nil
+    local function build()
+        local body = el('game-options')
+        local vals = read_flags()
+        local have, ui_used = {}, false
+        for _, s in ipairs(SECTIONS) do
+            local on = SP_THEME == 'steampunk' or installed(s[1])   -- Steampunk has these built in
+            local sec = el(s[2])
+            if sec then sec:SetClass('sp-shown', on) end
+            if body then body:SetClass('sp-has-' .. s[1], on) end
+            if on and UI_TAB[s[1]] then ui_used = true end
+        end
+        local items, sig = {}, {}
+        for _, it in ipairs(SWITCHES) do
+            -- the Steampunk UI theme shows its own element chart instead of the Minimap Window
+            if installed(it[1]) and not (SP_THEME == 'steampunk' and it[1] == 'minimap_pad') then
+                items[#items + 1] = it
+                sig[#sig + 1] = it[1] .. (vals[it[1]] == '0' and '0' or '1')
+            end
+        end
+        if #items > 0 then ui_used = true end
+        local group = el('sp-sec-switches')
+        if group then group:SetClass('sp-shown', #items > 0) end
+        if body then body:SetClass('sp-no-ui-tab', not ui_used) end
+        sig = table.concat(sig, ',')
+        if sig == shown then return end
+        shown = sig
+        local list = el('sp-addon-list')
+        if not list then return end
+        local rows = {}
+        for _, it in ipairs(items) do
+            rows[#rows + 1] = '<div class="sp-addon-row"><input id="sp-addon-' .. it[1] .. '" type="checkbox"'
+                .. (vals[it[1]] == '0' and '' or ' checked=""') .. ' /><label for="sp-addon-' .. it[1] .. '">'
+                .. it[2] .. ' <span class="sp-addon-name">(' .. it[3] .. ')</span></label></div>'
+        end
+        list.inner_rml = table.concat(rows)
+        for _, it in ipairs(items) do
+            local k = it[1]
+            local box = el('sp-addon-' .. k)
+            if box then
+                box:AddEventListener('change', function()
+                    set_flag(k, box:HasAttribute('checked'))
+                    shown = nil
+                end)
+            end
+        end
+        local st = el('sp-addon-status')
+        if st then st.inner_rml = 'A change shows within about 2 seconds.' end
+    end
+    pcall(build)
+    document:AddEventListener('show', function() pcall(build) end)
+end)
+    </script>
+        <script>
+-- (runs only in the Steampunk look)
+if SP_THEME ~= 'steampunk' then return end
 -- Heading-up minimap switch (steampunk add-on). The minimap window does the
 -- turning; this checkbox tells it to (through _G.SP_MINIMAP_SET) and the choice
 -- is saved in sp_minimap.txt, which the minimap reads when it loads.
@@ -553,6 +505,8 @@ pcall(function()
 end)
     </script>
     <script>
+-- (runs only in the Steampunk look)
+if SP_THEME ~= 'steampunk' then return end
 -- Element chart switch (steampunk add-on). Saved in sp_element_chart.txt; the
 -- minimap reads it every 2 seconds (and straight away when windows can share).
 pcall(function()
@@ -575,7 +529,7 @@ pcall(function()
     end)
 end)
     </script>
-    </head>
+</head>
 
     <body id="game-options" template="window-resizeable">
         <tabset id="options-tabs">
@@ -1348,6 +1302,21 @@ end)
                         <h3><str string-id="776">Gameplay</str></h3>
                         <table class="main">
                             <tbody>
+                                <!-- these two move to Options > UI > Dropped Items while the Dropped Item Labels add-on is installed -->
+                                <tr class="sp-game-item-row">
+                                    <td></td>
+                                    <td>
+                                        <input id="item-name" type="checkbox" data-checked="game.show_item_name" onchange="game-itemname"/>
+                                        <label for="item-name"><str string-id="1367">Show dropped item name</str></label>
+                                    </td>
+                                </tr>
+                                <tr class="sp-game-item-row">
+                                    <td></td>
+                                    <td>
+                                        <input id="pickup-status" type="checkbox" data-checked="game.show_item_status" onchange="game-itemstatus"/>
+                                        <label for="pickup-status"><str string-id="1371">Show item pickup status</str></label>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td></td>
                                     <td>
@@ -1680,11 +1649,11 @@ end)
                             </table>
                         </div>
 
-                        <!-- Message Colours (steampunk add-on; script at the end of <head>) -->
-                        <details>
+                        <!-- Message Colours add-on (script at the end of <head>); shown while it is installed -->
+                        <details id="sp-sec-msg_colors" class="sp-sec">
                             <summary>Message Colours</summary>
                             <div id="sp-chat-colors">Lua has not run in this window</div>
-                            <div id="sp-chat-colors-status" style="font-size: 11dp; color: rgb(201, 180, 138);"></div>
+                            <div id="sp-chat-colors-status" class="sp-note"></div>
                         </details>
 
                         <!-- Chat Box Tabs -->
@@ -1797,29 +1766,37 @@ end)
 
                 </div>
             </panel>
-            <!-- ===================== UI (theme add-ons) ===================== -->
-            <tab class="default">UI</tab>
+            <!-- ===================== UI (add-ons) ===================== -->
+            <!-- Each add-on's part shows only while that add-on is installed, one under the other -->
+            <tab id="sp-ui-tab" class="default">UI</tab>
             <panel class="content-box">
-                <div class="options-panel">
-                        <div class="settings-group">
+                <div class="options-panel" data-model="options-data">
+                        <div id="sp-sec-switches" class="settings-group sp-sec">
+                            <h3>Add-ons</h3>
+                            <!-- one line per installed add-on, filled in by the script at the end of <head> -->
+                            <div id="sp-addon-list"></div>
+                            <div id="sp-addon-status" class="sp-note"></div>
+                        </div>
+                        <!-- Dropped Item Labels add-on -->
+                        <div id="sp-sec-item_labels" class="settings-group sp-sec">
                             <h3>Dropped Items</h3>
                             <table class="main">
                                 <tbody>
                                         <tr>
                                             <td>Item names</td>
                                             <td>
-                                                <input id="item-name" type="checkbox" data-checked="game.show_item_name" onchange="game-itemname"/>
-                                                <label for="item-name"><str string-id="1367">Show dropped item name</str></label>
+                                                <input id="sp-item-name" type="checkbox" data-checked="game.show_item_name" onchange="game-itemname"/>
+                                                <label for="sp-item-name"><str string-id="1367">Show dropped item name</str></label>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Pickup status</td>
                                             <td>
-                                                <input id="pickup-status" type="checkbox" data-checked="game.show_item_status" onchange="game-itemstatus"/>
-                                                <label for="pickup-status"><str string-id="1371">Show item pickup status</str></label>
+                                                <input id="sp-pickup-status" type="checkbox" data-checked="game.show_item_status" onchange="game-itemstatus"/>
+                                                <label for="sp-pickup-status"><str string-id="1371">Show item pickup status</str></label>
                                             </td>
                                         </tr>
-                                        <!-- Label background slider (script at the end of <head>); moved here from the Game tab; shown while item names are on -->
+                                        <!-- Label background slider (script at the end of <head>); shown while item names are on -->
                                         <tr data-if="game.show_item_name">
                                             <td>Label background</td>
                                             <td>
@@ -1827,13 +1804,14 @@ end)
                                                     <input id="sp-label-alpha" type="range" min="0" max="10" step="1" value="0" style="flex: 1" />
                                                     <label class="slider-value" id="sp-label-alpha-value">No Lua</label>
                                                 </div>
-                                                <div id="sp-label-alpha-debug" style="font-size: 11dp; color: rgb(201, 180, 138);"></div>
+                                                <div id="sp-label-alpha-debug" class="sp-note"></div>
                                             </td>
                                         </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="settings-group">
+                        <!-- Steampunk only: its minimap settings -->
+                        <div class="settings-group sp-only-steampunk">
                             <h3>Minimap</h3>
                             <table class="main">
                                 <tbody>
@@ -1843,7 +1821,7 @@ end)
                                         <td>
                                             <input id="sp-mm-heading-up" type="checkbox" />
                                             <label for="sp-mm-heading-up">Turn map with player (facing direction always up)</label>
-                                            <div id="sp-mm-status" style="font-size: 11dp; color: rgb(201, 180, 138);"></div>
+                                            <div id="sp-mm-status" class="sp-note"></div>
                                         </td>
                                     </tr>
                                     <!-- Steampunk add-on: element chart under the minimized minimap (script at the end of <head>) -->
@@ -1857,16 +1835,16 @@ end)
                                 </tbody>
                             </table>
                         </div>
-                        <div class="settings-group">
+                        <!-- Window Rescue add-on: pull every window back into view (script at the end of <head>) -->
+                        <div id="sp-sec-window_rescue" class="settings-group sp-sec">
                             <h3>Windows</h3>
                             <table class="main">
                                 <tbody>
-                                    <!-- Steampunk add-on: pull every window back into view (script at the end of <head>) -->
                                     <tr>
                                         <td>Windows</td>
                                         <td>
                                             <button id="sp-windows-onscreen" class="default">Bring all windows on screen</button>
-                                            <div id="sp-windows-status" style="font-size: 11dp; color: rgb(201, 180, 138);"></div>
+                                            <div id="sp-windows-status" class="sp-note"></div>
                                         </td>
                                     </tr>
                                 </tbody>

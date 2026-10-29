@@ -4,67 +4,47 @@
         <title></title>
         <link type="text/template" href="../templates/window-resizeable.html" />
         <link type="text/rcss" href="../styles/spritesheet_elementicon.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk_sprites.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
 
         <style>
-            /* =================================================================
-             * Steampunk minimap: "Brass Porthole"
-             * Round map in a brass compass bezel, gear knobs around the rim,
-             * zone name on a plate above, coordinates and time on a plaque below.
-             * Art: imgs/steampunk_minimap.dds (listed in styles/spritesheet_steampunk.css)
-             * Bezel centre is (125, 112); the map hole is 168dp across.
-             * ================================================================= */
-            body { width: 250dp; }
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-minimap.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-minimap.sp-theme-steampunk .sp-only-default { display: none; }
 
-            .title { position: absolute; display: inline-block; width: 100%; height: 30dp; top: 0dp; left: 0dp; }
+            /* ==== Both looks ==== */
             .hidden { display: none; }
-            #minimap-root { position: relative; width: 250dp; }
-
-            /* ── Minimized state: a brass-edged iron bar ── */
-            #minimap-minimized {
-                position: relative; width: 206dp; height: 40dp;
-                background-color: rgba(30, 24, 19, 230);
-                border: 2dp rgb(180, 138, 69);
-            }
-            #minimap-minimized .btn-restore {
-                position: absolute; right: 6dp; top: 6dp; width: 26dp; height: 26dp;
-                decorator: image(mm-plus-n);
-            }
-            #minimap-minimized .btn-restore:hover { decorator: image(mm-plus-h); }
-            #minimap-minimized .btn-restore:active { decorator: image(mm-plus-a); }
-            #minimap-minimized #zone-name-min {
-                position: absolute; left: 8dp; top: 4dp; width: 150dp; height: 18dp;
-                font-weight: 800; font-effect: outline(1dp black); color: rgb(243, 211, 138);
-                text-align: center; overflow: hidden; white-space: nowrap;
-            }
-            #minimap-minimized #time-min {
-                position: absolute; left: 43dp; top: 21dp; width: 80dp; height: 14dp;
-                font-size: 12dp; color: rgb(226, 208, 170); font-effect: outline(1dp black); text-align: center;
-            }
             #minimap-minimized .day-night-icon-min { position: absolute; right: 40dp; top: 2dp; }
-
-            /* ── Element chart (steampunk add-on): an iron panel under the minimized bar ── */
-            #sp-el-chart {
-                position: absolute; left: -2dp; top: 42dp; width: 210dp; box-sizing: border-box;
-                padding: 4dp 6dp 5dp 6dp;
-                background-color: rgba(30, 24, 19, 215); border: 2dp rgb(180, 138, 69); border-top-width: 0dp;
-                font-size: 11dp; color: rgb(241, 227, 196); font-effect: outline(1dp black);
-                pointer-events: none;
-            }
-            #sp-el-chart.off { display: none; }
-            .sp-el-row { display: flex; flex-direction: row; align-items: center; height: 18dp; border-top: 1dp rgba(180, 138, 69, 70); }
-            .sp-el-head { border-top: 0; height: 18dp; font-weight: 800; color: rgb(243, 211, 138); }
-            .sp-el-head .sp-el-col.strong { color: rgb(150, 220, 110); }
-            .sp-el-head .sp-el-col.weak { color: rgb(240, 120, 90); }
+            #minimap-map { position: relative; }
+            #minimap-map img.map-image { position: absolute; }
+            #minimap-map img.npc-icon { position: absolute; transform: translate(-50%, -50%); }
+            #minimap-map img.party-icon { position: absolute; transform: translate(-50%, -50%); }
+            #minimap-map img.coord-indicator { position: absolute; transform: translate(-50%, -50%); }
+            #minimap-map img.avatar-icon { position: absolute; transform: translate(-50%, -50%); }
+            #minimap-map img.player-arrow { position: absolute; }
+            #giftbox-tooltip-bg { width: 182dp; height: 29dp; decorator: image(GEN_DECO65); }
+            .btn-worldmap:hover > .minimap-tooltip { display: block; }
+            .btn-itemmall:hover > .minimap-tooltip { display: block; }
+            #time-area:hover > .minimap-tooltip { display: block; }
+            #sp-pad { position: absolute; left: 0dp; top: 46dp; width: 206dp; height: 202dp; box-sizing: border-box; border: 1dp rgba(150, 150, 150, 120); border-radius: 3dp; background-color: rgba(0, 0, 0, 100); pointer-events: none; }
+            #sp-pad.off { display: none; }
+            #sp-pad-gear { position: absolute; right: 3dp; top: 3dp; width: 20dp; height: 19dp; decorator: image(button-settings-n); opacity: 0.6; pointer-events: auto; cursor: hand; }
+            #sp-pad-gear:hover { decorator: image(button-settings-h); opacity: 1; }
+            #sp-pad-gear:active { decorator: image(button-settings-a); }
+            #sp-pad-options { display: none; position: absolute; right: -4dp; top: 24dp; z-index: 10; width: 196dp; padding: 6dp 8dp 8dp 8dp; box-sizing: border-box; background-color: rgba(0, 0, 0, 225); border: 1dp rgb(150, 150, 150); border-radius: 3dp; font-size: 12dp; color: white; font-effect: outline(1dp black); pointer-events: auto; }
+            #sp-pad-options.open { display: block; }
+            #sp-pad-options .sp-pad-title { display: block; font-weight: 800; color: yellow; margin-bottom: 4dp; }
+            #sp-pad-options .sp-pad-row { display: block; margin-top: 4dp; }
+            #sp-pad-options .sp-pad-row input.range { width: 100%; }
+            #sp-pad-options .sp-pad-val { color: #ccc; }
+            #sp-el-chart { display: block; padding: 4dp 6dp 4dp 6dp; font-size: 11dp; color: white; font-effect: outline(1dp black); }
+            #sp-pad.no-chart #sp-el-chart { display: none; }
             .sp-el-who { display: flex; flex-direction: row; align-items: center; width: 66dp; flex-shrink: 0; }
             .sp-el-name { font-weight: 800; white-space: nowrap; }
             .sp-el-name.elementicon-l-4 { color: rgb(200, 140, 80); }
             .sp-el-name.elementicon-l-8 { color: rgb(170, 170, 170); }
             .sp-el-col { display: flex; flex-direction: row; align-items: center; width: 57dp; flex-shrink: 0; }
-            .sp-el-split { width: 1dp; height: 14dp; margin: 0 4dp 0 2dp; background-color: rgba(180, 138, 69, 160); flex-shrink: 0; }
             .sp-el-head .sp-el-split { background-color: transparent; }
-            .sp-el-none { color: rgb(201, 180, 138); }
             .sp-el-ic { display: inline-block; width: 13dp; height: 13dp; margin-right: 1dp; flex-shrink: 0; }
             .sp-el-ic.big { width: 16dp; height: 15dp; margin-right: 3dp; }
             .sp-el-0 { decorator: image(elementicon-l-0); }
@@ -76,149 +56,271 @@
             .sp-el-6 { decorator: image(elementicon-l-6); }
             .sp-el-7 { decorator: image(elementicon-l-7); }
             .sp-el-8 { decorator: image(elementicon-l-8); }
+            #sp-pad-close { position: absolute; right: 4dp; top: 4dp; cursor: hand; color: #ccc; font-weight: 800; }
+            #sp-pad-close:hover { color: white; }
+            #game-minimap.sp-pad-off #sp-pad { display: none; }
+            #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
+
+            /* ==== Default UI look only ==== */
+            body.sp-theme-default { width: 210dp; }
+            .sp-theme-default .title { position: absolute; display: inline-block; width: 100%; height: 40dp; top: 0dp; left: 0dp; margin: 2dp; }
+            .sp-theme-default #minimap-root { position: relative; width: 206dp; }
+            .sp-theme-default #minimap-minimized { position: relative; width: 206dp; height: 40dp; }
+            .sp-theme-default #minimap-minimized .btn-restore { position: absolute; right: 6dp; top: 9dp; width: 29dp; height: 25dp; decorator: image(GEN_BTN04); }
+            .sp-theme-default #minimap-minimized .btn-restore:hover { decorator: image(GEN_BTN05); }
+            .sp-theme-default #minimap-minimized .btn-restore:active { decorator: image(GEN_BTN06); }
+            .sp-theme-default #minimap-minimized #zone-name-min { position: absolute; left: 8dp; top: 10dp; width: 140dp; height: 18dp; font-weight: 800; font-effect: outline(1dp black); color: white; text-align: center; overflow: hidden; white-space: nowrap; }
+            .sp-theme-default #minimap-minimized #time-min { position: absolute; left: 40dp; top: 25dp; width: 80dp; height: 14dp; font-size: 12dp; color: #ccc; font-effect: outline(1dp black); text-align: center; }
+            .sp-theme-default #minimap-normal { position: relative; width: 206dp; height: 210dp; }
+            .sp-theme-default #zone-name { position: absolute; left: 10dp; top: 12dp; width: 160dp; height: 18dp; font-size: 12dp; font-weight: 800; font-effect: outline(1dp black); color: white; text-align: center; overflow: hidden; white-space: nowrap; }
+            .sp-theme-default #minimap-frame { position: absolute; left: 0dp; top: 0dp; width: 219dp; height: 219dp; decorator: image(GEN_MINIMAP09); pointer-events: none; }
+            .sp-theme-default #minimap-viewport { position: absolute; left: 33dp; top: 33dp; width: 142dp; height: 142dp; overflow: hidden; clip: always; }
+            .sp-theme-default .btn-minimize { position: absolute; right: 6dp; top: 9dp; width: 29dp; height: 25dp; decorator: image(GEN_BTN07); }
+            .sp-theme-default .btn-minimize:hover { decorator: image(GEN_BTN08); }
+            .sp-theme-default .btn-minimize:active { decorator: image(GEN_BTN09); }
+            .sp-theme-default .btn-worldmap { position: absolute; left: 12dp; top: 34dp; width: 43dp; height: 43dp; decorator: image(GEN_DECO55); }
+            .sp-theme-default .btn-worldmap:hover { opacity: 0.8; }
+            .sp-theme-default .btn-worldmap:active { opacity: 0.6; }
+            .sp-theme-default .day-night-icon { position: absolute; right: 3dp; top: 34dp; }
+            .sp-theme-default .btn-gamearena { position: absolute; left: 7dp; top: 75dp; width: 30dp; height: 30dp; decorator: image(button-scoreboard-n); }
+            .sp-theme-default .btn-gamearena:hover { opacity: 0.8; }
+            .sp-theme-default .btn-gamearena:active { opacity: 0.6; }
+            .sp-theme-default .btn-giftbox { position: absolute; left: 0dp; top: 128dp; width: 43dp; height: 43dp; decorator: image(GEN_BTN106); }
+            .sp-theme-default .btn-giftbox:hover { decorator: image(GEN_BTN107); }
+            .sp-theme-default .btn-giftbox:active { decorator: image(GEN_BTN108); }
+            .sp-theme-default .btn-giftbox.blink { animation: giftbox-blink 1s infinite; }
+            .sp-theme-default #giftbox-tooltip { position: absolute; left: -177dp; top: 133dp; width: 182dp; height: 29dp; }
+            .sp-theme-default #giftbox-tooltip-text { position: absolute; top: 0; left: 0; width: 178dp; height: 29dp; font-size: 12dp; font-weight: 800; color: white; text-align: center; vertical-align: middle; line-height: 29dp; }
+            .sp-theme-default .btn-itemmall { position: absolute; left: 24dp; bottom: 5dp; width: 43dp; height: 43dp; decorator: image(GEN_BTN82); }
+            .sp-theme-default .btn-itemmall:hover { decorator: image(GEN_BTN83); }
+            .sp-theme-default .btn-itemmall:active { decorator: image(GEN_BTN84); }
+            .sp-theme-default .btn-zoomin { position: absolute; right: 15dp; bottom: 62dp; width: 20dp; height: 20dp; decorator: image(GEN_BTN85); }
+            .sp-theme-default .btn-zoomin:hover { decorator: image(GEN_BTN86); }
+            .sp-theme-default .btn-zoomin:active { decorator: image(GEN_BTN87); }
+            .sp-theme-default .btn-zoomout { position: absolute; right: 28dp; bottom: 40dp; width: 20dp; height: 20dp; decorator: image(GEN_BTN88); }
+            .sp-theme-default .btn-zoomout:hover { decorator: image(GEN_BTN89); }
+            .sp-theme-default .btn-zoomout:active { decorator: image(GEN_BTN90); }
+            .sp-theme-default #coordinates-text { position: absolute; left: 71dp; bottom: 28dp; width: 67dp; height: 14dp; font-size: 12dp; font-weight: 800; color: #ccc; font-effect: outline(1dp black); text-align: center; }
+            .sp-theme-default #time-area { position: absolute; left: 71dp; bottom: 12dp; width: 67dp; height: 14dp; text-align: center; }
+            .sp-theme-default #time-text { width: 67dp; height: 14dp; font-size: 12dp; font-weight: 800; color: #ccc; font-effect: outline(1dp black); text-align: center; }
+            .sp-theme-default .minimap-tooltip { display: none; position: absolute; background-color: #000000a3; padding: 3dp 6dp; color: white; white-space: nowrap; font-effect: none; }
+            .sp-theme-default .minimap-tooltip-left { top: 50%; left: 0; transform: translate(-100%, -50%); margin-left: -4dp; width: 100dp; }
+            .sp-theme-default #time-tooltip { width: 200dp; bottom: -400%; left: 50%; transform: translateX(-50%); margin-bottom: 4dp; font-size: 13dp; text-align: left; }
+            .sp-theme-default .time-tooltip-label { color: #90c8ff; }
+            .sp-theme-default .sp-el-row { display: flex; flex-direction: row; align-items: center; height: 18dp; border-top: 1dp rgba(150, 150, 150, 50); }
+            .sp-theme-default .sp-el-head { border-top: 0; font-weight: 800; color: yellow; height: 20dp; }
+            .sp-theme-default .sp-el-head .sp-el-col.strong { color: rgb(110, 230, 110); }
+            .sp-theme-default .sp-el-head .sp-el-col.weak { color: rgb(255, 100, 90); }
+            .sp-theme-default .sp-el-split { width: 1dp; height: 14dp; margin: 0 4dp 0 2dp; background-color: rgba(200, 200, 200, 120); flex-shrink: 0; }
+            .sp-theme-default .sp-el-none { color: #aaa; }
+
+            /* ==== Steampunk look only ==== */
+            body.sp-theme-steampunk { width: 250dp; }
+            .sp-theme-steampunk .title { position: absolute; display: inline-block; width: 100%; height: 30dp; top: 0dp; left: 0dp; }
+            .sp-theme-steampunk .hidden { display: none; }
+            .sp-theme-steampunk #minimap-root { position: relative; width: 250dp; }
+            .sp-theme-steampunk #minimap-minimized { position: relative; width: 206dp; height: 40dp; background-color: rgba(30, 24, 19, 230); border: 2dp rgb(180, 138, 69); }
+            .sp-theme-steampunk #minimap-minimized .btn-restore { position: absolute; right: 6dp; top: 6dp; width: 26dp; height: 26dp; decorator: image(mm-plus-n); }
+            .sp-theme-steampunk #minimap-minimized .btn-restore:hover { decorator: image(mm-plus-h); }
+            .sp-theme-steampunk #minimap-minimized .btn-restore:active { decorator: image(mm-plus-a); }
+            .sp-theme-steampunk #minimap-minimized #zone-name-min { position: absolute; left: 8dp; top: 4dp; width: 150dp; height: 18dp; font-weight: 800; font-effect: outline(1dp black); color: rgb(243, 211, 138); text-align: center; overflow: hidden; white-space: nowrap; }
+            .sp-theme-steampunk #minimap-minimized #time-min { position: absolute; left: 43dp; top: 21dp; width: 80dp; height: 14dp; font-size: 12dp; color: rgb(226, 208, 170); font-effect: outline(1dp black); text-align: center; }
+            .sp-theme-steampunk #minimap-minimized .day-night-icon-min { position: absolute; right: 40dp; top: 2dp; }
+            .sp-theme-steampunk #sp-el-chart-sp { position: absolute; left: -2dp; top: 42dp; width: 210dp; box-sizing: border-box; padding: 4dp 6dp 5dp 6dp; background-color: rgba(30, 24, 19, 215); border: 2dp rgb(180, 138, 69); border-top-width: 0dp; font-size: 11dp; color: rgb(241, 227, 196); font-effect: outline(1dp black); pointer-events: none; }
+            .sp-theme-steampunk #sp-el-chart-sp.off { display: none; }
+            .sp-theme-steampunk .sp-el-row { display: flex; flex-direction: row; align-items: center; height: 18dp; border-top: 1dp rgba(180, 138, 69, 70); }
+            .sp-theme-steampunk .sp-el-head { border-top: 0; height: 18dp; font-weight: 800; color: rgb(243, 211, 138); }
+            .sp-theme-steampunk .sp-el-head .sp-el-col.strong { color: rgb(150, 220, 110); }
+            .sp-theme-steampunk .sp-el-head .sp-el-col.weak { color: rgb(240, 120, 90); }
+            .sp-theme-steampunk .sp-el-who { display: flex; flex-direction: row; align-items: center; width: 66dp; flex-shrink: 0; }
+            .sp-theme-steampunk .sp-el-name { font-weight: 800; white-space: nowrap; }
+            .sp-theme-steampunk .sp-el-name.elementicon-l-4 { color: rgb(200, 140, 80); }
+            .sp-theme-steampunk .sp-el-name.elementicon-l-8 { color: rgb(170, 170, 170); }
+            .sp-theme-steampunk .sp-el-col { display: flex; flex-direction: row; align-items: center; width: 57dp; flex-shrink: 0; }
+            .sp-theme-steampunk .sp-el-split { width: 1dp; height: 14dp; margin: 0 4dp 0 2dp; background-color: rgba(180, 138, 69, 160); flex-shrink: 0; }
+            .sp-theme-steampunk .sp-el-head .sp-el-split { background-color: transparent; }
+            .sp-theme-steampunk .sp-el-none { color: rgb(201, 180, 138); }
+            .sp-theme-steampunk .sp-el-ic { display: inline-block; width: 13dp; height: 13dp; margin-right: 1dp; flex-shrink: 0; }
+            .sp-theme-steampunk .sp-el-ic.big { width: 16dp; height: 15dp; margin-right: 3dp; }
+            .sp-theme-steampunk .sp-el-0 { decorator: image(elementicon-l-0); }
+            .sp-theme-steampunk .sp-el-1 { decorator: image(elementicon-l-1); }
+            .sp-theme-steampunk .sp-el-2 { decorator: image(elementicon-l-2); }
+            .sp-theme-steampunk .sp-el-3 { decorator: image(elementicon-l-3); }
+            .sp-theme-steampunk .sp-el-4 { decorator: image(elementicon-l-4); }
+            .sp-theme-steampunk .sp-el-5 { decorator: image(elementicon-l-5); }
+            .sp-theme-steampunk .sp-el-6 { decorator: image(elementicon-l-6); }
+            .sp-theme-steampunk .sp-el-7 { decorator: image(elementicon-l-7); }
+            .sp-theme-steampunk .sp-el-8 { decorator: image(elementicon-l-8); }
+            .sp-theme-steampunk #sp-el-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-el-tick-a; }
+            .sp-theme-steampunk #minimap-normal { position: relative; width: 250dp; height: 294dp; }
+            .sp-theme-steampunk #minimap-viewport { position: absolute; left: 41dp; top: 28dp; width: 142dp; height: 142dp; overflow: hidden; clip: always; transform: scale(1.1831); transform-origin: 0 0; }
+            .sp-theme-steampunk #minimap-map { position: relative; }
+            .sp-theme-steampunk #minimap-map img.map-image { position: absolute; }
+            .sp-theme-steampunk #minimap-map img.npc-icon { position: absolute; transform: translate(-50%, -50%); }
+            .sp-theme-steampunk #minimap-map img.party-icon { position: absolute; transform: translate(-50%, -50%); }
+            .sp-theme-steampunk #minimap-map img.coord-indicator { position: absolute; transform: translate(-50%, -50%); }
+            .sp-theme-steampunk #minimap-map img.avatar-icon { position: absolute; transform: translate(-50%, -50%); }
+            .sp-theme-steampunk #minimap-map img.player-arrow { position: absolute; }
+            .sp-theme-steampunk #minimap-frame { position: absolute; left: 15dp; top: 2dp; width: 220dp; height: 220dp; decorator: image(mm-bezel); pointer-events: none; }
+            .sp-theme-steampunk #minimap-normal .title { left: 33dp; top: 238dp; width: 184dp; height: 24dp; }
+            .sp-theme-steampunk #zone-name { position: absolute; left: 0dp; top: 0dp; width: 184dp; height: 24dp; line-height: 21dp; box-sizing: border-box; display: block; font-size: 13dp; font-weight: 800; color: rgb(243, 211, 138); font-effect: outline(1dp rgb(30, 18, 8)); text-align: center; overflow: hidden; white-space: nowrap; padding: 0dp 22dp; background-color: rgb(52, 39, 24); border: 2dp rgb(180, 138, 69); border-bottom-width: 0dp; border-radius: 8dp 8dp 0dp 0dp; }
+            .sp-theme-steampunk .btn-minimize { position: absolute; left: 194dp; top: 240dp; width: 20dp; height: 20dp; decorator: image(mm-minimize-n); }
+            .sp-theme-steampunk .btn-minimize:hover { decorator: image(mm-minimize-h); }
+            .sp-theme-steampunk .btn-minimize:active { decorator: image(mm-minimize-a); }
+            .sp-theme-steampunk .btn-worldmap { position: absolute; left: 38dp; top: 25dp; width: 34dp; height: 34dp; decorator: image(mm-map-n); }
+            .sp-theme-steampunk .btn-worldmap:hover { decorator: image(mm-map-h); }
+            .sp-theme-steampunk .btn-worldmap:active { decorator: image(mm-map-a); }
+            .sp-theme-steampunk .day-night-icon { position: absolute; left: 178dp; top: 25dp; width: 34dp; height: 34dp; }
+            .sp-theme-steampunk .btn-gamearena { position: absolute; left: 22dp; top: 144dp; width: 34dp; height: 34dp; decorator: image(mm-arena-n); }
+            .sp-theme-steampunk .btn-gamearena:hover { decorator: image(mm-arena-h); }
+            .sp-theme-steampunk .btn-gamearena:active { decorator: image(mm-arena-a); }
+            .sp-theme-steampunk .btn-giftbox { position: absolute; left: 9dp; top: 95dp; width: 34dp; height: 34dp; decorator: image(mm-gift-n); }
+            .sp-theme-steampunk .btn-giftbox:hover { decorator: image(mm-gift-h); }
+            .sp-theme-steampunk .btn-giftbox:active { decorator: image(mm-gift-a); }
+            .sp-theme-steampunk .btn-giftbox.blink { animation: giftbox-blink-steampunk 1s infinite; }
+            .sp-theme-steampunk #giftbox-tooltip { position: absolute; left: -175dp; top: 98dp; width: 182dp; height: 29dp; }
+            .sp-theme-steampunk #giftbox-tooltip-bg { width: 182dp; height: 29dp; decorator: image(GEN_DECO65); }
+            .sp-theme-steampunk #giftbox-tooltip-text { position: absolute; top: 0; left: 0; width: 178dp; height: 29dp; font-size: 12dp; font-weight: 800; color: white; text-align: center; line-height: 29dp; }
+            .sp-theme-steampunk .btn-itemmall { position: absolute; left: 106dp; top: 193dp; width: 38dp; height: 38dp; decorator: image(mm-mall-n); }
+            .sp-theme-steampunk .btn-itemmall:hover { decorator: image(mm-mall-h); }
+            .sp-theme-steampunk .btn-itemmall:active { decorator: image(mm-mall-a); }
+            .sp-theme-steampunk .btn-zoomin { position: absolute; left: 204dp; top: 132dp; width: 28dp; height: 28dp; decorator: image(mm-plus-n); }
+            .sp-theme-steampunk .btn-zoomin:hover { decorator: image(mm-plus-h); }
+            .sp-theme-steampunk .btn-zoomin:active { decorator: image(mm-plus-a); }
+            .sp-theme-steampunk .btn-zoomout { position: absolute; left: 176dp; top: 175dp; width: 28dp; height: 28dp; decorator: image(mm-minus-n); }
+            .sp-theme-steampunk .btn-zoomout:hover { decorator: image(mm-minus-h); }
+            .sp-theme-steampunk .btn-zoomout:active { decorator: image(mm-minus-a); }
+            .sp-theme-steampunk #sp-plaque { position: absolute; left: 33dp; top: 262dp; width: 184dp; height: 26dp; box-sizing: border-box; background-color: rgb(30, 23, 16); border: 2dp rgb(180, 138, 69); border-radius: 0dp 0dp 3dp 3dp; }
+            .sp-theme-steampunk .sp-plaque-rivet { position: absolute; top: 270dp; width: 9dp; height: 9dp; decorator: image(sp-rivet); }
+            .sp-theme-steampunk #sp-plaque-divider { position: absolute; left: 120dp; top: 267dp; width: 1dp; height: 16dp; background-color: rgb(122, 86, 36); }
+            .sp-theme-steampunk #coordinates-text { position: absolute; left: 42dp; top: 266dp; width: 76dp; height: 18dp; line-height: 18dp; white-space: nowrap; font-size: 12dp; font-weight: 800; color: rgb(243, 211, 138); font-effect: outline(1dp black); text-align: center; }
+            .sp-theme-steampunk #time-area { position: absolute; left: 122dp; top: 266dp; width: 82dp; height: 18dp; line-height: 18dp; text-align: center; white-space: nowrap; }
+            .sp-theme-steampunk #time-text { display: block; width: 82dp; height: 18dp; font-size: 12dp; font-weight: 800; white-space: nowrap; overflow: hidden; color: rgb(226, 208, 170); font-effect: outline(1dp black); text-align: center; }
+            .sp-theme-steampunk .minimap-tooltip { display: none; position: absolute; background-color: rgba(30, 24, 19, 240); border: 1dp rgb(180, 138, 69); padding: 3dp 6dp; color: rgb(241, 227, 196); white-space: nowrap; font-effect: none; }
+            .sp-theme-steampunk .btn-worldmap:hover > .minimap-tooltip { display: block; }
+            .sp-theme-steampunk .btn-itemmall:hover > .minimap-tooltip { display: block; }
+            .sp-theme-steampunk #time-area:hover > .minimap-tooltip { display: block; }
+            .sp-theme-steampunk .minimap-tooltip-left { top: 50%; left: 0; transform: translate(-100%, -50%); margin-left: -4dp; width: 104dp; box-sizing: border-box; }
+            .sp-theme-steampunk #time-tooltip { width: 210dp; bottom: 22dp; left: 50%; transform: translateX(-50%); font-size: 13dp; text-align: left; }
+            .sp-theme-steampunk .time-tooltip-label { color: rgb(243, 211, 138); }
+            .sp-theme-steampunk #sp-mm-source { display: none; }
+            .sp-theme-steampunk #sp-mm-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 0.05s sp-mm-tick-a; }
+            .sp-theme-steampunk #minimap-frame { transform-origin: 50% 50%; }
+
+            @keyframes giftbox-blink {
+                0% { decorator: image(GEN_BTN106); }
+                50% { decorator: image(GEN_BTN109); }
+                100% { decorator: image(GEN_BTN106); }
+            }
+            @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-el-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-el-tick-b { from { opacity: 0; } to { opacity: 0; } }
-            #sp-el-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-el-tick-a; }
-
-            /* ── Normal state ── */
-            #minimap-normal { position: relative; width: 250dp; height: 294dp; }
-
-            /* Map: the game lays it out at 142dp; it is magnified to fill the
-               168dp round hole, so the player arrow stays centred. */
-            #minimap-viewport {
-                position: absolute; left: 41dp; top: 28dp; width: 142dp; height: 142dp;
-                overflow: hidden; clip: always;
-                transform: scale(1.1831); transform-origin: 0 0;
-            }
-            #minimap-map { position: relative; }
-            #minimap-map img.map-image { position: absolute; }
-            #minimap-map img.npc-icon,
-            #minimap-map img.party-icon,
-            #minimap-map img.coord-indicator,
-            #minimap-map img.avatar-icon { position: absolute; transform: translate(-50%, -50%); }
-            #minimap-map img.player-arrow { position: absolute; }
-
-            /* Brass compass bezel over the edge of the map */
-            #minimap-frame {
-                position: absolute; left: 15dp; top: 2dp; width: 220dp; height: 220dp;
-                decorator: image(mm-bezel); pointer-events: none;
-            }
-
-            /* Zone name plate across the top of the bezel */
-            /* Zone name plate under the porthole, joined to the coordinates/time
-               plaque below it. It is also a drag handle for the minimap. */
-            #minimap-normal .title { left: 33dp; top: 238dp; width: 184dp; height: 24dp; }
-            #zone-name {
-                position: absolute; left: 0dp; top: 0dp; width: 184dp; height: 24dp;
-                line-height: 21dp; box-sizing: border-box; display: block;
-                font-size: 13dp; font-weight: 800; color: rgb(243, 211, 138);
-                font-effect: outline(1dp rgb(30, 18, 8)); text-align: center;
-                overflow: hidden; white-space: nowrap;
-                padding: 0dp 22dp;
-                background-color: rgb(52, 39, 24);
-                border: 2dp rgb(180, 138, 69);
-                border-bottom-width: 0dp;
-                border-radius: 8dp 8dp 0dp 0dp;
-            }
-
-            /* ── Knobs around the rim ── */
-            .btn-minimize {
-                position: absolute; left: 194dp; top: 240dp; width: 20dp; height: 20dp;   /* right end of the name plate */
-                decorator: image(mm-minimize-n);
-            }
-            .btn-minimize:hover { decorator: image(mm-minimize-h); }
-            .btn-minimize:active { decorator: image(mm-minimize-a); }
-
-            /* 10:30 */
-            .btn-worldmap { position: absolute; left: 38dp; top: 25dp; width: 34dp; height: 34dp; decorator: image(mm-map-n); }
-            .btn-worldmap:hover { decorator: image(mm-map-h); }
-            .btn-worldmap:active { decorator: image(mm-map-a); }
-
-            /* Brass sun / moon knob (replaces the game's glass sky picture) */
-            .day-night-icon { position: absolute; left: 178dp; top: 25dp; width: 34dp; height: 34dp; }
-
-            /* 8 o'clock */
-            .btn-gamearena { position: absolute; left: 22dp; top: 144dp; width: 34dp; height: 34dp; decorator: image(mm-arena-n); }
-            .btn-gamearena:hover { decorator: image(mm-arena-h); }
-            .btn-gamearena:active { decorator: image(mm-arena-a); }
-
-            /* 9 o'clock */
-            .btn-giftbox { position: absolute; left: 9dp; top: 95dp; width: 34dp; height: 34dp; decorator: image(mm-gift-n); }
-            .btn-giftbox:hover { decorator: image(mm-gift-h); }
-            .btn-giftbox:active { decorator: image(mm-gift-a); }
-            @keyframes giftbox-blink {
+            @keyframes giftbox-blink-steampunk {
                 0% { decorator: image(mm-gift-n); }
                 50% { decorator: image(mm-gift-b); }
                 100% { decorator: image(mm-gift-n); }
             }
-            .btn-giftbox.blink { animation: giftbox-blink 1s infinite; }
-
-            #giftbox-tooltip { position: absolute; left: -175dp; top: 98dp; width: 182dp; height: 29dp; }
-            #giftbox-tooltip-bg { width: 182dp; height: 29dp; decorator: image(GEN_DECO65); }
-            #giftbox-tooltip-text {
-                position: absolute; top: 0; left: 0; width: 178dp; height: 29dp;
-                font-size: 12dp; font-weight: 800; color: white; text-align: center; line-height: 29dp;
-            }
-
-            /* 6 o'clock */
-            .btn-itemmall { position: absolute; left: 106dp; top: 193dp; width: 38dp; height: 38dp; decorator: image(mm-mall-n); }
-            .btn-itemmall:hover { decorator: image(mm-mall-h); }
-            .btn-itemmall:active { decorator: image(mm-mall-a); }
-
-            /* Zoom lever at 4 and 5 o'clock */
-            .btn-zoomin { position: absolute; left: 204dp; top: 132dp; width: 28dp; height: 28dp; decorator: image(mm-plus-n); }
-            .btn-zoomin:hover { decorator: image(mm-plus-h); }
-            .btn-zoomin:active { decorator: image(mm-plus-a); }
-            .btn-zoomout { position: absolute; left: 176dp; top: 175dp; width: 28dp; height: 28dp; decorator: image(mm-minus-n); }
-            .btn-zoomout:hover { decorator: image(mm-minus-h); }
-            .btn-zoomout:active { decorator: image(mm-minus-a); }
-
-            /* ── Plaque under the porthole: coordinates · time ── */
-            #sp-plaque {
-                position: absolute; left: 33dp; top: 262dp; width: 184dp; height: 26dp; box-sizing: border-box;
-                background-color: rgb(30, 23, 16);
-                border: 2dp rgb(180, 138, 69);
-                border-radius: 0dp 0dp 3dp 3dp;
-            }
-            .sp-plaque-rivet { position: absolute; top: 270dp; width: 9dp; height: 9dp; decorator: image(sp-rivet); }
-            #sp-plaque-divider { position: absolute; left: 120dp; top: 267dp; width: 1dp; height: 16dp; background-color: rgb(122, 86, 36); }
-            #coordinates-text {
-                position: absolute; left: 42dp; top: 266dp; width: 76dp; height: 18dp; line-height: 18dp; white-space: nowrap;
-                font-size: 12dp; font-weight: 800; color: rgb(243, 211, 138);
-                font-effect: outline(1dp black); text-align: center;
-            }
-            #time-area { position: absolute; left: 122dp; top: 266dp; width: 82dp; height: 18dp; line-height: 18dp; text-align: center; white-space: nowrap; }
-            #time-text {
-                display: block; width: 82dp; height: 18dp; font-size: 12dp; font-weight: 800; white-space: nowrap; overflow: hidden;
-                color: rgb(226, 208, 170); font-effect: outline(1dp black); text-align: center;
-            }
-
-            /* ── Tooltips ── */
-            .minimap-tooltip {
-                display: none; position: absolute;
-                background-color: rgba(30, 24, 19, 240);
-                border: 1dp rgb(180, 138, 69);
-                padding: 3dp 6dp; color: rgb(241, 227, 196);
-                white-space: nowrap; font-effect: none;
-            }
-            .btn-worldmap:hover > .minimap-tooltip,
-            .btn-itemmall:hover > .minimap-tooltip,
-            #time-area:hover > .minimap-tooltip { display: block; }
-            .minimap-tooltip-left { top: 50%; left: 0; transform: translate(-100%, -50%); margin-left: -4dp; width: 104dp; box-sizing: border-box; }   /* fixed widths: the game measures this text too narrow when sizing to fit */
-            #time-tooltip {
-                width: 210dp; bottom: 22dp; left: 50%; transform: translateX(-50%);
-                font-size: 13dp; text-align: left;
-            }
-            .time-tooltip-label { color: rgb(243, 211, 138); }
-
-            /* Heading-up mode (script below; switched in Options > Interface) */
-            #sp-mm-source { display: none; }
             @keyframes sp-mm-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-mm-tick-b { from { opacity: 0; } to { opacity: 0; } }
-            #sp-mm-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 0.05s sp-mm-tick-a; }
-            #minimap-frame { transform-origin: 50% 50%; }
         </style>
         <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-minimap')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
+        <script>
+-- (runs only in the default UI look)
+if SP_THEME == 'steampunk' then return end
+-- Minimap Window (add-on). While the minimap is minimized, an empty see-through
+-- window sits under the zone name and time, with an element chart (each
+-- element, what it is strong and weak against - the game's monster info lists). The gear on it opens a small panel
+-- to set its opacity (0% = clear, 100% = solid) and whether the element chart shows. Saved in sp_minimap_window.txt.
+pcall(function()
+    local document = document
+    local FILE = 'sp_minimap_window.txt'
+    local cfg = {alpha = 40, height = 190, width = 206, chart = 1}   -- alpha: 0 = clear .. 100 = solid
+    pcall(function()
+        local f = io.open(FILE, 'r')
+        if not f then return end
+        for line in f:lines() do
+            local k, v = line:match('^%s*(%w+)%s*=%s*(%d+)')
+            if k and cfg[k] then cfg[k] = tonumber(v) end
+        end
+        f:close()
+    end)
+    local function clamp(v, lo, hi) v = tonumber(v) or lo; return math.max(lo, math.min(hi, v)) end
+    cfg.alpha, cfg.height, cfg.width = clamp(cfg.alpha, 0, 100), clamp(cfg.height, 30, 400), clamp(cfg.width, 100, 400)
+    local function el(id) return document:GetElementById(id) end
+    local function save()
+        pcall(function()
+            local f = io.open(FILE, 'w')
+            if not f then return end
+            f:write('alpha=', cfg.alpha, '\nchart=', cfg.chart, '\n')
+            f:close()
+        end)
+    end
+    local function set_text(id, text)
+        local e = el(id)
+        if e and e:GetAttribute('sp-text') ~= text then e.inner_rml = text; e:SetAttribute('sp-text', text) end
+    end
+    local function apply()
+        local pad = el('sp-pad')
+        if not pad then return end
+        local a = math.floor(cfg.alpha * 255 / 100 + 0.5)
+        pad.style['background-color'] = 'rgba(0, 0, 0, ' .. a .. ')'
+        pad.style['border-color'] = 'rgba(150, 150, 150, ' .. math.max(40, a) .. ')'
+        pad:SetClass('no-chart', cfg.chart == 0)
+        set_text('sp-pad-alpha-val', string.format('%d%%', cfg.alpha))
+    end
+    local function hook_slider(id, key)
+        local s = el(id)
+        if not s then return end
+        s:SetAttribute('value', tostring(cfg[key]))
+        s:AddEventListener('change', function()
+            cfg[key] = math.floor((tonumber(s:GetAttribute('value')) or cfg[key]) + 0.5)
+            apply(); save()
+        end)
+    end
+    hook_slider('sp-pad-alpha', 'alpha')
+    local box = el('sp-pad-chart')
+    if box then
+        if cfg.chart == 0 then box:RemoveAttribute('checked') else box:SetAttribute('checked', '') end
+        box:AddEventListener('change', function()
+            cfg.chart = box:HasAttribute('checked') and 1 or 0
+            apply(); save()
+        end)
+    end
+    local gear, panel = el('sp-pad-gear'), el('sp-pad-options')
+    if gear and panel then
+        gear:AddEventListener('click', function(ev)
+            panel:SetClass('open', not panel:IsClassSet('open'))
+            ev:StopPropagation()
+        end)
+    end
+    local close = el('sp-pad-close')
+    if close and panel then close:AddEventListener('click', function(ev) panel:SetClass('open', false); ev:StopPropagation() end) end
+    apply()
+end)
+        </script>
+        <script>
+-- (runs only in the Steampunk look)
+if SP_THEME ~= 'steampunk' then return end
 -- Heading-up minimap (steampunk add-on). When switched on (Options > Interface,
 -- saved in sp_minimap.txt) the map turns around the player so the way you face
 -- is always up; the compass bezel turns with it, so N still points north. Your
@@ -306,6 +408,8 @@ pcall(function()
 end)
         </script>
         <script>
+-- (runs only in the Steampunk look)
+if SP_THEME ~= 'steampunk' then return end
 -- Element chart (steampunk add-on). Under the minimized minimap: every element
 -- with the elements it is strong and weak against (the game's own lists).
 -- Options > UI > Minimap turns it on and off; that is saved in
@@ -323,7 +427,7 @@ pcall(function()
         return v
     end
     local function apply()
-        local c = document:GetElementById('sp-el-chart')
+        local c = document:GetElementById('sp-el-chart-sp')
         if c then c:SetClass('off', not on()) end
     end
     apply()
@@ -339,6 +443,79 @@ pcall(function()
     end
 end)
         </script>
+    <script>
+-- Add-on switches (the same script in every add-on window).
+-- SP_ADDON_SWITCH minimap_pad
+-- An add-on counts as installed while its marker file
+-- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
+-- the add-on and takes it out again with it, so a window that several add-ons
+-- share only runs the parts of the add-ons that are installed.
+-- The on/off switches are in Options > UI > Add-ons and are saved in
+-- sp_addons.txt (the Ice UI uses the same file; nobody removes anyone else's
+-- lines). This window reads it every 2 seconds. Everything is on by default.
+pcall(function()
+    local BODY = 'game-minimap'
+    -- key, class put on this window while that add-on is off or not installed ('' = none)
+    local MINE = {{'minimap_pad', 'sp-pad-off'}}
+    local installed = {}
+    SP_ADDON_INSTALLED = function(key)
+        -- the Steampunk UI theme has every add-on built in
+        if SP_THEME == 'steampunk' then return true end
+        if installed[key] == nil then
+            installed[key] = true      -- if the game won't let the UI read files, assume installed
+            pcall(function()
+                local f = io.open('Data/ui/sp_addons/' .. key .. '.txt', 'r')
+                if f then f:close() else installed[key] = false end
+            end)
+        end
+        return installed[key]
+    end
+    local flags = {}
+    local function read_flags()
+        flags = {}
+        pcall(function()
+            local f = io.open('sp_addons.txt', 'r')
+            if not f then return end
+            for line in f:lines() do
+                local k, v = line:match('^%s*([%w_]+)%s*=%s*(%d)')
+                if k then flags[k] = v end
+            end
+            f:close()
+        end)
+    end
+    -- SP_ADDON_ON(key): installed and not switched off. Reads the switches fresh
+    -- unless called with fresh == false.
+    SP_ADDON_ON = function(key, fresh)
+        if not SP_ADDON_INSTALLED(key) then return false end
+        if fresh ~= false then read_flags() end
+        return flags[key] ~= '0'
+    end
+    local doc = document
+    local function apply()
+        read_flags()
+        for _, m in ipairs(MINE) do
+            local on = SP_ADDON_ON(m[1], false)
+            if m[2] ~= '' then pcall(function() (doc:GetElementById(BODY) or doc):SetClass(m[2], not on) end) end
+            -- a script in this window can register SP_ADDON_HOOK['<key>@<body id>'] = function(on) ... end
+            local hook = SP_ADDON_HOOK and SP_ADDON_HOOK[m[1] .. '@' .. BODY]
+            if hook then pcall(hook, on) end
+        end
+    end
+    apply()
+    doc:AddEventListener('show', function() pcall(apply) end)
+    doc:AddEventListener('mouseover', function() pcall(apply) end)
+    -- repeating 2 second check: two identical animations swapped each time one ends
+    pcall(function()
+        local timer = doc:GetElementById('sp-switch-timer')   -- the empty div at the end of the body
+        local flip = false
+        timer:AddEventListener('animationend', function()
+            pcall(apply)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-switch-tick-b' or 'sp-switch-tick-a')
+        end)
+    end)
+end)
+    </script>
     </head>
 
     <body id="game-minimap">
@@ -349,8 +526,33 @@ end)
                 <span id="zone-name-min">{{zone_name}}</span>
                 <span id="time-min">{{server_time}}</span>
                 <button class="btn-restore" data-event-click="toggle_minimize"></button>
+                <!-- Minimap Window add-on: empty see-through window; the gear opens its settings -->
+                <div id="sp-pad" class="sp-only-default">
+                    <button id="sp-pad-gear"></button>
+                    <!-- Element chart: each element, what it is strong against and what it is weak against
+                         (the same lists as the game's monster info tooltip) -->
+                    <div id="sp-el-chart">
+                        <div class="sp-el-row sp-el-head"><div class="sp-el-who"><span>Element</span></div><div class="sp-el-col strong"><span>Strong</span></div><div class="sp-el-split"></div><div class="sp-el-col weak"><span>Weak</span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-5"></span><span class="sp-el-name elementicon-l-5">Wind</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-7"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-6"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-4"></span><span class="sp-el-name elementicon-l-4">Earth</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-6"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-8"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-2"></span><span class="sp-el-name elementicon-l-2">Fire</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-8"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-6"></span><span class="sp-el-ic sp-el-7"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-3"></span><span class="sp-el-name elementicon-l-3">Water</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-2"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-7"></span><span class="sp-el-ic sp-el-8"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-0"></span><span class="sp-el-name elementicon-l-0">Neutral</span></div><div class="sp-el-col"><span class="sp-el-none">None</span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-8"></span><span class="sp-el-ic sp-el-6"></span><span class="sp-el-ic sp-el-7"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-7"></span><span class="sp-el-name elementicon-l-7">Poison</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-6"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-5"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-1"></span><span class="sp-el-name elementicon-l-1">Sorcery</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-7"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-8"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-8"></span><span class="sp-el-name elementicon-l-8">Ghost</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-4"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-6"></span></div></div>
+                        <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-6"></span><span class="sp-el-name elementicon-l-6">Holy</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-8"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-7"></span></div></div>
+                    </div>
+                    <div id="sp-pad-options">
+                        <span id="sp-pad-close">x</span>
+                        <span class="sp-pad-title">Window settings</span>
+                        <div class="sp-pad-row">Opacity: <span class="sp-pad-val" id="sp-pad-alpha-val">40%</span></div>
+                        <input id="sp-pad-alpha" type="range" min="0" max="100" step="5" value="40" />
+                        <div class="sp-pad-row"><input id="sp-pad-chart" type="checkbox" checked="" /><label for="sp-pad-chart">Show element chart</label></div>
+                    </div>
+                </div>
                 <!-- Element chart (steampunk add-on): shown under the minimized bar; Options > UI turns it off -->
-                <div id="sp-el-chart">
+                <div class="sp-only-steampunk" id="sp-el-chart-sp">
                     <div class="sp-el-row sp-el-head"><div class="sp-el-who"><span>Element</span></div><div class="sp-el-col strong"><span>Strong</span></div><div class="sp-el-split"></div><div class="sp-el-col weak"><span>Weak</span></div></div>
                     <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-5"></span><span class="sp-el-name elementicon-l-5">Wind</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-7"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-6"></span></div></div>
                     <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-4"></span><span class="sp-el-name elementicon-l-4">Earth</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-6"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-8"></span></div></div>
@@ -362,7 +564,7 @@ end)
                     <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-8"></span><span class="sp-el-name elementicon-l-8">Ghost</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-4"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-6"></span></div></div>
                     <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-6"></span><span class="sp-el-name elementicon-l-6">Holy</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-0"></span><span class="sp-el-ic sp-el-2"></span><span class="sp-el-ic sp-el-5"></span><span class="sp-el-ic sp-el-8"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-7"></span></div></div>
                 </div>
-                <div id="sp-el-timer"></div>
+                <div class="sp-only-steampunk" id="sp-el-timer"></div>
             </div>
 
             <!-- ─── Normal state ─── -->
@@ -427,9 +629,9 @@ end)
                     </div>
                 </masked>
 
-                <!-- Heading-up mode: the player's facing and map position for the script, and its timer -->
-                <span id="sp-mm-source" data-attr-sp-dir="player.direction"></span>
-                <div id="sp-mm-timer"></div>
+                <!-- Heading-up mode (Steampunk): the player's facing for the script, and its timer -->
+                <span id="sp-mm-source" class="sp-only-steampunk" data-attr-sp-dir="player.direction"></span>
+                <div id="sp-mm-timer" class="sp-only-steampunk"></div>
 
                 <!-- Decorative frame overlay -->
                 <div id="minimap-frame"></div>
@@ -443,12 +645,15 @@ end)
 
                 <!-- World Map button -->
                 <button class="btn-worldmap" onclick="open_worldmap">
-                    <span class="minimap-tooltip minimap-tooltip-left" style="width: 92dp; text-align: center;">World Map</span>
+                    <span class="minimap-tooltip minimap-tooltip-left sp-only-default" style="width: 80dp;">World Map</span>
+                    <span class="minimap-tooltip minimap-tooltip-left sp-only-steampunk" style="width: 92dp; text-align: center;">World Map</span>
                 </button>
 
                 <!-- Day/Night -->
-                <img data-if="!is_day" sprite="mm-moon-n" class="day-night-icon"/>
-                <img data-if="is_day" sprite="mm-sun-n" class="day-night-icon"/>
+                <img data-if="!is_day" sprite="GEN_DECO09" class="day-night-icon sp-only-default"/>
+                <img data-if="is_day" sprite="GEN_DECO10" class="day-night-icon sp-only-default"/>
+                <img data-if="!is_day" sprite="mm-moon-n" class="day-night-icon sp-only-steampunk"/>
+                <img data-if="is_day" sprite="mm-sun-n" class="day-night-icon sp-only-steampunk"/>
 
                 <!-- Game Arena button -->
                 <button id="game-arena" class="btn-gamearena" data-if="show_game_arena" onclick="open_gamearena"></button>
@@ -473,11 +678,12 @@ end)
                 <button id="sp-zoom-in" class="btn-zoomin" data-event-click="zoom_in" onmouseup="update_map_position"></button>
                 <button id="sp-zoom-out" class="btn-zoomout" data-event-click="zoom_out" onmouseup="update_map_position"></button>
 
-                <!-- Coordinates and time plaque -->
-                <div id="sp-plaque"></div>
-                <div class="sp-plaque-rivet" style="left: 37dp;"></div>
-                <div class="sp-plaque-rivet" style="left: 204dp;"></div>
-                <div id="sp-plaque-divider"></div>
+                <!-- Coordinates and time plaque (Steampunk) -->
+                <div id="sp-plaque" class="sp-only-steampunk"></div>
+                <div class="sp-plaque-rivet sp-only-steampunk" style="left: 37dp;"></div>
+                <div class="sp-plaque-rivet sp-only-steampunk" style="left: 204dp;"></div>
+                <div id="sp-plaque-divider" class="sp-only-steampunk"></div>
+
                 <!-- Coordinates -->
                 <span id="coordinates-text">{{player_coordinates}}</span>
 
@@ -492,5 +698,6 @@ end)
             </div>
 
         </div>
+        <div id="sp-switch-timer"></div>
     </body>
 </rml>

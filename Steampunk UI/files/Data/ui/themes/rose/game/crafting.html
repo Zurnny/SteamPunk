@@ -6,165 +6,91 @@
     <title>Crafting</title>
 
     <link type="text/template" href="../templates/window-small.html" />
-    <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-    <link type="text/rcss" href="../styles/steampunk.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk_sprites.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
 
     <style>
-      body {
-        width: 800dp;
-      }
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-crafting.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-crafting.sp-theme-steampunk .sp-only-default { display: none; }
 
-      .main-container {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        margin: 5dp;
-      }
+            /* ==== Both looks ==== */
+            body { width: 800dp; }
+            .main-container { flex: 1; display: flex; flex-direction: column; margin: 5dp; }
+            #submain-container { width: 100%; display: flex; flex-direction: row; justify-content: center; }
+            .sub-container { padding: 5dp; }
+            .inner-container { margin: 5dp; width: 100%; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; }
+            .material-container { margin: 5dp; display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; }
+            .enhancer-container { margin: 5dp; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 15dp; }
+            .mp-container { margin: 5dp; display: flex; flex-direction: row; justify-content: center; align-items: center; vertical-align: middle; }
+            .risk-container { gap: 5dp; margin: 5dp; display: flex; flex-direction: row; justify-content: center; align-items: center; }
+            .crafting-container { margin: 5dp; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            label.item-name { text-align: center; vertical-align: middle; margin-left: 5dp; margin-right: 11dp; min-width: 295dp; max-width: 295dp; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 700; }
+            span.item-name { height: 16dp; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            label.amount { width: 40dp; }
+            .warn-text { margin: 5dp; display: flex; flex-direction: column; align-items: center; }
+            .warn-container { margin: 5dp; border-radius: 5dp; background-color: #0000008b; border-width: 1dp; border-color: rgb(130, 130, 130); }
+            .color-red { color: rgb(255, 0, 0) !important; }
+            option:disabled { color: gray; }
+            select#make-type { width: 200dp; }
+            select option:not(option[disabled]):hover > * { color: #f39c12; }
+            #item-list { overflow-y: auto; height: 360dp; }
+            .mat-prog { display: flex; flex-direction: column; gap: 2dp; margin: 5dp; }
+            gauge { margin-right: 11dp; margin-left: 6dp; width: 292dp; height: 5dp; border: 1dp #3d3d3d; }
+            img.arrow { position: relative; top: -5dp; width: 7dp; height: 5dp; image-color: red; }
+            gauge.red fill { background-color: #f00; animation: 0.5s cubic-in-out infinite alternate gauge-red; }
+            gauge fill { background-color: #7ae857; }
+            item-slot { width: 40dp; height: 40dp; display: block; }
+            item-slot.material { text-align: center; vertical-align: middle; }
+            span.mat-quantity { position: relative; z-index: 1; pointer-events: none; text-align: center; vertical-align: middle; line-height: 40dp; }
+            button.amount { margin-top: -7dp; margin-right: -10dp; width: 30dp; height: 27dp; decorator: image(craftammount-button-n); }
+            button.amount:disabled { cursor: normal; decorator: image(craftammount-button-d); }
+            button[disabled] { cursor: normal; decorator: image(craftammount-button-d); }
+            button.amount:not(button[disabled]):hover { decorator: image(craftammount-button-h); }
+            button.amount:not(button[disabled]):active { decorator: image(craftammount-button-a); }
 
-      #submain-container {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-      }
+            /* ==== Default UI look only ==== */
+            .sp-theme-default label.custom { padding-top: 3dp; padding-bottom: 1dp; font-size: 12dp; font-effect: outline(1dp black); color: #ff0; }
+            .sp-theme-default span.sub-title { font-weight: 800; color: rgb(252, 252, 193); }
 
-      .sub-container {
-        padding: 5dp;
-      }
+            /* ==== Steampunk look only ==== */
+            body.sp-theme-steampunk { width: 800dp; }
+            .sp-theme-steampunk .main-container { flex: 1; display: flex; flex-direction: column; margin: 5dp; }
+            .sp-theme-steampunk #submain-container { width: 100%; display: flex; flex-direction: row; justify-content: center; }
+            .sp-theme-steampunk .sub-container { padding: 5dp; }
+            .sp-theme-steampunk .inner-container { margin: 5dp; width: 100%; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; }
+            .sp-theme-steampunk .material-container { margin: 5dp; display: flex; flex-direction: row; justify-content: space-evenly; align-items: center; }
+            .sp-theme-steampunk .enhancer-container { margin: 5dp; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 15dp; }
+            .sp-theme-steampunk .mp-container { margin: 5dp; display: flex; flex-direction: row; justify-content: center; align-items: center; vertical-align: middle; }
+            .sp-theme-steampunk .risk-container { gap: 5dp; margin: 5dp; display: flex; flex-direction: row; justify-content: center; align-items: center; }
+            .sp-theme-steampunk .crafting-container { margin: 5dp; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .sp-theme-steampunk label.item-name { text-align: center; vertical-align: middle; margin-left: 5dp; margin-right: 11dp; min-width: 295dp; max-width: 295dp; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 700; }
+            .sp-theme-steampunk span.item-name { height: 16dp; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .sp-theme-steampunk label.custom { padding-top: 3dp; padding-bottom: 1dp; font-size: 12dp; font-effect: outline(1dp black); color: rgb(243, 211, 138); }
+            .sp-theme-steampunk label.amount { width: 40dp; }
+            .sp-theme-steampunk span.sub-title { font-weight: 800; color: rgb(243, 211, 138); }
+            .sp-theme-steampunk .warn-text { margin: 5dp; display: flex; flex-direction: column; align-items: center; }
+            .sp-theme-steampunk .warn-container { margin: 5dp; border-radius: 5dp; background-color: #0000008b; border-width: 1dp; border-color: rgb(130, 130, 130); }
+            .sp-theme-steampunk .color-red { color: rgb(255, 0, 0) !important; }
+            .sp-theme-steampunk option:disabled { color: gray; }
+            .sp-theme-steampunk select#make-type { width: 200dp; }
+            .sp-theme-steampunk select option:not(option[disabled]):hover > * { color: #f39c12; }
+            .sp-theme-steampunk #item-list { overflow-y: auto; height: 360dp; }
+            .sp-theme-steampunk .mat-prog { display: flex; flex-direction: column; gap: 2dp; margin: 5dp; }
+            .sp-theme-steampunk gauge { margin-right: 11dp; margin-left: 6dp; width: 292dp; height: 5dp; border: 1dp #3d3d3d; }
+            .sp-theme-steampunk img.arrow { position: relative; top: -5dp; width: 7dp; height: 5dp; image-color: red; }
+            .sp-theme-steampunk gauge.red fill { background-color: #f00; animation: 0.5s cubic-in-out infinite alternate gauge-red; }
+            .sp-theme-steampunk gauge fill { background-color: #7ae857; }
+            .sp-theme-steampunk item-slot { width: 40dp; height: 40dp; display: block; }
+            .sp-theme-steampunk item-slot.material { text-align: center; vertical-align: middle; }
+            .sp-theme-steampunk span.mat-quantity { position: relative; z-index: 1; pointer-events: none; text-align: center; vertical-align: middle; line-height: 40dp; }
+            .sp-theme-steampunk button.amount { margin-top: -7dp; margin-right: -10dp; width: 30dp; height: 27dp; decorator: image(craftammount-button-n); }
+            .sp-theme-steampunk button.amount:disabled { cursor: normal; decorator: image(craftammount-button-d); }
+            .sp-theme-steampunk button[disabled] { cursor: normal; decorator: image(craftammount-button-d); }
+            .sp-theme-steampunk button.amount:not(button[disabled]):hover { decorator: image(craftammount-button-h); }
+            .sp-theme-steampunk button.amount:not(button[disabled]):active { decorator: image(craftammount-button-a); }
 
-      .inner-container {
-        margin: 5dp;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-      }
-
-      .material-container {
-        margin: 5dp;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        align-items: center;
-      }
-
-      .enhancer-container {
-        margin: 5dp;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 15dp;
-      }
-
-      .mp-container {
-        margin: 5dp;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        vertical-align: middle;
-      }
-
-      .risk-container {
-        gap: 5dp;
-        margin: 5dp;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .crafting-container {
-        margin: 5dp;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      label.item-name {
-        text-align: center;
-        vertical-align: middle;
-        margin-left: 5dp;
-        margin-right: 11dp;
-        min-width: 295dp;
-        max-width: 295dp;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        font-weight: 700;
-      }
-
-      span.item-name {
-        height: 16dp;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      label.custom {
-        padding-top: 3dp;
-        padding-bottom: 1dp;
-        font-size: 12dp;
-        font-effect: outline(1dp black);
-        color: rgb(243, 211, 138);
-      }
-
-      label.amount {
-        width: 40dp;
-      }
-
-      span.sub-title {
-        font-weight: 800;
-        color: rgb(243, 211, 138);
-      }
-
-      .warn-text {
-        margin: 5dp;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .warn-container {
-        margin: 5dp;
-        border-radius: 5dp;
-        background-color: #0000008b;
-        border-width: 1dp;
-        border-color: rgb(130, 130, 130);
-      }
-
-      .color-red {
-        color: rgb(255, 0, 0) !important;
-      }
-
-      option:disabled {
-        color: gray;
-      }
-
-      select#make-type {
-        width: 200dp;
-      }
-
-      select option:not(option[disabled]):hover > * {
-        color: #f39c12;
-      }
-
-      #item-list {
-        overflow-y: auto;
-        height: 360dp;
-      }
-
-      .mat-prog {
-        display: flex;
-        flex-direction: column;
-        gap: 2dp;
-        margin: 5dp;
-      }
-
-      @keyframes gauge-red {
+            @keyframes gauge-red {
         from {
           background-color: red;
         }
@@ -173,74 +99,27 @@
           background-color: rgb(255, 145, 0);
         }
       }
-
-      gauge {
-        margin-right: 11dp;
-        margin-left: 6dp;
-        width: 292dp;
-        height: 5dp;
-        border: 1dp #3d3d3d;
-      }
-
-      img.arrow {
-        position: relative;
-        top: -5dp;
-        width: 7dp;
-        height: 5dp;
-        image-color: red;
-      }
-
-      gauge.red fill {
-        background-color: #f00;
-        animation: 0.5s cubic-in-out infinite alternate gauge-red;
-      }
-
-      gauge fill {
-        background-color: #7ae857;
-      }
-
-      item-slot {
-        width: 40dp;
-        height: 40dp;
-        display: block;
-      }
-
-      item-slot.material {
-        text-align: center;
-        vertical-align: middle;
-      }
-
-      span.mat-quantity {
-        position: relative;
-        z-index: 1;
-        pointer-events: none;
-        text-align: center;
-        vertical-align: middle;
-        line-height: 40dp;
-      }
-
-      button.amount {
-        margin-top: -7dp;
-        margin-right: -10dp;
-        width: 30dp;
-        height: 27dp;
-        decorator: image(craftammount-button-n);
-      }
-
-      button.amount:disabled,
-      button[disabled] {
-        cursor: normal;
-        decorator: image(craftammount-button-d);
-      }
-
-      button.amount:not(button[disabled]):hover {
-        decorator: image(craftammount-button-h);
-      }
-
-      button.amount:not(button[disabled]):active {
-        decorator: image(craftammount-button-a);
-      }
-    </style>
+        </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-crafting')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
   </head>
 
   <body id="game-crafting" class="window-fixed-size">

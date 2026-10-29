@@ -3,33 +3,69 @@
     <title>Group Manager</title>
     <link type="text/template" href="../templates/window-fixed-size.html" />
     <link type="text/rcss" href="../styles/components.css" />
-    <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-    <link type="text/rcss" href="../styles/steampunk.css" />
     <style>
-        body { width: 740dp; max-width: 94vw; }
-        .group-columns { display: flex; gap: 10dp; height: 480dp; max-height: 70vh; min-height: 280dp; }
-        .group-roster { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-        .group-directory { width: 270dp; flex: 0 0 37%; min-width: 215dp; display: flex; flex-direction: column; }
-        .group-heading { display: flex; justify-content: space-between; padding: 8dp; flex-shrink: 0; }
-        .group-heading .ui-section-title { margin: 0; }
-        .group-scroll { flex: 1; min-height: 0; overflow-y: auto; }
-        .group-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .group-job { width: 78dp; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .group-level { width: 32dp; text-align: right; flex-shrink: 0; }
-        .group-leader { width: 12dp; color: rgb(243, 211, 138); flex-shrink: 0; }
-        .group-row { cursor: hand; }
-        .group-empty { padding: 24dp 8dp; }
-        .group-actions { display: flex; flex-wrap: wrap; gap: 6dp; padding: 8dp; flex-shrink: 0; }
-        .group-actions button { flex: 1 0 46%; min-width: 150dp; font-size: 13dp; padding: 4dp 8dp; white-space: nowrap; }
-        .group-invite-entry { display: flex; gap: 6dp; padding: 0 8dp 8dp; flex-shrink: 0; }
-        .group-invite-entry input { flex: 1; width: 100dp; min-width: 0; }
-        .group-invite-entry button, .group-directory-row button { min-width: 58dp; font-size: 12dp; }
-        .group-directory-row { display: flex; align-items: center; gap: 6dp; padding: 6dp 8dp; font-size: 13dp; }
-        .group-directory-label { padding: 8dp; margin-bottom: 0; }
-        .group-help { padding: 8dp; }
-    </style>
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #group-manager.sp-theme-default .sp-only-steampunk { display: none; }
+            #group-manager.sp-theme-steampunk .sp-only-default { display: none; }
+
+            /* ==== Both looks ==== */
+            body { width: 740dp; max-width: 94vw; }
+            .group-columns { display: flex; gap: 10dp; height: 480dp; max-height: 70vh; min-height: 280dp; }
+            .group-roster { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+            .group-directory { width: 270dp; flex: 0 0 37%; min-width: 215dp; display: flex; flex-direction: column; }
+            .group-heading { display: flex; justify-content: space-between; padding: 8dp; flex-shrink: 0; }
+            .group-heading .ui-section-title { margin: 0; }
+            .group-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+            .group-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .group-job { width: 78dp; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .group-level { width: 32dp; text-align: right; flex-shrink: 0; }
+            .group-row { cursor: hand; }
+            .group-empty { padding: 24dp 8dp; }
+            .group-actions { display: flex; flex-wrap: wrap; gap: 6dp; padding: 8dp; flex-shrink: 0; }
+            .group-actions button { flex: 1 0 46%; min-width: 150dp; font-size: 13dp; padding: 4dp 8dp; white-space: nowrap; }
+            .group-invite-entry { display: flex; gap: 6dp; padding: 0 8dp 8dp; flex-shrink: 0; }
+            .group-invite-entry input { flex: 1; width: 100dp; min-width: 0; }
+            .group-invite-entry button { min-width: 58dp; font-size: 12dp; }
+            .group-directory-row button { min-width: 58dp; font-size: 12dp; }
+            .group-directory-row { display: flex; align-items: center; gap: 6dp; padding: 6dp 8dp; font-size: 13dp; }
+            .group-directory-label { padding: 8dp; margin-bottom: 0; }
+            .group-help { padding: 8dp; }
+            .sp-orig-level { display: none; }
+            #group-manager.sp-levels-off .sp-friend-level { display: none; }
+            #group-manager.sp-levels-off .sp-orig-level { display: inline; }
+            #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
+
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .group-leader { width: 12dp; color: yellow; flex-shrink: 0; }
+
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .group-leader { width: 12dp; color: rgb(243, 211, 138); flex-shrink: 0; }
+
+            @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
+        </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('group-manager')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     <script>
--- Friend levels (steampunk add-on). The game sends level 1 for friends whose
+-- Friend levels (add-on). The game sends level 1 for friends whose
 -- level it does not know. Real levels seen in your group, in the online clan
 -- list and in the clan's member list are remembered (sp_level_cache.txt), and
 -- shown for friends instead. A remembered level is from the last time that
@@ -39,6 +75,7 @@
 pcall(function()
     local document = document
     local CACHE_FILE, cache, dirty = 'sp_level_cache.txt', {}, false
+    local mine = {}   -- levels this window saw itself
     pcall(function()
         local f = io.open(CACHE_FILE, 'r')
         if not f then return end
@@ -52,10 +89,19 @@ pcall(function()
         if not dirty then return end
         dirty = false
         pcall(function()
-            local f = io.open(CACHE_FILE, 'w')
-            if not f then return end
-            for name, lvl in pairs(cache) do f:write(name, '=', lvl, '\n') end
-            f:close()
+            -- merge in what the level catcher saved meanwhile, keeping our newer levels
+            local f = io.open(CACHE_FILE, 'r')
+            if f then
+                for line in f:lines() do
+                    local name, lvl = line:match('^(.-)=(%d+)%s*$')
+                    if name and name ~= '' and not mine[name] then cache[name] = tonumber(lvl) end
+                end
+                f:close()
+            end
+            local w = io.open(CACHE_FILE, 'w')
+            if not w then return end
+            for name, lvl in pairs(cache) do w:write(name, '=', lvl, '\n') end
+            w:close()
         end)
     end
     local function each(list, fn)
@@ -73,10 +119,23 @@ pcall(function()
             slot.inner_rml = '<div data-model="clan"><span class="sp-lv-src" data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span></div>'
         end)
     end
+    local function reload()
+        -- pick up levels the level catcher saved since this window loaded
+        pcall(function()
+            local f = io.open(CACHE_FILE, 'r')
+            if not f then return end
+            for line in f:lines() do
+                local name, lvl = line:match('^(.-)=(%d+)%s*$')
+                if name and name ~= '' and not mine[name] then cache[name] = tonumber(lvl) end
+            end
+            f:close()
+        end)
+    end
     local function refresh()
+        reload()
         each(document:QuerySelectorAll('.sp-lv-src'), function(e)
             local name, lvl = e:GetAttribute('sp-name'), tonumber(e:GetAttribute('sp-level'))
-            if name and name ~= '' and lvl and lvl > 1 and cache[name] ~= lvl then cache[name] = lvl; dirty = true end
+            if name and name ~= '' and lvl and lvl > 1 and cache[name] ~= lvl then cache[name] = lvl; mine[name] = true; dirty = true end
         end)
         save()
         each(document:QuerySelectorAll('.sp-friend-level'), function(e)
@@ -91,6 +150,79 @@ pcall(function()
     end
     document:AddEventListener('show', function() pcall(add_clan_source); pcall(refresh) end)
     document:AddEventListener('mouseover', function() pcall(refresh) end)
+end)
+    </script>
+    <script>
+-- Add-on switches (the same script in every add-on window).
+-- SP_ADDON_SWITCH friend_levels
+-- An add-on counts as installed while its marker file
+-- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
+-- the add-on and takes it out again with it, so a window that several add-ons
+-- share only runs the parts of the add-ons that are installed.
+-- The on/off switches are in Options > UI > Add-ons and are saved in
+-- sp_addons.txt (the Ice UI uses the same file; nobody removes anyone else's
+-- lines). This window reads it every 2 seconds. Everything is on by default.
+pcall(function()
+    local BODY = 'group-manager'
+    -- key, class put on this window while that add-on is off or not installed ('' = none)
+    local MINE = {{'friend_levels', 'sp-levels-off'}}
+    local installed = {}
+    SP_ADDON_INSTALLED = function(key)
+        -- the Steampunk UI theme has every add-on built in
+        if SP_THEME == 'steampunk' then return true end
+        if installed[key] == nil then
+            installed[key] = true      -- if the game won't let the UI read files, assume installed
+            pcall(function()
+                local f = io.open('Data/ui/sp_addons/' .. key .. '.txt', 'r')
+                if f then f:close() else installed[key] = false end
+            end)
+        end
+        return installed[key]
+    end
+    local flags = {}
+    local function read_flags()
+        flags = {}
+        pcall(function()
+            local f = io.open('sp_addons.txt', 'r')
+            if not f then return end
+            for line in f:lines() do
+                local k, v = line:match('^%s*([%w_]+)%s*=%s*(%d)')
+                if k then flags[k] = v end
+            end
+            f:close()
+        end)
+    end
+    -- SP_ADDON_ON(key): installed and not switched off. Reads the switches fresh
+    -- unless called with fresh == false.
+    SP_ADDON_ON = function(key, fresh)
+        if not SP_ADDON_INSTALLED(key) then return false end
+        if fresh ~= false then read_flags() end
+        return flags[key] ~= '0'
+    end
+    local doc = document
+    local function apply()
+        read_flags()
+        for _, m in ipairs(MINE) do
+            local on = SP_ADDON_ON(m[1], false)
+            if m[2] ~= '' then pcall(function() (doc:GetElementById(BODY) or doc):SetClass(m[2], not on) end) end
+            -- a script in this window can register SP_ADDON_HOOK['<key>@<body id>'] = function(on) ... end
+            local hook = SP_ADDON_HOOK and SP_ADDON_HOOK[m[1] .. '@' .. BODY]
+            if hook then pcall(hook, on) end
+        end
+    end
+    apply()
+    doc:AddEventListener('show', function() pcall(apply) end)
+    doc:AddEventListener('mouseover', function() pcall(apply) end)
+    -- repeating 2 second check: two identical animations swapped each time one ends
+    pcall(function()
+        local timer = doc:GetElementById('sp-switch-timer')   -- the empty div at the end of the body
+        local flip = false
+        timer:AddEventListener('animationend', function()
+            pcall(apply)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-switch-tick-b' or 'sp-switch-tick-a')
+        end)
+    end)
 end)
     </script>
 </head>
@@ -124,12 +256,13 @@ end)
                 <div class="group-help ui-status" data-if="friends.size == 0">No friends online</div>
                 <!-- The game sends level 1 for friends whose level it does not know; the script fills in a level
                      remembered from your group or clan instead (saved in sp_level_cache.txt) -->
-                <div class="group-directory-row" data-for="person : friends"><span class="group-name">{{person.name}}</span><span class="sp-friend-level" data-attr-sp-name="person.name" data-attr-sp-level="person.level"></span><button class="default ui-compact" data-attr-id="'arena-friend-' + person.tag" data-attr-onclick="'friend:' + person.tag" data-attrif-disabled="!can_invite">Invite</button></div>
+                <div class="group-directory-row" data-for="person : friends"><span class="group-name">{{person.name}}</span><span class="sp-friend-level" data-attr-sp-name="person.name" data-attr-sp-level="person.level"></span><span class="sp-orig-level" data-if="person.level > 0">Lv {{person.level}}</span><button class="default ui-compact" data-attr-id="'arena-friend-' + person.tag" data-attr-onclick="'friend:' + person.tag" data-attrif-disabled="!can_invite">Invite</button></div>
                 <div class="group-directory-label ui-section-title">Clan members online</div>
                 <div class="group-help ui-status" data-if="clan.size == 0">No clan members online</div>
                 <div class="group-directory-row sp-lv-src" data-for="person : clan" data-attr-sp-name="person.name" data-attr-sp-level="person.level"><span class="group-name">{{person.name}}</span><span data-if="person.level > 0">Lv {{person.level}}</span><button class="default ui-compact" data-attr-id="'arena-clan-' + person.tag" data-attr-onclick="'clan-member:' + person.tag" data-attrif-disabled="!can_invite">Invite</button></div>
             </div>
         </div>
     </div>
+        <div id="sp-switch-timer"></div>
 </body>
 </rml>

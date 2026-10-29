@@ -4,123 +4,88 @@
         <title>Summon Gauge</title>
 
         <link type="text/template" href="../templates/window-box.html" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk_sprites.css" />
+        <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
 
         <style>
-            .title {
-                display: inline-block;
-                cursor: drag;
-                text-align: center;
-            }
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-summon-gauge.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-summon-gauge.sp-theme-steampunk .sp-only-default { display: none; }
 
-            .title #summon-title {
-                visibility: hidden;
-                font-size: 12dp;
-                font-weight: 600;
-                color: rgb(243, 211, 138);
-            }
+            /* ==== Both looks ==== */
+            .title { display: inline-block; cursor: drag; text-align: center; }
+            #gauge-area { display: block; align-items: center; width: 150dp; padding: 5dp; border-radius: 3.5dp; transition: background 0.4s; }
+            #summon-gauge { width: 100%; margin: 0dp; }
+            #summons { display: inline-block; margin-top: 4dp; line-height: 1.5; color: white; font-effect: outline(1dp black); }
+            #gauge-area:hover .summon-item { opacity: 1; }
+            #gauge-area:hover #summon-title { visibility: visible; }
+            #gauge-area:hover .despawn { visibility: visible; }
+            .summon-item { padding: 5dp; opacity: 0.6; position: relative; display: flex; flex-direction: column; width: 140dp; height: auto; font-size: 10dp; font-weight: 800; line-height: 1; transition: opacity 0.5s; border-radius: 3dp; }
+            .summon-item .despawn { visibility: hidden; }
+            .despawntip { position: relative; display: inline-block; }
+            .despawntip:hover .despawntiptext { visibility: visible; }
+            .sp-sum-top { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 112dp; }
+            .summon-item.low .sp-sum-name { animation: infinite cubic-in-out 0.8s alternate sp-sum-pulse; }
+            .summon-item.low .sp-sum-hp { color: rgb(255, 120, 90); }
+            #gauge-area:hover #summon-count { visibility: visible; }
+            .summon-tip { padding-top: 5dp; width: 100%; text-align: center; color: white; font-weight: 800; font-size: 12dp; font-effect: outline(1dp black); }
+            #game-summon-gauge.sp-sum-off .sp-sum-hp { display: none; }
+            #game-summon-gauge.sp-sum-off .sp-far { display: none; }
+            #game-summon-gauge.sp-sum-off #summon-count { display: none; }
+            #game-summon-gauge.sp-sum-off .summon-item.low .sp-sum-name { animation: none; }
+            #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
 
-            #gauge-area {
-                display: block;
-                align-items: center;
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .title #summon-title { visibility: hidden; font-size: 12dp; font-weight: 600; color: yellow; }
+            .sp-theme-default #gauge-area:hover { background: rgba(20, 20, 20, 178); transition: background 0.2s; }
+            .sp-theme-default .summon-item:hover { background: rgba(255, 255, 0, 120); transition: background 0.2s; cursor: hand; }
+            .sp-theme-default .summon-item.selected { background: rgba(255, 255, 0, 120); }
+            .sp-theme-default .despawntip .despawntiptext { z-index: 1; position: absolute; visibility: hidden; font-size: 12dp; width: 120dp; background-color: rgba(0, 0, 0, 120); color: #ff6f6f; text-align: center; padding: 5dp 0; border-radius: 6px; top: 2dp; left: 25dp; }
+            .sp-theme-default .sp-sum-hp { white-space: nowrap; font-size: 10dp; font-weight: 700; color: rgb(240, 240, 240); }
+            .sp-theme-default .sp-far { font-size: 10dp; font-weight: 700; color: rgb(180, 180, 180); }
+            .sp-theme-default #summon-count { font-size: 10dp; font-weight: 600; color: rgb(180, 180, 180); visibility: hidden; }
+            .sp-theme-default .summon-tip b { animation: infinite cubic-in-out 2s alternate swap-colors; }
 
-                width: 150dp;
-                padding: 5dp;
-                border-radius: 3.5dp;
-                transition: background 0.4s;
-            }
-
-            #summon-gauge {
-                width: 100%;
-                margin: 0dp;
-            }
-
-            #summons {
-                display: inline-block;
-
-                margin-top: 4dp;
-                line-height: 1.5;
-                color: white;
-                font-effect: outline(1dp black);
-            }
-
-            #gauge-area:hover {
-                background: rgba(36, 30, 25, 178);
-                transition: background 0.2s;
-            }
-
-            #gauge-area:hover .summon-item {
-                opacity: 1;
-            }
-
-            #gauge-area:hover #summon-title {
-                visibility: visible;
-            }
-
-            #gauge-area:hover .despawn {
-                visibility: visible;
-            }
-
-            .summon-item {
-                padding: 5dp;
-                opacity: 0.6;
-                position: relative;
-                display: flex;
-                flex-direction: column;
-
-                width: 140dp;
-                height: auto;
-
-                font-size: 10dp;
-                font-weight: 800;
-
-                line-height: 1;
-                transition: opacity 0.5s;
-                border-radius: 3dp;
-            }
-
-            .summon-item:hover {
-                background: rgba(214, 170, 96, 80);
-                transition: background 0.2s;
-                cursor: hand;
-            }
-
-            .summon-item.selected {
-                background: rgba(214, 170, 96, 80);
-            }
-
-            .summon-item .despawn {
-                visibility: hidden;
-            }
-
-            .despawntip {
-                position: relative;
-                display: inline-block;
-            }
-
-            .despawntip .despawntiptext {
-                z-index: 1;
-                position: absolute;
-                visibility: hidden;
-
-                font-size: 12dp;
-                width: 120dp;
-                background-color: rgba(36, 30, 25, 220);
-                color: #ff6f6f;
-                text-align: center;
-                padding: 5dp 0;
-                border-radius: 6px;
-
-                top: 2dp;
-                left: 25dp;
-            }
-
-            .despawntip:hover .despawntiptext {
-                visibility: visible;
-            }
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .title { display: inline-block; cursor: drag; text-align: center; }
+            .sp-theme-steampunk .title #summon-title { visibility: hidden; font-size: 12dp; font-weight: 600; color: rgb(243, 211, 138); }
+            .sp-theme-steampunk #gauge-area { display: block; align-items: center; width: 150dp; padding: 5dp; border-radius: 3.5dp; transition: background 0.4s; }
+            .sp-theme-steampunk #summon-gauge { width: 100%; margin: 0dp; }
+            .sp-theme-steampunk #summons { display: inline-block; margin-top: 4dp; line-height: 1.5; color: white; font-effect: outline(1dp black); }
+            .sp-theme-steampunk #gauge-area:hover { background: rgba(36, 30, 25, 178); transition: background 0.2s; }
+            .sp-theme-steampunk #gauge-area:hover .summon-item { opacity: 1; }
+            .sp-theme-steampunk #gauge-area:hover #summon-title { visibility: visible; }
+            .sp-theme-steampunk #gauge-area:hover .despawn { visibility: visible; }
+            .sp-theme-steampunk .summon-item { padding: 5dp; opacity: 0.6; position: relative; display: flex; flex-direction: column; width: 140dp; height: auto; font-size: 10dp; font-weight: 800; line-height: 1; transition: opacity 0.5s; border-radius: 3dp; }
+            .sp-theme-steampunk .summon-item:hover { background: rgba(214, 170, 96, 80); transition: background 0.2s; cursor: hand; }
+            .sp-theme-steampunk .summon-item.selected { background: rgba(214, 170, 96, 80); }
+            .sp-theme-steampunk .summon-item .despawn { visibility: hidden; }
+            .sp-theme-steampunk .despawntip { position: relative; display: inline-block; }
+            .sp-theme-steampunk .despawntip .despawntiptext { z-index: 1; position: absolute; visibility: hidden; font-size: 12dp; width: 120dp; background-color: rgba(36, 30, 25, 220); color: #ff6f6f; text-align: center; padding: 5dp 0; border-radius: 6px; top: 2dp; left: 25dp; }
+            .sp-theme-steampunk .despawntip:hover .despawntiptext { visibility: visible; }
+            .sp-theme-steampunk .sp-sum-top { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 112dp; }
+            .sp-theme-steampunk .sp-sum-hp { white-space: nowrap; font-size: 10dp; font-weight: 700; color: rgb(241, 227, 196); }
+            .sp-theme-steampunk .sp-far { font-size: 10dp; font-weight: 700; color: rgb(201, 180, 138); }
+            .sp-theme-steampunk .summon-item.low .sp-sum-name { animation: infinite cubic-in-out 0.8s alternate sp-sum-pulse; }
+            .sp-theme-steampunk .summon-item.low .sp-sum-hp { color: rgb(255, 120, 90); }
+            .sp-theme-steampunk #summon-count { font-size: 10dp; font-weight: 600; color: rgb(201, 180, 138); visibility: hidden; }
+            .sp-theme-steampunk #gauge-area:hover #summon-count { visibility: visible; }
+            .sp-theme-steampunk .summon-tip { padding-top: 5dp; width: 100%; text-align: center; color: white; font-weight: 800; font-size: 12dp; font-effect: outline(1dp black); }
+            .sp-theme-steampunk .summon-tip b { animation: infinite cubic-in-out 2s alternate swap-colors-steampunk; }
 
             @keyframes swap-colors {
+                from {
+                    color: yellow;
+                }
+
+                to {
+                    color: rgb(255, 153, 0);
+                }
+            }
+            @keyframes sp-sum-pulse { from { color: rgb(255, 255, 255); } to { color: rgb(255, 90, 60); } }
+            @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes swap-colors-steampunk {
                 from {
                     color: rgb(243, 211, 138);
                 }
@@ -129,37 +94,100 @@
                     color: rgb(255, 153, 0);
                 }
             }
-
-            /* steampunk add-on: summon HP numbers, range and low-HP warnings */
-            .sp-sum-top {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                width: 112dp;
-            }
-            .sp-sum-hp { white-space: nowrap; font-size: 10dp; font-weight: 700; color: rgb(241, 227, 196); }
-            .sp-far { font-size: 10dp; font-weight: 700; color: rgb(201, 180, 138); }
-            @keyframes sp-sum-pulse { from { color: rgb(255, 255, 255); } to { color: rgb(255, 90, 60); } }
-            .summon-item.low .sp-sum-name { animation: infinite cubic-in-out 0.8s alternate sp-sum-pulse; }
-            .summon-item.low .sp-sum-hp { color: rgb(255, 120, 90); }
-            #summon-count { font-size: 10dp; font-weight: 600; color: rgb(201, 180, 138); visibility: hidden; }
-            #gauge-area:hover #summon-count { visibility: visible; }
-            .summon-tip {
-                padding-top: 5dp;
-                width: 100%;
-                text-align: center;
-                color: white;
-                font-weight: 800;
-                font-size: 12dp;
-                font-effect: outline(1dp black);
-                
-            }
-
-            .summon-tip b {
-                animation: infinite cubic-in-out 2s alternate swap-colors;
-            }
         </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-summon-gauge')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
+    <script>
+-- Add-on switches (the same script in every add-on window).
+-- SP_ADDON_SWITCH summon_extras
+-- An add-on counts as installed while its marker file
+-- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
+-- the add-on and takes it out again with it, so a window that several add-ons
+-- share only runs the parts of the add-ons that are installed.
+-- The on/off switches are in Options > UI > Add-ons and are saved in
+-- sp_addons.txt (the Ice UI uses the same file; nobody removes anyone else's
+-- lines). This window reads it every 2 seconds. Everything is on by default.
+pcall(function()
+    local BODY = 'game-summon-gauge'
+    -- key, class put on this window while that add-on is off or not installed ('' = none)
+    local MINE = {{'summon_extras', 'sp-sum-off'}}
+    local installed = {}
+    SP_ADDON_INSTALLED = function(key)
+        -- the Steampunk UI theme has every add-on built in
+        if SP_THEME == 'steampunk' then return true end
+        if installed[key] == nil then
+            installed[key] = true      -- if the game won't let the UI read files, assume installed
+            pcall(function()
+                local f = io.open('Data/ui/sp_addons/' .. key .. '.txt', 'r')
+                if f then f:close() else installed[key] = false end
+            end)
+        end
+        return installed[key]
+    end
+    local flags = {}
+    local function read_flags()
+        flags = {}
+        pcall(function()
+            local f = io.open('sp_addons.txt', 'r')
+            if not f then return end
+            for line in f:lines() do
+                local k, v = line:match('^%s*([%w_]+)%s*=%s*(%d)')
+                if k then flags[k] = v end
+            end
+            f:close()
+        end)
+    end
+    -- SP_ADDON_ON(key): installed and not switched off. Reads the switches fresh
+    -- unless called with fresh == false.
+    SP_ADDON_ON = function(key, fresh)
+        if not SP_ADDON_INSTALLED(key) then return false end
+        if fresh ~= false then read_flags() end
+        return flags[key] ~= '0'
+    end
+    local doc = document
+    local function apply()
+        read_flags()
+        for _, m in ipairs(MINE) do
+            local on = SP_ADDON_ON(m[1], false)
+            if m[2] ~= '' then pcall(function() (doc:GetElementById(BODY) or doc):SetClass(m[2], not on) end) end
+            -- a script in this window can register SP_ADDON_HOOK['<key>@<body id>'] = function(on) ... end
+            local hook = SP_ADDON_HOOK and SP_ADDON_HOOK[m[1] .. '@' .. BODY]
+            if hook then pcall(hook, on) end
+        end
+    end
+    apply()
+    doc:AddEventListener('show', function() pcall(apply) end)
+    doc:AddEventListener('mouseover', function() pcall(apply) end)
+    -- repeating 2 second check: two identical animations swapped each time one ends
+    pcall(function()
+        local timer = doc:GetElementById('sp-switch-timer')   -- the empty div at the end of the body
+        local flip = false
+        timer:AddEventListener('animationend', function()
+            pcall(apply)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-switch-tick-b' or 'sp-switch-tick-a')
+        end)
+    end)
+end)
+    </script>
     </head>
 
     <body id="game-summon-gauge">
@@ -191,5 +219,6 @@
                 <span>Press <b>[Ctrl]</b> + <b>[Left Click]</b> to move your summon.</span>
             </div>
         </div>
+        <div id="sp-switch-timer"></div>
     </body>
 </rml>

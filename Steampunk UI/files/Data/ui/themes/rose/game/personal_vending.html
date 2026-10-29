@@ -6,29 +6,56 @@
         <link type="text/rcss" href="../styles/spritesheet_socketgem.css" />
         <link type="text/rcss" href="../styles/item_slot.css" />
         <link type="text/rcss" href="../styles/components.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
         <style>
-			body { width: 332dp; max-width: 94vw; }
-			#vending-title { box-sizing: border-box; width: 100%; margin-bottom: 12dp; }
-			.vending-grid { width: 260dp; }
-			.vending-grid item-slot.listed { background-color: #80682080; }
-			.vending-selection { display: flex; flex-direction: row; align-items: center; min-height: 28dp;	}
-            /* centred: item name, then its price under it (Default UI Fixes) */
-            /* name on the left, price on the right, both centred up and down; long names wrap.
-               The price is placed on the right and centred (the flex row put it on its own line). */
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #personal-vending.sp-theme-default .sp-only-steampunk { display: none; }
+            #personal-vending.sp-theme-steampunk .sp-only-default { display: none; }
+
+            /* ==== Both looks ==== */
+            body { width: 332dp; max-width: 94vw; }
+            .vending-grid { width: 260dp; }
+            .vending-grid item-slot.listed { background-color: #80682080; }
+            .vending-selection { display: flex; flex-direction: row; align-items: center; min-height: 28dp; }
             #personal-vending .vending-selection { display: block; position: relative; min-height: 28dp; }
             #selected-name { display: block; min-width: 0; white-space: normal; word-break: break-word; overflow: visible; margin: 0 106dp 0 0; padding: 5dp 0; line-height: 18dp; }
             #personal-vending .vending-selection .ui-currency { position: absolute; right: 0dp; top: 50%; transform: translateY(-50%); white-space: nowrap; }
-            /* Reset and Start / Stop side by side */
             #personal-vending .ui-actions { display: flex; flex-direction: row; justify-content: center; gap: 8dp; }
             #personal-vending .ui-actions button { flex: 1 1 0; min-width: 0; margin: 0; }
             .vending-selection .ui-currency { flex: 0 0 auto; white-space: nowrap; }
-			.vending-help { margin: 8dp 0; }
-			#vending-state { margin-bottom: 8dp; }
-			.vending-edit { text-align: center; }
-			#edit-buy { margin-top: 8dp; }
-		</style>
+            .vending-help { margin: 8dp 0; }
+            #vending-state { margin-bottom: 8dp; }
+            .vending-edit { text-align: center; }
+            #edit-buy { margin-top: 8dp; }
+
+            /* ==== Default UI look only ==== */
+            .sp-theme-default #vending-title { box-sizing: border-box; width: 100%; margin-bottom: 12dp; }
+            #personal-vending.sp-theme-default > .window-title { text-align: center; padding-left: 30dp; padding-right: 30dp; padding-top: 1dp; white-space: nowrap; overflow: hidden; }
+            .sp-theme-default #vending-title { text-align: center; }
+
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk #vending-title { box-sizing: border-box; width: 100%; margin-bottom: 12dp; }
+
+        </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('personal-vending')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     </head>
     <body id="personal-vending" template="window-fixed-size">
         <div data-model="vending-store">

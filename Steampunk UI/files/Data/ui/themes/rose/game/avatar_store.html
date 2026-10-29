@@ -5,30 +5,65 @@
         <link type="text/rcss" href="../styles/spritesheet_itemicon.css" />
         <link type="text/rcss" href="../styles/spritesheet_socketgem.css" />
         <link type="text/rcss" href="../styles/item_slot.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
         <style>
-			body { width: 304dp; max-width: 96vw; }
-			#game-avatar-store #window-content { height: auto; padding: 10dp; max-height: 80vh; overflow: auto; }
-			#store-company { color: #ccc; margin-bottom: 6dp; word-break: break-word; }
-			.shop-tabs { display: flex; gap: 4dp; margin-bottom: 8dp; }
-			.shop-tabs button { flex: 1; min-width: 0; box-sizing: border-box; }
-			.shop-tabs button.active { color: rgb(243, 211, 138); decorator: tiled-horizontal(sp-btn-a-l, sp-btn-a-c, sp-btn-a-r); image-color: rgb(255, 255, 255); }
-			.shop-grid { display: flex; flex-wrap: wrap; width: 272dp; gap: 4dp; margin: 0 auto; }
-			.shop-grid item-slot { width: 40dp; height: 40dp; flex: 0 0 40dp; border: 1dp transparent; }
-			.shop-grid item-slot.selected { border-color: rgb(243, 211, 138); }
-			/* name on the left and price on the right, both centred up and down; long names wrap */
-			.shop-selection { display: block; position: relative; min-height: 26dp; margin-top: 8dp; }
-			#selected-name { display: block; min-width: 0; white-space: normal; word-break: break-word; color: rgb(243, 211, 138); margin: 0 106dp 0 0; padding: 4dp 0; line-height: 18dp; }
-			#game-avatar-store .shop-selection .shop-price { position: absolute; right: 0dp; top: 50%; transform: translateY(-50%); white-space: nowrap; }
-			#selected-price { color: rgb(243, 211, 138); }
-			.shop-price { display: flex; align-items: center; justify-content: flex-end; gap: 5dp; height: 21dp; }
-			.shop-price img { width: 21dp; height: 21dp; flex-shrink: 0; }
-			#store-state { color: #ccc; word-break: break-word; margin: 6dp 0; }
-			.shop-help { font-size: 11dp; color: #ccc; margin: 6dp 0; }
-			.shop-actions { display: flex; gap: 6dp; justify-content: center; }
-			.shop-actions button { min-width: 84dp; }
-		</style>
+            /* ==== Parts of the page for one look only (the other look's part stays hidden) ==== */
+            #game-avatar-store.sp-theme-default .sp-only-steampunk { display: none; }
+            #game-avatar-store.sp-theme-steampunk .sp-only-default { display: none; }
+
+            /* ==== Both looks ==== */
+            body { width: 304dp; max-width: 96vw; }
+            #game-avatar-store #window-content { height: auto; padding: 10dp; max-height: 80vh; overflow: auto; }
+            #store-company { color: #ccc; margin-bottom: 6dp; word-break: break-word; }
+            .shop-tabs { display: flex; gap: 4dp; margin-bottom: 8dp; }
+            .shop-tabs button { flex: 1; min-width: 0; box-sizing: border-box; }
+            .shop-grid { display: flex; flex-wrap: wrap; width: 272dp; gap: 4dp; margin: 0 auto; }
+            .shop-grid item-slot { width: 40dp; height: 40dp; flex: 0 0 40dp; border: 1dp transparent; }
+            .shop-selection { display: block; position: relative; min-height: 26dp; margin-top: 8dp; }
+            .shop-price img { width: 21dp; height: 21dp; flex-shrink: 0; }
+            #store-state { color: #ccc; word-break: break-word; margin: 6dp 0; }
+            .shop-help { font-size: 11dp; color: #ccc; margin: 6dp 0; }
+            .shop-actions { display: flex; gap: 6dp; justify-content: center; }
+            .shop-actions button { min-width: 84dp; }
+
+            /* ==== Default UI look only ==== */
+            .sp-theme-default .shop-tabs button.active { color: yellow; decorator: tiled-horizontal(button-active-l, button-active-c, button-active-r); }
+            .sp-theme-default .shop-grid item-slot.selected { border-color: yellow; }
+            .sp-theme-default #selected-name { display: block; min-width: 0; white-space: normal; word-break: break-word; color: yellow; margin: 0 106dp 0 0; padding: 4dp 0; line-height: 18dp; }
+            .sp-theme-default .shop-price { position: absolute; right: 0dp; top: 50%; transform: translateY(-50%); white-space: nowrap; }
+            .sp-theme-default #selected-price { color: yellow; }
+            .sp-theme-default .shop-price { display: flex; align-items: center; justify-content: flex-end; gap: 5dp; height: 21dp; }
+            #game-avatar-store.sp-theme-default .shop-selection .shop-price { position: absolute; right: 0dp; top: 50%; transform: translateY(-50%); }
+            #game-avatar-store.sp-theme-default > .window-title { text-align: center; padding-left: 30dp; padding-right: 30dp; padding-top: 1dp; white-space: nowrap; overflow: hidden; }
+
+            /* ==== Steampunk look only ==== */
+            .sp-theme-steampunk .shop-tabs button.active { color: rgb(243, 211, 138); decorator: tiled-horizontal(sp-btn-a-l, sp-btn-a-c, sp-btn-a-r); image-color: rgb(255, 255, 255); }
+            .sp-theme-steampunk .shop-grid item-slot.selected { border-color: rgb(243, 211, 138); }
+            .sp-theme-steampunk #selected-name { display: block; min-width: 0; white-space: normal; word-break: break-word; color: rgb(243, 211, 138); margin: 0 106dp 0 0; padding: 4dp 0; line-height: 18dp; }
+            #game-avatar-store.sp-theme-steampunk .shop-selection .shop-price { position: absolute; right: 0dp; top: 50%; transform: translateY(-50%); white-space: nowrap; }
+            .sp-theme-steampunk #selected-price { color: rgb(243, 211, 138); }
+            .sp-theme-steampunk .shop-price { display: flex; align-items: center; justify-content: flex-end; gap: 5dp; height: 21dp; }
+
+        </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('game-avatar-store')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     </head>
     <body id="game-avatar-store" template="window-fixed-size">
         <div data-model="avatar-store">
