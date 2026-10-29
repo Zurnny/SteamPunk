@@ -164,7 +164,7 @@ pcall(function()
         if fight and not fight.done and fight.idle < 8 then
             fight.seconds = fight.seconds + 1
             table.insert(fight.recent, math.max(0, dealt))
-            if #fight.recent > 3 then table.remove(fight.recent, 1) end   -- "DPS" = last 3 seconds
+            if #fight.recent > 1 then table.remove(fight.recent, 1) end   -- "DPS" = the last second
             if hp <= 0 then fight.done = true end
         end
         render()

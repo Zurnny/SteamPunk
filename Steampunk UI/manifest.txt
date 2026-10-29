@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.43
-02ebc7b1cc6780e53ca998d0d0a1483ccf8ee104|mod.ini
+version=1.44
+c5a0a23c33e579cf403f436ce8f7e39ae1a303f6|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 181be009e470b10c7a5708cfbc9f8dc825d79959|files/Data/ui/themes/rose/game/arena_group.html
@@ -20,7 +20,7 @@ e0fe0c3761bf2ecf3977c7a559b7728ff0709c40|files/Data/ui/themes/rose/game/dropped_
 9c393803e93c21de25eab52474dfe1afdee38220|files/Data/ui/themes/rose/game/duel.html
 6027ad2a9f17327f9452262d6975e31e05057031|files/Data/ui/themes/rose/game/duel_scoreboard.html
 23d758ca235a05476dc30e296827972e0626c2e2|files/Data/ui/themes/rose/game/empowerment.html
-586dfb05dfab7b149082bbf66a7bf90c73908ca8|files/Data/ui/themes/rose/game/focused_target.html
+3baf3e4148f94000df376e7d9bb44ace532fb7ab|files/Data/ui/themes/rose/game/focused_target.html
 f3cfc26f21d6000d5d5c2e3bec235c6181fdfbd2|files/Data/ui/themes/rose/game/friend_list.html
 b0beecb5b0a09c8a0b8ca2497fb9903a771724f2|files/Data/ui/themes/rose/game/game_arena.html
 e6ef2b78174ac1e0f49c10a8dad7ea662d1574d0|files/Data/ui/themes/rose/game/gamearena_scoreboard.html
