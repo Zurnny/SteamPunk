@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.41
-38a20faaaa3868c00d9a18f6d973388a90261852|mod.ini
+version=1.42
+714849fd9b43c1a3e6addad981d3a78f4d5132ac|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 4b46782b6645cc18ad8456f6fd0eb5534b514c17|files/Data/ui/themes/rose/game/arena_group.html
@@ -25,7 +25,7 @@ f3cfc26f21d6000d5d5c2e3bec235c6181fdfbd2|files/Data/ui/themes/rose/game/friend_l
 b0beecb5b0a09c8a0b8ca2497fb9903a771724f2|files/Data/ui/themes/rose/game/game_arena.html
 e6ef2b78174ac1e0f49c10a8dad7ea662d1574d0|files/Data/ui/themes/rose/game/gamearena_scoreboard.html
 e701bc329bb4d1d5f33197997f8696656276e263|files/Data/ui/themes/rose/game/group_manager.html
-da3fba8bb583b6b6deb9b468d655692dc29ca854|files/Data/ui/themes/rose/game/hud.html
+5ec48aceeadd4a2489ba7aa938ad659a2c219edb|files/Data/ui/themes/rose/game/hud.html
 e8ca6f2816b9ed82ef3ca439c41f8863b5495670|files/Data/ui/themes/rose/game/image_viewer.html
 8f17dc2ee09961b11e90fc8c843f1b99c456e25b|files/Data/ui/themes/rose/game/inventory.html
 8bfa6a7f8c5d1721c2274ab7186b4cfdb3d95521|files/Data/ui/themes/rose/game/item_mall.css
