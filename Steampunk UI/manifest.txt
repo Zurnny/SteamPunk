@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.45
-0f08adfd84d893e54a89d8d7f45e1abf3b505d3d|mod.ini
+version=1.46
+7380ada6abdcd4242a8b11ed0bb050853ff4b052|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 181be009e470b10c7a5708cfbc9f8dc825d79959|files/Data/ui/themes/rose/game/arena_group.html
@@ -61,7 +61,7 @@ aaa87dea8697996bb4c867aa1d8d5e525729e5b6|files/Data/ui/themes/rose/game/quickbar
 e38bf96bf82d7cd9d0d2236a19a3f515a4d65517|files/Data/ui/themes/rose/game/refine.html
 18e8fa6d085c3e3b344f2a0eece86cf492127543|files/Data/ui/themes/rose/game/reinforcement.html
 bf20119267ff641fb4339db5a3425288215485ba|files/Data/ui/themes/rose/game/respawn.html
-3ca1207a3df4c77165d8e2ae09d509b79127bdc1|files/Data/ui/themes/rose/game/skill_hud.html
+e3ce783abad54cc3efa55fc1c12ebb815144cdf6|files/Data/ui/themes/rose/game/skill_hud.html
 7c629bdfb445267b0a1adea3eaae0ebdac74111a|files/Data/ui/themes/rose/game/skills.html
 c72951df964f65aa2671d1dfc187f6d02dac0773|files/Data/ui/themes/rose/game/storage.html
 dfd25a52e9b5577e0899b653b253b422280c7fb2|files/Data/ui/themes/rose/game/style_change.html
