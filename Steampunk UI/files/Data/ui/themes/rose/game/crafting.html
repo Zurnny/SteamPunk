@@ -44,6 +44,10 @@
             button[disabled] { cursor: normal; decorator: image(craftammount-button-d); }
             button.amount:not(button[disabled]):hover { decorator: image(craftammount-button-h); }
             button.amount:not(button[disabled]):active { decorator: image(craftammount-button-a); }
+            button.sp-craft-max { margin: -4dp 0 0 4dp; padding: 0 6dp; min-width: 34dp; height: 22dp; line-height: 22dp; font-size: 11dp; font-weight: 800; }
+            #game-crafting.sp-cmax-off button.sp-craft-max { display: none; }
+            #sp-cmax-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; }
+            #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
 
             /* ==== Default UI look only ==== */
             .sp-theme-default label.custom { padding-top: 3dp; padding-bottom: 1dp; font-size: 12dp; font-effect: outline(1dp black); color: #ff0; }
@@ -65,6 +69,10 @@
           background-color: rgb(255, 145, 0);
         }
       }
+            @keyframes sp-cmax-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-cmax-tick-b { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
         </style>
         <script>
 -- Theme check (add-on windows work with the default UI and with the Steampunk
@@ -86,6 +94,187 @@ pcall(function()
     -- (parts written for the other look stay in the window, hidden)
 end)
         </script>
+    <script>
+-- Max craft: the Max button next to the amount sets it to as many as you can
+-- make and starts crafting. It reads what one craft needs from the material
+-- slots (their number is the amount per craft) and counts what you have in
+-- your bags (the inventory window holds every bag tab at once, so nothing has
+-- to be opened or clicked), limits it by your MP when the recipe uses MP,
+-- types it into the game's own amount box, presses OK and then Begin Crafting.
+pcall(function()
+    local document = document
+    local function el(id) return document:GetElementById(id) end
+    local function attr(e, k)
+        if not e then return nil end
+        local v = e:GetAttribute(k)
+        if v == nil then return nil end
+        return tostring(v)
+    end
+    local function num(s)
+        s = tostring(s or ''):gsub('<[^>]*>', ''):gsub('[^%d]', '')
+        return tonumber(s)
+    end
+    local function click(e)
+        if not e then return false end
+        if pcall(function() e:Click() end) then return true end
+        return pcall(function() e:DispatchEvent('click', {}) end)
+    end
+    local function key(s) return (attr(s, 'item-type') or '?') .. ':' .. (attr(s, 'item-id') or '?') end
+
+    -- the amount box and the crafting button need a moment after each click
+    local steps, timer, flip = {}, el('sp-cmax-timer'), false
+    local function later(fn) steps[#steps + 1] = fn end
+    local function run_next()
+        local fn = table.remove(steps, 1)
+        if fn then
+            if not pcall(fn) then steps = {} end
+        end
+        if #steps > 0 and timer then
+            flip = not flip
+            timer.style.animation = '0.15s ' .. (flip and 'sp-cmax-tick-b' or 'sp-cmax-tick-a')
+        end
+    end
+    if timer then timer:AddEventListener('animationend', run_next) end
+
+    local function start()
+        steps = {}
+        local ctx = document.context
+        -- what one craft needs
+        local need = {}
+        for i = 1, 4 do
+            local s = el('material-' .. i)
+            if s and attr(s, 'empty') ~= 'true' then
+                local k, n = key(s), num(attr(s, 'item-quantity')) or 1
+                if not k:find('?', 1, true) and not k:find(':0$') and n > 0 then
+                    need[#need + 1] = {key = k, n = n}
+                end
+            end
+        end
+        if #need == 0 then return end   -- no recipe picked
+        -- what you have: every bag slot (all tabs are in the window at once)
+        local inv = ctx and ctx.documents['inventory-window']
+        if not inv then return end
+        local have = {}
+        for i = 0, 119 do
+            local s = inv:GetElementById('bag-' .. i)
+            if s and attr(s, 'empty') ~= 'true' then
+                local k = key(s)
+                have[k] = (have[k] or 0) + (num(attr(s, 'item-quantity')) or 1)
+            end
+        end
+        local max = nil
+        for _, m in ipairs(need) do
+            local can = math.floor((have[m.key] or 0) / m.n)
+            max = max and math.min(max, can) or can
+        end
+        -- MP: what one craft uses and what you have
+        local mp_cost, mp_have = nil, nil
+        pcall(function()
+            local box = document:QuerySelector('.mp-container fc_blue')
+            mp_cost = box and num(box.inner_rml)
+        end)
+        pcall(function()
+            local g = ctx.documents['hud'] and ctx.documents['hud']:GetElementById('mana')
+            mp_have = g and num(attr(g, 'gvalue'))
+        end)
+        if mp_cost and mp_cost > 0 and mp_have then max = math.min(max, math.floor(mp_have / mp_cost)) end
+        if not max or max < 1 then return end
+        local want = tostring(max)
+        -- the game's amount box: type the number, OK, then Begin Crafting
+        click(el('amount'))
+        later(function()
+            local box = ctx.documents['game-number-input']
+            if not box then return end
+            for _ = 1, 8 do click(box:GetElementById('del')) end
+            for d in want:gmatch('%d') do click(box:GetElementById(d)) end
+            later(function()
+                click(box:GetElementById('ok'))
+                later(function()
+                    local go = el('sp-craft-start')
+                    local off = go and go:HasAttribute('disabled')
+                    if go and not off then click(go) end
+                end)
+            end)
+        end)
+        run_next()
+    end
+    local btn = el('sp-craft-max')
+    if btn then btn:AddEventListener('click', function() pcall(start) end) end
+end)
+    </script>
+    <script>
+-- Add-on switches (the same script in every add-on window).
+-- SP_ADDON_SWITCH craft_max
+-- An add-on counts as installed while its marker file
+-- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
+-- the add-on and takes it out again with it, so a window that several add-ons
+-- share only runs the parts of the add-ons that are installed.
+-- The on/off switches are in Options > UI > Add-ons and are saved in
+-- sp_addons.txt (the Ice UI uses the same file; nobody removes anyone else's
+-- lines). This window reads it every 2 seconds. Everything is on by default.
+pcall(function()
+    local BODY = 'game-crafting'
+    -- key, class put on this window while that add-on is off or not installed ('' = none)
+    local MINE = {{'craft_max', 'sp-cmax-off'}}
+    local installed = {}
+    SP_ADDON_INSTALLED = function(key)
+        -- the Steampunk UI theme has every add-on built in
+        if SP_THEME == 'steampunk' then return true end
+        if installed[key] == nil then
+            installed[key] = true      -- if the game won't let the UI read files, assume installed
+            pcall(function()
+                local f = io.open('Data/ui/sp_addons/' .. key .. '.txt', 'r')
+                if f then f:close() else installed[key] = false end
+            end)
+        end
+        return installed[key]
+    end
+    local flags = {}
+    local function read_flags()
+        flags = {}
+        pcall(function()
+            local f = io.open('sp_addons.txt', 'r')
+            if not f then return end
+            for line in f:lines() do
+                local k, v = line:match('^%s*([%w_]+)%s*=%s*(%d)')
+                if k then flags[k] = v end
+            end
+            f:close()
+        end)
+    end
+    -- SP_ADDON_ON(key): installed and not switched off. Reads the switches fresh
+    -- unless called with fresh == false.
+    SP_ADDON_ON = function(key, fresh)
+        if not SP_ADDON_INSTALLED(key) then return false end
+        if fresh ~= false then read_flags() end
+        return flags[key] ~= '0'
+    end
+    local doc = document
+    local function apply()
+        read_flags()
+        for _, m in ipairs(MINE) do
+            local on = SP_ADDON_ON(m[1], false)
+            if m[2] ~= '' then pcall(function() (doc:GetElementById(BODY) or doc):SetClass(m[2], not on) end) end
+            -- a script in this window can register SP_ADDON_HOOK['<key>@<body id>'] = function(on) ... end
+            local hook = SP_ADDON_HOOK and SP_ADDON_HOOK[m[1] .. '@' .. BODY]
+            if hook then pcall(hook, on) end
+        end
+    end
+    apply()
+    doc:AddEventListener('show', function() pcall(apply) end)
+    doc:AddEventListener('mouseover', function() pcall(apply) end)
+    -- repeating 2 second check: two identical animations swapped each time one ends
+    pcall(function()
+        local timer = doc:GetElementById('sp-switch-timer')   -- the empty div at the end of the body
+        local flip = false
+        timer:AddEventListener('animationend', function()
+            pcall(apply)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-switch-tick-b' or 'sp-switch-tick-a')
+        end)
+    end)
+end)
+    </script>
   </head>
 
   <body id="game-crafting" class="window-fixed-size">
@@ -319,6 +508,7 @@ end)
                 <div class="mp-container">
                   <button id="amount" class="amount" onclick="set-amount" />
                   <label class="custom amount">{{craft_amount}}</label>
+                  <button id="sp-craft-max" class="default sp-craft-max" data-attrif-disabled="is_crafting">Max</button>
                 </div>
                 <div class="mp-container">
                   <img id="suc-rate" sprite="percent-icon" />
@@ -328,6 +518,7 @@ end)
 
               <div class="tooltip" data-if="!is_crafting">
                 <button
+                  id="sp-craft-start"
                   class="default accept"
                   onclick="start"
                   data-attrif-disabled="!is_ready || is_crafting"
@@ -399,5 +590,7 @@ end)
         </div>
       </div>
     </div>
+    <div id="sp-cmax-timer"></div>
+    <div id="sp-switch-timer"></div>
   </body>
 </rml>

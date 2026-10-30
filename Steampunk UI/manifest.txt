@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.53
-85c3661f238432b906333776c6f53b35fe3e8763|mod.ini
+version=1.54
+24d5a5b2337d79f8e444e654b536a40e5d38ffe8|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 375c28a63ceedfa20511bec767aaab5ccb1b527b|files/Data/ui/themes/rose/game/arena_group.html
@@ -14,7 +14,7 @@ f01e6878aa1190b60af5cf6f55a047bf663ade3e|files/Data/ui/themes/rose/game/chat_box
 e9772fd553adbfe16e1df9c87ef1f62c2013a007|files/Data/ui/themes/rose/game/choice_box.html
 8cc4bee2d4f448e7e88c49579f95b96e9278094f|files/Data/ui/themes/rose/game/clan.html
 12bde5280b79de84acf7bd0ed680293f1ff14540|files/Data/ui/themes/rose/game/clan_create.html
-c393fd3514c50c8087d5e26d14c1de940539eae7|files/Data/ui/themes/rose/game/crafting.html
+3c8bb493ffd387878eb60e14cbce76aa9db7a5f8|files/Data/ui/themes/rose/game/crafting.html
 5e661baf73f653256ae5311085e7965354db6b9c|files/Data/ui/themes/rose/game/disassembly.html
 80fc15abb9b5f6618ea33938f40bb04caafc29ee|files/Data/ui/themes/rose/game/dropped_item_labels.html
 9c393803e93c21de25eab52474dfe1afdee38220|files/Data/ui/themes/rose/game/duel.html
@@ -45,7 +45,7 @@ a790208fb267b9ef974d4e7aca791a9223234c8d|files/Data/ui/themes/rose/game/monster_
 1b362380e9804a9a084f50910b00be71ff8c14df|files/Data/ui/themes/rose/game/npc_shop.html
 38e0e46bacd55935512f6ad61af907978c74e2e0|files/Data/ui/themes/rose/game/npc_transaction.html
 ed4e6b1075aa4208de7a999078a498a682cbf3c8|files/Data/ui/themes/rose/game/number_input.html
-cfe4c3a63e20ee55e3b512b3366654398eafeeed|files/Data/ui/themes/rose/game/options_bgfx.html
+9419a051950bc7a749862d6ba19d7b93e64390fa|files/Data/ui/themes/rose/game/options_bgfx.html
 553039cbff1222a26ca9fa75007065dc52a06eea|files/Data/ui/themes/rose/game/party.html
 5986783d7455e080c8bf29a592d28b2482bb25a2|files/Data/ui/themes/rose/game/party_finder.html
 cc3556ca0e51494f1f0216a3d546ef8e1eb94d5a|files/Data/ui/themes/rose/game/party_options.html
@@ -74,11 +74,11 @@ ec0670de5f63c4b776c9a49c0feffaf7fd2c1182|files/Data/ui/themes/rose/game/tos.html
 a0f6b1e73871464d06424d411a7420de074b3597|files/Data/ui/themes/rose/game/world_map.html
 d9b60643fda2f2921c7e2287461b6af8e28aa72f|files/Data/ui/themes/rose/game/zone_notice.html
 2d4a6f82f2b2c90c004c3662b9857f882111c72c|files/Data/ui/themes/rose/imgs/gauge_steampunk.dds
-1b1b761ce1ed132b25f7d2cd78bd1dc8f7bb5d20|files/Data/ui/themes/rose/imgs/steampunk_menu.dds
-98765943aea93d6ee2a8773356839240438397f6|files/Data/ui/themes/rose/imgs/steampunk_minimap.dds
-1ad022dcfc6a5aee4541a04534317040b3a95f40|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
+18d23c07a67deb107bc23e1207b6b1878632d564|files/Data/ui/themes/rose/imgs/steampunk_menu.dds
+4a19ec2ada91580e2b10c442c95904f67ba7434f|files/Data/ui/themes/rose/imgs/steampunk_minimap.dds
+be054f9a1a21ce8991f68a8e4ed4daaa1cac56c7|files/Data/ui/themes/rose/imgs/steampunk_ui.dds
 1726b47293742e3d288cd5bd95600241bc6544de|files/Data/ui/themes/rose/styles/spritesheet_gauge.css
-810314c12a56fe2014f80e9187a3ac20f1a8df09|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
+e7cee0dc51b64163eb2fb85180226644a473c1ce|files/Data/ui/themes/rose/styles/spritesheet_steampunk.css
 12ff5fe3e963b3b98cf48a924d69bfccd02efc53|files/Data/ui/themes/rose/styles/steampunk.css
 5542d9b2fdde69c57ab002416f7f746c9a8341ca|files/Data/ui/themes/rose/templates/window-box.html
 1234f19c47c7c281c9907565647136686148a286|files/Data/ui/themes/rose/templates/window-fixed-size.html
@@ -135,4 +135,4 @@ d79a66976d6b3eadb0e585a5bb13c06b67be7582|launcher/acct_h.png
 330d70072634bcddaaa92f9a9258d16c31396934|launcher/more_h.png
 fcff2c51847e67100ae6fca2d0ffdb5fe9942741|launcher/more_n.png
 c9735755117dd4fa76a010d9d13085fefdd2dfb1|files/Data/ui/themes/rose/styles/sp_addons_steampunk.css
-62a3c46f80ba6f216e811173802298d1936215ff|files/Data/ui/themes/rose/styles/sp_addons_steampunk_sprites.css
+0284ef27b24d89b2dfa20d4956773d170fd06ef1|files/Data/ui/themes/rose/styles/sp_addons_steampunk_sprites.css
