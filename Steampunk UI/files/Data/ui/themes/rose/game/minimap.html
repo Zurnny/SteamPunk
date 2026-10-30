@@ -397,7 +397,7 @@ end)
 if SP_THEME ~= 'steampunk' then return end
 -- Element chart (steampunk add-on). Under the minimized minimap: every element
 -- with the elements it is strong and weak against (the game's own lists).
--- Options > UI > Minimap turns it on and off; that is saved in
+-- The Add-ons window (Map & Windows > Minimap) turns it on and off; that is saved in
 -- sp_element_chart.txt, which this reads every 2 seconds.
 pcall(function()
     local document = document
@@ -436,7 +436,7 @@ end)
 -- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
 -- the add-on and takes it out again with it, so a window that several add-ons
 -- share only runs the parts of the add-ons that are installed.
--- The on/off switches are in Options > UI > Add-ons and are saved in
+-- The on/off switches are in the Add-ons window (the menu's Add-ons button) and are saved in
 -- sp_addons.txt (the Ice UI uses the same file; nobody removes anyone else's
 -- lines). This window reads it every 2 seconds. Everything is on by default.
 pcall(function()
@@ -537,7 +537,7 @@ end)
                         <div class="sp-pad-row"><input id="sp-pad-chart" type="checkbox" checked="" /><label for="sp-pad-chart">Show element chart</label></div>
                     </div>
                 </div>
-                <!-- Element chart (steampunk add-on): shown under the minimized bar; Options > UI turns it off -->
+                <!-- Element chart (steampunk add-on): shown under the minimized bar; the Add-ons window turns it off -->
                 <div class="sp-only-steampunk" id="sp-el-chart-sp">
                     <div class="sp-el-row sp-el-head"><div class="sp-el-who"><span>Element</span></div><div class="sp-el-col strong"><span>Strong</span></div><div class="sp-el-split"></div><div class="sp-el-col weak"><span>Weak</span></div></div>
                     <div class="sp-el-row"><div class="sp-el-who"><span class="sp-el-ic big sp-el-5"></span><span class="sp-el-name elementicon-l-5">Wind</span></div><div class="sp-el-col"><span class="sp-el-ic sp-el-3"></span><span class="sp-el-ic sp-el-7"></span></div><div class="sp-el-split"></div><div class="sp-el-col"><span class="sp-el-ic sp-el-1"></span><span class="sp-el-ic sp-el-4"></span><span class="sp-el-ic sp-el-6"></span></div></div>
