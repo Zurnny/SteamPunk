@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.54
-24d5a5b2337d79f8e444e654b536a40e5d38ffe8|mod.ini
+version=1.55
+e4b51f930190cda200c1c2ab2c0e14407e7eed4e|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 375c28a63ceedfa20511bec767aaab5ccb1b527b|files/Data/ui/themes/rose/game/arena_group.html
@@ -14,7 +14,7 @@ f01e6878aa1190b60af5cf6f55a047bf663ade3e|files/Data/ui/themes/rose/game/chat_box
 e9772fd553adbfe16e1df9c87ef1f62c2013a007|files/Data/ui/themes/rose/game/choice_box.html
 8cc4bee2d4f448e7e88c49579f95b96e9278094f|files/Data/ui/themes/rose/game/clan.html
 12bde5280b79de84acf7bd0ed680293f1ff14540|files/Data/ui/themes/rose/game/clan_create.html
-3c8bb493ffd387878eb60e14cbce76aa9db7a5f8|files/Data/ui/themes/rose/game/crafting.html
+ebb214fd984dd4923adbd579445778d3a12beafe|files/Data/ui/themes/rose/game/crafting.html
 5e661baf73f653256ae5311085e7965354db6b9c|files/Data/ui/themes/rose/game/disassembly.html
 80fc15abb9b5f6618ea33938f40bb04caafc29ee|files/Data/ui/themes/rose/game/dropped_item_labels.html
 9c393803e93c21de25eab52474dfe1afdee38220|files/Data/ui/themes/rose/game/duel.html

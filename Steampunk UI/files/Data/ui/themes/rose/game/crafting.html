@@ -44,7 +44,7 @@
             button[disabled] { cursor: normal; decorator: image(craftammount-button-d); }
             button.amount:not(button[disabled]):hover { decorator: image(craftammount-button-h); }
             button.amount:not(button[disabled]):active { decorator: image(craftammount-button-a); }
-            button.sp-craft-max { margin: -4dp 0 0 4dp; padding: 0 6dp; min-width: 34dp; height: 22dp; line-height: 22dp; font-size: 11dp; font-weight: 800; }
+            button.sp-craft-max { margin: -4dp 6dp 0 0; padding: 0 6dp; min-width: 34dp; height: 22dp; line-height: 22dp; font-size: 11dp; font-weight: 800; }
             #game-crafting.sp-cmax-off button.sp-craft-max { display: none; }
             #sp-cmax-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; }
             #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
@@ -506,9 +506,9 @@ end)
             <div class="crafting-container">
               <div class="mp-container">
                 <div class="mp-container">
+                  <button id="sp-craft-max" class="default sp-craft-max" data-attrif-disabled="is_crafting">Max</button>
                   <button id="amount" class="amount" onclick="set-amount" />
                   <label class="custom amount">{{craft_amount}}</label>
-                  <button id="sp-craft-max" class="default sp-craft-max" data-attrif-disabled="is_crafting">Max</button>
                 </div>
                 <div class="mp-container">
                   <img id="suc-rate" sprite="percent-icon" />
