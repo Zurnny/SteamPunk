@@ -27,6 +27,8 @@
             .skill-tooltip-time { display: block; color: rgb(90, 230, 110); }
             .skill-tooltip-time.warning { color: rgb(255, 170, 60); }
             .skill-tooltip-time.danger { color: rgb(255, 80, 80); }
+            #sp-buffpos-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 1s sp-buffpos-a; }
+            #sp-dp-probe { position: absolute; width: 100dp; height: 1dp; visibility: hidden; pointer-events: none; }
 
             /* ==== Default UI look only ==== */
             #skill-hud.sp-theme-default { position: absolute; top: 10dp; right: 210dp; width: auto; max-width: 70vw; max-height: 40vh; pointer-events: none; font-effect: outline(1dp black), shadow(1dp 1dp black); }
@@ -36,6 +38,8 @@
             #skill-hud.sp-theme-steampunk { position: absolute; top: 10dp; right: 240dp; width: auto; max-width: 70vw; max-height: 40vh; pointer-events: none; font-effect: outline(1dp black), shadow(1dp 1dp black); }
             .sp-theme-steampunk .skill-tooltip-name { display: block; color: rgb(243, 211, 138); margin-bottom: 8dp; }
 
+            @keyframes sp-buffpos-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-buffpos-b { from { opacity: 0; } to { opacity: 0; } }
         </style>
         <script>
 -- Theme check (add-on windows work with the default UI and with the Steampunk
@@ -57,6 +61,54 @@ pcall(function()
     -- (parts written for the other look stay in the window, hidden)
 end)
         </script>
+        <script>
+-- The buff and proc icons sit just left of the minimap: once a second this
+-- finds where the minimap really is (it changes with the UI scale, the screen
+-- size and when the minimap is dragged) and lines the icons up 4dp from its
+-- left edge. When the minimap is closed, or moved away from the top right,
+-- the icons go back to 240dp from the right.
+pcall(function()
+    if SP_THEME == 'default' then return end
+    local document = document
+    local START = '240dp'
+    local shown = nil
+    local function set(v)
+        if v ~= shown then document.style.right = v; shown = v end
+    end
+    local function place()
+        local ctx = document.context
+        local mm = ctx and ctx.documents['game-minimap']
+        if not mm then set(START); return end
+        local vis = true
+        pcall(function() vis = mm:IsVisible() end)
+        local w = mm.offset_width or 0
+        if not vis or w <= 0 then set(START); return end
+        local W = 0
+        pcall(function() W = ctx.dimensions.x end)
+        if not W or W <= 0 then
+            local root = document.parent_node
+            W = root and root.offset_width or 0
+        end
+        if W <= 0 then set(START); return end
+        local probe = document:GetElementById('sp-dp-probe')
+        local dp = probe and probe.offset_width > 0 and probe.offset_width / 100 or 1
+        local left, top = mm.absolute_left or 0, mm.absolute_top or 0
+        -- only while the minimap is at the top right, beside the icons
+        if top > 60 * dp or left + w < W * 0.6 then set(START); return end
+        set(string.format('%dpx', math.floor(W - left + 4 * dp + 0.5)))
+    end
+    local timer = document:GetElementById('sp-buffpos-timer')
+    local flip = false
+    if timer then
+        timer:AddEventListener('animationend', function()
+            pcall(place)
+            flip = not flip
+            timer.style.animation = '1s ' .. (flip and 'sp-buffpos-b' or 'sp-buffpos-a')
+        end)
+    end
+    pcall(place)
+end)
+        </script>
     </head>
     <body id="skill-hud">
         <div id="skill-hud-root" data-model="skill-hud" data-style-width="strip_width + 'dp'" data-style-max-width="strip_max_width + 'dp'">
@@ -74,5 +126,7 @@ end)
             <div class="skill-tooltip-time" data-if="tooltip_remaining != ''" data-class-warning="tooltip_time_class == 'warning'" data-class-danger="tooltip_time_class == 'danger'">{{tooltip_remaining}}</div>
         </div>
         </div>
+        <div id="sp-buffpos-timer"></div>
+        <div id="sp-dp-probe"></div>
     </body>
 </rml>
