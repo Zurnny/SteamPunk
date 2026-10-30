@@ -60,15 +60,13 @@
             #sp-pad-close:hover { color: white; }
             #game-minimap.sp-pad-off #sp-pad { display: none; }
             #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
-            #sp-compass { position: absolute; left: 33dp; top: 33dp; width: 142dp; height: 142dp; pointer-events: none; }
-            #sp-compass .sp-cmp-band { position: absolute; left: 0; top: 0; width: 142dp; height: 142dp; box-sizing: border-box; border: 12dp rgba(16, 20, 24, 150); border-radius: 71dp; }
-            #sp-compass .sp-cmp-line { position: absolute; left: 12dp; top: 12dp; width: 118dp; height: 118dp; box-sizing: border-box; border: 1dp rgba(210, 214, 220, 110); border-radius: 59dp; }
-            #sp-compass .sp-cmp-tick { position: absolute; left: 70.25dp; top: 68.5dp; width: 1.5dp; height: 5dp; background-color: rgba(220, 224, 230, 170); }
-            #sp-compass .sp-cmp-letter { position: absolute; width: 14dp; height: 12dp; line-height: 12dp; text-align: center; font-size: 10dp; font-weight: 800; color: rgb(235, 238, 242); font-effect: outline(1dp black); }
-            #sp-compass .sp-cmp-n { left: 64dp; top: 0dp; color: rgb(255, 120, 96); }
-            #sp-compass .sp-cmp-e { left: 128dp; top: 65dp; }
-            #sp-compass .sp-cmp-s { left: 64dp; top: 130dp; }
-            #sp-compass .sp-cmp-w { left: 0dp; top: 65dp; }
+            #sp-compass { position: absolute; left: 19dp; top: 19dp; width: 170dp; height: 170dp; pointer-events: none; }
+            #sp-compass .sp-cmp-tick { position: absolute; left: 84.25dp; top: 83dp; width: 1.5dp; height: 4dp; background-color: rgba(220, 224, 230, 190); }
+            #sp-compass .sp-cmp-letter { position: absolute; width: 12dp; height: 10dp; line-height: 10dp; text-align: center; font-size: 9dp; font-weight: 800; color: rgb(235, 238, 242); font-effect: outline(1dp black); }
+            #sp-compass .sp-cmp-n { left: 79dp; top: 5.5dp; color: rgb(255, 120, 96); }
+            #sp-compass .sp-cmp-e { left: 153.5dp; top: 80dp; }
+            #sp-compass .sp-cmp-s { left: 79dp; top: 154.5dp; }
+            #sp-compass .sp-cmp-w { left: 4.5dp; top: 80dp; }
             #game-minimap.sp-cmp-off #sp-compass { display: none; }
             #sp-mm-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 0.05s sp-mm-tick-a; }
 
@@ -615,30 +613,28 @@ end)
                     </div>
                 </masked>
 
-                <!-- Minimap Window add-on: compass ring (default look; Steampunk's bezel has its own) -->
-                <div id="sp-compass" class="sp-only-default">
-                    <div class="sp-cmp-band"></div>
-                    <div class="sp-cmp-line"></div>
-                    <span class="sp-cmp-tick" style="transform: rotate(30deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-tick" style="transform: rotate(60deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-tick" style="transform: rotate(120deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-tick" style="transform: rotate(150deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-tick" style="transform: rotate(210deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-tick" style="transform: rotate(240deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-tick" style="transform: rotate(300deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-tick" style="transform: rotate(330deg) translateY(-65dp);"></span>
-                    <span class="sp-cmp-letter sp-cmp-n">N</span>
-                    <span class="sp-cmp-letter sp-cmp-e">E</span>
-                    <span class="sp-cmp-letter sp-cmp-s">S</span>
-                    <span class="sp-cmp-letter sp-cmp-w">W</span>
-                </div>
-
                 <!-- Heading-up mode: the player's facing for the script, and its timer -->
                 <span id="sp-mm-source" data-attr-sp-dir="player.direction"></span>
                 <div id="sp-mm-timer"></div>
 
                 <!-- Decorative frame overlay -->
                 <div id="minimap-frame"></div>
+
+                <!-- Minimap Window add-on: compass on the game's ring, over the frame so it shows (default look; Steampunk's bezel has its own) -->
+                <div id="sp-compass" class="sp-only-default">
+                    <span class="sp-cmp-tick" style="transform: rotate(30deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(60deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(120deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(150deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(210deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(240deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(300deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(330deg) translateY(-74.5dp);"></span>
+                    <span class="sp-cmp-letter sp-cmp-n">N</span>
+                    <span class="sp-cmp-letter sp-cmp-e">E</span>
+                    <span class="sp-cmp-letter sp-cmp-s">S</span>
+                    <span class="sp-cmp-letter sp-cmp-w">W</span>
+                </div>
 
                 <handle class="title" move_target="#document">
                     <span id="zone-name">{{zone_name}}</span>

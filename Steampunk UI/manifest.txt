@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.61
-7f18c0879dbfdb2d5c2a4562277b57d0fdd2498d|mod.ini
+version=1.62
+7e12cd100aa3811ef804b48663a9f8a9f10cb176|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 7c1970d0318b8373d1b0d0443b8c19e6203f3f3a|files/Data/ui/themes/rose/game/arena_group.html
@@ -38,7 +38,7 @@ b19359288fbed41c1c99d08d1b2830447c89c8cc|files/Data/ui/themes/rose/game/mall_car
 e5d5b3c0b1351ffc710e6eafa49d353378de65a0|files/Data/ui/themes/rose/game/mall_storage.html
 1448712518c250158022e27eee1408bdd42eadec|files/Data/ui/themes/rose/game/menu.html
 65af82783a1f7ae21032a0c40ec1125c691e3da3|files/Data/ui/themes/rose/game/message_box.html
-0aaf75022da33d549f9bf850f421682862d6ab2d|files/Data/ui/themes/rose/game/minimap.html
+21c80f1ab2e1c3d905c9836eb3fade87121aeaec|files/Data/ui/themes/rose/game/minimap.html
 53c872768f38ee904e65e6765e24844ec9eb1590|files/Data/ui/themes/rose/game/modal_overlay.html
 a790208fb267b9ef974d4e7aca791a9223234c8d|files/Data/ui/themes/rose/game/monster_inspector.html
 02a503b23c6b312fb75f18a3ced136ad590529d3|files/Data/ui/themes/rose/game/npc_dialog.html
