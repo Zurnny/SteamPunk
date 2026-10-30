@@ -11,7 +11,6 @@
         <link type="text/rcss" href="../styles/sp_addons_steampunk.css" />
         <style>
             /* ==== Both looks ==== */
-            #skill-hud { position: absolute; top: 10dp; right: 240dp; width: auto; max-width: 70vw; max-height: 40vh; pointer-events: none; font-effect: outline(1dp black), shadow(1dp 1dp black); }
             #skill-hud-list { display: flex; flex-direction: row-reverse; flex-wrap: wrap; overflow-y: auto; max-height: 40vh; pointer-events: none; }
             #skill-hud-list scrollbarvertical { pointer-events: auto; }
             .hud-skill { position: relative; width: 40dp; min-width: 40dp; height: 60dp; flex-shrink: 0; pointer-events: auto; }
@@ -30,9 +29,11 @@
             .skill-tooltip-time.danger { color: rgb(255, 80, 80); }
 
             /* ==== Default UI look only ==== */
+            #skill-hud.sp-theme-default { position: absolute; top: 10dp; right: 210dp; width: auto; max-width: 70vw; max-height: 40vh; pointer-events: none; font-effect: outline(1dp black), shadow(1dp 1dp black); }
             .sp-theme-default .skill-tooltip-name { display: block; color: yellow; margin-bottom: 8dp; }
 
             /* ==== Steampunk look only ==== */
+            #skill-hud.sp-theme-steampunk { position: absolute; top: 10dp; right: 240dp; width: auto; max-width: 70vw; max-height: 40vh; pointer-events: none; font-effect: outline(1dp black), shadow(1dp 1dp black); }
             .sp-theme-steampunk .skill-tooltip-name { display: block; color: rgb(243, 211, 138); margin-bottom: 8dp; }
 
         </style>
