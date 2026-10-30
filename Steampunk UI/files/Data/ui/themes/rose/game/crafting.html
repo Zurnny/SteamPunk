@@ -38,7 +38,6 @@
             gauge fill { background-color: #7ae857; }
             item-slot { width: 40dp; height: 40dp; display: block; }
             item-slot.material { text-align: center; vertical-align: middle; }
-            span.mat-quantity { position: relative; z-index: 1; pointer-events: none; text-align: center; vertical-align: middle; line-height: 40dp; }
             button.amount { margin-top: -7dp; margin-right: -10dp; width: 30dp; height: 27dp; decorator: image(craftammount-button-n); }
             button.amount:disabled { cursor: normal; decorator: image(craftammount-button-d); }
             button[disabled] { cursor: normal; decorator: image(craftammount-button-d); }
@@ -52,12 +51,14 @@
             /* ==== Default UI look only ==== */
             .sp-theme-default label.custom { padding-top: 3dp; padding-bottom: 1dp; font-size: 12dp; font-effect: outline(1dp black); color: #ff0; }
             .sp-theme-default span.sub-title { font-weight: 800; color: rgb(252, 252, 193); }
+            .sp-theme-default span.mat-quantity { position: absolute; left: 0; top: 2dp; padding: 0 2dp; line-height: 15dp; font-size: 13dp; color: white; background: rgba(0, 0, 0, 128); white-space: nowrap; pointer-events: none; }
 
             /* ==== Steampunk look only ==== */
             .sp-theme-steampunk label.custom { padding-top: 3dp; padding-bottom: 1dp; font-size: 12dp; font-effect: outline(1dp black); color: rgb(243, 211, 138); }
             .sp-theme-steampunk span.sub-title { font-weight: 800; color: rgb(243, 211, 138); }
             .sp-theme-steampunk option:disabled { color: gray; }
             .sp-theme-steampunk item-slot { width: 40dp; height: 40dp; display: block; }
+            .sp-theme-steampunk span.mat-quantity { position: absolute; left: 0; top: 2dp; padding: 0 2dp; line-height: 15dp; font-size: 13dp; color: white; background: rgba(30, 24, 19, 170); white-space: nowrap; pointer-events: none; }
             .sp-theme-steampunk button[disabled] { cursor: normal; decorator: image(craftammount-button-d); }
 
             @keyframes gauge-red {
