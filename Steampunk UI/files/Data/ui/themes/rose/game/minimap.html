@@ -35,7 +35,7 @@
             #sp-pad-options.open { display: block; }
             #sp-pad-options .sp-pad-title { display: block; font-weight: 800; color: yellow; margin-bottom: 4dp; }
             #sp-pad-options .sp-pad-row { display: block; margin-top: 4dp; }
-            #sp-pad-options .sp-pad-row input.range { width: 100%; }
+            #sp-pad-options input.range { display: block; width: 100%; box-sizing: border-box; margin: 2dp 0 4dp 0; }
             #sp-pad-options .sp-pad-val { color: #ccc; }
             #sp-el-chart { display: block; padding: 4dp 6dp 4dp 6dp; font-size: 11dp; color: white; font-effect: outline(1dp black); }
             #sp-pad.no-chart #sp-el-chart { display: none; }
@@ -60,6 +60,17 @@
             #sp-pad-close:hover { color: white; }
             #game-minimap.sp-pad-off #sp-pad { display: none; }
             #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
+            #sp-compass { position: absolute; left: 33dp; top: 33dp; width: 142dp; height: 142dp; pointer-events: none; }
+            #sp-compass .sp-cmp-band { position: absolute; left: 0; top: 0; width: 142dp; height: 142dp; box-sizing: border-box; border: 12dp rgba(16, 20, 24, 150); border-radius: 71dp; }
+            #sp-compass .sp-cmp-line { position: absolute; left: 12dp; top: 12dp; width: 118dp; height: 118dp; box-sizing: border-box; border: 1dp rgba(210, 214, 220, 110); border-radius: 59dp; }
+            #sp-compass .sp-cmp-tick { position: absolute; left: 70.25dp; top: 68.5dp; width: 1.5dp; height: 5dp; background-color: rgba(220, 224, 230, 170); }
+            #sp-compass .sp-cmp-letter { position: absolute; width: 14dp; height: 12dp; line-height: 12dp; text-align: center; font-size: 10dp; font-weight: 800; color: rgb(235, 238, 242); font-effect: outline(1dp black); }
+            #sp-compass .sp-cmp-n { left: 64dp; top: 0dp; color: rgb(255, 120, 96); }
+            #sp-compass .sp-cmp-e { left: 128dp; top: 65dp; }
+            #sp-compass .sp-cmp-s { left: 64dp; top: 130dp; }
+            #sp-compass .sp-cmp-w { left: 0dp; top: 65dp; }
+            #game-minimap.sp-cmp-off #sp-compass { display: none; }
+            #sp-mm-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 0.05s sp-mm-tick-a; }
 
             /* ==== Default UI look only ==== */
             body.sp-theme-default { width: 210dp; }
@@ -174,7 +185,6 @@
             .sp-theme-steampunk #time-tooltip { width: 210dp; bottom: 22dp; left: 50%; transform: translateX(-50%); font-size: 13dp; text-align: left; }
             .sp-theme-steampunk .time-tooltip-label { color: rgb(243, 211, 138); }
             .sp-theme-steampunk #sp-mm-source { display: none; }
-            .sp-theme-steampunk #sp-mm-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 0.05s sp-mm-tick-a; }
             .sp-theme-steampunk #minimap-frame { transform-origin: 50% 50%; }
 
             @keyframes giftbox-blink {
@@ -184,6 +194,8 @@
             }
             @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-mm-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-mm-tick-b { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-el-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-el-tick-b { from { opacity: 0; } to { opacity: 0; } }
             @keyframes giftbox-blink-steampunk {
@@ -191,8 +203,6 @@
                 50% { decorator: image(mm-gift-b); }
                 100% { decorator: image(mm-gift-n); }
             }
-            @keyframes sp-mm-tick-a { from { opacity: 0; } to { opacity: 0; } }
-            @keyframes sp-mm-tick-b { from { opacity: 0; } to { opacity: 0; } }
         </style>
         <script>
 -- Theme check (add-on windows work with the default UI and with the Steampunk
@@ -289,11 +299,11 @@ pcall(function()
 end)
         </script>
         <script>
--- (runs only in the Steampunk look)
-if SP_THEME ~= 'steampunk' then return end
--- Heading-up minimap (steampunk add-on). When switched on (Options > Interface,
--- saved in sp_minimap.txt) the map turns around the player so the way you face
--- is always up; the compass bezel turns with it, so N still points north. Your
+-- Heading-up minimap (Steampunk, and the Minimap Window add-on with the default
+-- UI). When switched on (the Add-ons window, under Map & Windows; saved in
+-- sp_minimap.txt) the map turns around the player so the way you face is
+-- always up; the compass (Steampunk's bezel, or the add-on's compass ring)
+-- turns with it, so N still points north. Your
 -- arrow then points straight up, and map icons are turned back upright.
 -- Runs about 20 times a second from a short repeating animation.
 pcall(function()
@@ -308,6 +318,10 @@ pcall(function()
         f:close()
     end)
     local last = nil
+    -- what turns with the map: Steampunk's bezel, or (default look) the compass ring
+    local function compass() return el(SP_THEME == 'steampunk' and 'minimap-frame' or 'sp-compass') end
+    -- with the default UI it goes with the Minimap Window add-on's compass (its own switch)
+    local function allowed() return SP_THEME == 'steampunk' or not SP_ADDON_ON or SP_ADDON_ON('minimap_compass') end
     local function each(list, fn)
         if not list then return end
         local i = list[0] and 0 or 1
@@ -318,7 +332,7 @@ pcall(function()
     local OFFSET = math.pi
     local ICONS = '#minimap-map img.npc-icon, #minimap-map img.party-icon, #minimap-map img.coord-indicator, #minimap-map img.avatar-icon'
     local function clear()
-        local map, frame = el('minimap-map'), el('minimap-frame')
+        local map, frame = el('minimap-map'), compass()
         if map then map.style.transform = 'none' end
         if frame then frame.style.transform = 'none' end
         each(document:QuerySelectorAll(ICONS), function(i) i.style.transform = 'translate(-50%, -50%)' end)
@@ -326,7 +340,8 @@ pcall(function()
     end
     local function update()
         if not heading_up then return end
-        local src, map, frame = el('sp-mm-source'), el('minimap-map'), el('minimap-frame')
+        if not allowed() then if last then clear() end return end   -- switched off: straighten up
+        local src, map, frame = el('sp-mm-source'), el('minimap-map'), compass()
         if not src or not map then return end
         local dir = tonumber(src:GetAttribute('sp-dir'))
         if not dir then return end
@@ -416,6 +431,7 @@ end)
     <script>
 -- Add-on switches (the same script in every add-on window).
 -- SP_ADDON_SWITCH minimap_pad
+-- SP_ADDON_SWITCH minimap_compass
 -- An add-on counts as installed while its marker file
 -- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
 -- the add-on and takes it out again with it, so a window that several add-ons
@@ -426,7 +442,7 @@ end)
 pcall(function()
     local BODY = 'game-minimap'
     -- key, class put on this window while that add-on is off or not installed ('' = none)
-    local MINE = {{'minimap_pad', 'sp-pad-off'}}
+    local MINE = {{'minimap_pad', 'sp-pad-off'}, {'minimap_compass', 'sp-cmp-off'}}
     local installed = {}
     SP_ADDON_INSTALLED = function(key)
         -- the Steampunk UI theme has every add-on built in
@@ -599,9 +615,27 @@ end)
                     </div>
                 </masked>
 
-                <!-- Heading-up mode (Steampunk): the player's facing for the script, and its timer -->
-                <span id="sp-mm-source" class="sp-only-steampunk" data-attr-sp-dir="player.direction"></span>
-                <div id="sp-mm-timer" class="sp-only-steampunk"></div>
+                <!-- Minimap Window add-on: compass ring (default look; Steampunk's bezel has its own) -->
+                <div id="sp-compass" class="sp-only-default">
+                    <div class="sp-cmp-band"></div>
+                    <div class="sp-cmp-line"></div>
+                    <span class="sp-cmp-tick" style="transform: rotate(30deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(60deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(120deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(150deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(210deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(240deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(300deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-tick" style="transform: rotate(330deg) translateY(-65dp);"></span>
+                    <span class="sp-cmp-letter sp-cmp-n">N</span>
+                    <span class="sp-cmp-letter sp-cmp-e">E</span>
+                    <span class="sp-cmp-letter sp-cmp-s">S</span>
+                    <span class="sp-cmp-letter sp-cmp-w">W</span>
+                </div>
+
+                <!-- Heading-up mode: the player's facing for the script, and its timer -->
+                <span id="sp-mm-source" data-attr-sp-dir="player.direction"></span>
+                <div id="sp-mm-timer"></div>
 
                 <!-- Decorative frame overlay -->
                 <div id="minimap-frame"></div>
