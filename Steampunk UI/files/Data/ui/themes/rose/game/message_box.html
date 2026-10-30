@@ -4,85 +4,49 @@
         <link type="text/rcss" href="../styles/spritesheet_itemicon.css" />
         <link type="text/rcss" href="../styles/spritesheet_socketgem.css" />
         <link type="text/rcss" href="../styles/item_slot.css" />
-        <link type="text/rcss" href="../styles/spritesheet_steampunk.css" />
-        <link type="text/rcss" href="../styles/steampunk.css" />
 
         <style>
-            body
-            {
-                width: 340dp;
-            }
+            /* ==== Both looks ==== */
+            body { width: 340dp; }
+            #window-content { padding: 10dp; min-height: 100dp; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+            #content { display: flex; flex-direction: column; align-items: center; width: 100%; }
+            #content > div { width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
+            #icon-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 5dp; }
+            #content > #message-container { display: block; max-height: 50vh; overflow-y: auto; text-align: center; }
+            #message { display: block; word-break: break-word; font-weight: bold; font-effect: outline(1dp black); }
+            #message.plain { white-space: pre-wrap; }
+            #cancel { color: rgb(255, 211, 211); }
+            progress { height: 5dp; width: 125dp; }
+            .horizontal { background: rgba(134, 134, 134, 191); }
+            .horizontal fill { background-color: rgb(255, 211, 211); }
+            #sp-msg-buttons { display: flex; flex-direction: row; justify-content: center; width: 100%; gap: 8dp; }
+            #sp-msg-buttons button { flex: 1 1 0; max-width: 150dp; margin: 0; }
 
-            #window-content
-            {
-                padding: 10dp;
-                min-height: 100dp;
+            /* ==== Default UI look only ==== */
 
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
+            /* ==== Steampunk look only ==== */
 
-            #content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-            }
-
-            #content > div {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                margin-bottom: 10px;
-            }
-            
-            #icon-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 5dp;
-            }
-
-            #content > #message-container {
-                display: block;
-                max-height: 50vh;
-                overflow-y: auto;
-                text-align: center;
-            }
-            
-            #message
-            {
-                display: block;
-                word-break: break-word;
-                font-weight: bold;
-                font-effect: outline(1dp black);
-            }
-
-            #message.plain
-            {
-                white-space: pre-wrap;
-            }
-
-            #cancel
-            {
-                color: rgb(255, 211, 211);
-            }
-
-            progress {
-                height: 5dp;
-                width: 125dp;
-            }
-
-            .horizontal {
-                background: rgba(134, 134, 134, 191);
-            }
-
-            .horizontal fill {
-                background-color: rgb(255, 211, 211);
-            }
         </style>
+        <script>
+-- Theme check (add-on windows work with the default UI and with the Steampunk
+-- UI theme). Steampunk is installed when styles/steampunk.css exists; then this
+-- window gets the class sp-theme-steampunk and uses the Steampunk look,
+-- otherwise sp-theme-default and the game's own look. SP_THEME says which.
+pcall(function()
+    local sp = false
+    pcall(function()
+        local f = io.open('Data/ui/themes/rose/styles/steampunk.css', 'r')
+        if f then f:close(); sp = true end
+    end)
+    SP_THEME = sp and 'steampunk' or 'default'
+    local body = document:GetElementById('common-message-box')
+    if body then
+        body:SetClass('sp-theme-default', not sp)
+        body:SetClass('sp-theme-steampunk', sp)
+    end
+    -- (parts written for the other look stay in the window, hidden)
+end)
+        </script>
     </head>
 
     <!-- Each message box instance attaches this document to its own data model. -->
@@ -97,8 +61,10 @@
                 <div id="message-container"><label id="message" data-rml="message" data-class-plain="plain_text"></label></div>
                 <div id="input-container"></div>
             </div>
-            <button class="default" id="confirm" onclick="confirm" data-if="confirm_visible" data-attrif-disabled="!input_valid"><str data-attr-legacy-text="confirm_label" /></button>
-            <button class="default" id="cancel" onclick="cancel" data-if="cancel_visible"><str data-attr-legacy-text="cancel_label" /></button>
+            <div id="sp-msg-buttons">
+                <button class="default" id="confirm" onclick="confirm" data-if="confirm_visible" data-attrif-disabled="!input_valid"><str data-attr-legacy-text="confirm_label" /></button>
+                <button class="default" id="cancel" onclick="cancel" data-if="cancel_visible"><str data-attr-legacy-text="cancel_label" /></button>
+            </div>
             <div id="timer-container" data-if="timer_visible">
                 <span style="display: flex; flex-direction: row; align-items: center;">
                     <img id="time-remaining-icon" data-attr-sprite="timer_warning ? 'timer-clock-warning' : 'timer-clock'" />
