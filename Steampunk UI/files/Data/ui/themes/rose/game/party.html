@@ -95,6 +95,22 @@
             #party.sp-title-keep .ui-hud-toolbar button.ui-hud-action:disabled { opacity: 1; }
             #party.sp-icons-off .sp-job-badge { display: none; }
             #party.sp-icons-off .party-member.sp-has-job { padding-left: 0; }
+            #party gauge.member-health { position: relative; }
+            #party .sp-plv { position: absolute; left: 0.35em; top: 0; width: 3em; text-align: left; height: 1.76em; line-height: 1.76em; font-size: 0.85em; font-weight: 820; color: rgb(255, 247, 191); font-effect: outline(1dp rgb(20, 12, 8)); pointer-events: none; }
+            #party .sp-dg > span { display: none; }
+            #party .sp-dg.v0 > .n0 { display: inline; }
+            #party .sp-dg.v1 > .n1 { display: inline; }
+            #party .sp-dg.v2 > .n2 { display: inline; }
+            #party .sp-dg.v3 > .n3 { display: inline; }
+            #party .sp-dg.v4 > .n4 { display: inline; }
+            #party .sp-dg.v5 > .n5 { display: inline; }
+            #party .sp-dg.v6 > .n6 { display: inline; }
+            #party .sp-dg.v7 > .n7 { display: inline; }
+            #party .sp-dg.v8 > .n8 { display: inline; }
+            #party .sp-dg.v9 > .n9 { display: inline; }
+            #party.sp-plv-off .sp-plv { display: none; }
+            #sp-plv-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-plv-tick-a; }
+            .sp-plv-src { display: none; }
             #sp-switch-timer { position: absolute; width: 1dp; height: 1dp; opacity: 0; pointer-events: none; animation: 2s sp-switch-tick-a; }
 
             /* ==== Default UI look only ==== */
@@ -143,6 +159,8 @@
             }
             @keyframes sp-job-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-job-tick-b { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-plv-tick-a { from { opacity: 0; } to { opacity: 0; } }
+            @keyframes sp-plv-tick-b { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-switch-tick-a { from { opacity: 0; } to { opacity: 0; } }
             @keyframes sp-switch-tick-b { from { opacity: 0; } to { opacity: 0; } }
         </style>
@@ -302,6 +320,100 @@ local ok, err = pcall(function()
 end)
         </script>
         <script>
+-- Party Levels (add-on). The party data has no levels, so they are taken from
+-- places that do: your group, friend and clan lists in the Game Arena, the clan
+-- window, your own character, and the levels the Party Finder, clan window and
+-- Group Manager remember (sp_level_cache.txt, filled from every Party Finder
+-- advert you look at). Members seen nowhere show no level. A remembered level
+-- is from the last time that person was seen. Every 2 seconds; the digits are
+-- already in each row, so only their classes change (no text is made here).
+pcall(function()
+    local document = document
+    local CACHE_FILE, cache, reread = 'sp_level_cache.txt', {}, 0
+    local SOURCES = '<div data-model="game-arena"><span class="sp-plv-src" data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span>'
+        .. '<span class="sp-plv-src" data-for="m : friends" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span>'
+        .. '<span class="sp-plv-src" data-for="m : clan" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span></div>'
+        .. '<div data-model="clan"><span class="sp-plv-src" data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span></div>'
+        .. '<div data-model="character"><span class="sp-plv-src" sp-self="1" data-attr-sp-name="name" data-attr-sp-level="level"></span></div>'
+    local function each(list, fn)
+        if not list then return end
+        local i = list[0] and 0 or 1
+        while list[i] do fn(list[i]); i = i + 1 end
+    end
+    local function trim(t) return (tostring(t or ''):gsub('<[^>]*>', ''):gsub('&amp;', '&'):match('^%s*(.-)%s*$')) end
+    local function on()
+        if not SP_ADDON_ON then return true end
+        return SP_ADDON_ON('party_levels', false)
+    end
+    local function load_cache()
+        pcall(function()
+            local f = io.open(CACHE_FILE, 'r')
+            if not f then return end
+            local c = {}
+            for line in f:lines() do
+                local name, lvl = line:match('^(.-)=(%d+)%s*$')
+                if name and name ~= '' then c[name] = tonumber(lvl) end
+            end
+            f:close()
+            cache = c
+        end)
+    end
+    local added = false
+    local function add_sources()
+        if added or not on() then return end
+        local slot = document:GetElementById('sp-plv-slot')
+        if not slot then return end
+        added = true
+        pcall(function() slot.inner_rml = SOURCES end)
+        load_cache()
+    end
+    -- show one digit slot: v0..v9, or nothing
+    local function set(e, d)
+        local want = d and ('sp-dg v' .. d) or 'sp-dg'
+        if e:GetAttribute('class') ~= want then e:SetAttribute('class', want) end
+    end
+    local function update()
+        if not added or not on() then return end
+        reread = reread + 1
+        if reread >= 5 then reread = 0; load_cache() end
+        local live, self_lv = {}, nil
+        each(document:QuerySelectorAll('.sp-plv-src'), function(s)
+            local lvl = tonumber(s:GetAttribute('sp-level'))
+            if lvl and lvl > 1 then     -- the game sends 1 when it doesn't know
+                live[trim(s:GetAttribute('sp-name'))] = lvl
+                if s:GetAttribute('sp-self') then self_lv = lvl end
+            end
+        end)
+        each(document:QuerySelectorAll('.party-member'), function(m)
+            local box = m:QuerySelector('.sp-plv')
+            if not box then return end
+            local label = m:QuerySelector('.ui-roster-name')
+            local name = label and trim(label.inner_rml) or ''
+            local lvl = (m:IsClassSet('sp-self') and self_lv) or live[name] or cache[name]
+            local s = lvl and tostring(math.floor(lvl)) or ''
+            if #s > 3 then s = '' end
+            s = string.rep(' ', 3 - #s) .. s
+            local slots = {}
+            each(box:QuerySelectorAll('.sp-dg'), function(e) slots[#slots + 1] = e end)
+            for k = 1, 3 do
+                if slots[k] then set(slots[k], tonumber(s:sub(k, k))) end
+            end
+        end)
+    end
+    document:AddEventListener('show', function() pcall(add_sources); pcall(update) end)
+    local timer = document:GetElementById('sp-plv-timer')
+    if timer then
+        local flip = false
+        timer:AddEventListener('animationend', function()
+            pcall(add_sources)
+            pcall(update)
+            flip = not flip
+            timer.style.animation = '2s ' .. (flip and 'sp-plv-tick-b' or 'sp-plv-tick-a')
+        end)
+    end
+end)
+        </script>
+        <script>
 
 -- Party HUD extras (add-on): buff icons on/off, buff icon size and
 -- whether the title bar always shows (the game hides it until hovered). Set in party_options.html, applied in party.html, saved to
@@ -345,6 +457,7 @@ end
 -- Add-on switches (the same script in every add-on window).
 -- SP_ADDON_SWITCH class_icons
 -- SP_ADDON_SWITCH party_buffs
+-- SP_ADDON_SWITCH party_levels
 -- An add-on counts as installed while its marker file
 -- Data/ui/sp_addons/<key>.txt exists. The launcher copies the marker in with
 -- the add-on and takes it out again with it, so a window that several add-ons
@@ -355,7 +468,7 @@ end
 pcall(function()
     local BODY = 'party'
     -- key, class put on this window while that add-on is off or not installed ('' = none)
-    local MINE = {{'class_icons', 'sp-icons-off'}, {'party_buffs', 'sp-pbuffs-off'}}
+    local MINE = {{'class_icons', 'sp-icons-off'}, {'party_buffs', 'sp-pbuffs-off'}, {'party_levels', 'sp-plv-off'}}
     local installed = {}
     SP_ADDON_INSTALLED = function(key)
         -- the Steampunk UI theme has every add-on built in
@@ -419,6 +532,8 @@ end)
     <body template="window-fixed-size" id="party" data-model="party" data-style-width="members_font_size * 18 + 'dp'">
         <div id="sp-job-timer"></div>
         <div id="sp-job-source-slot"></div>
+        <div id="sp-plv-timer"></div>
+        <div id="sp-plv-slot"></div>
         <div data-model="party">
             <div class="party-summary">
                 <span class="party-level">Level {{level}}</span>
@@ -432,7 +547,7 @@ end)
             </div>
             <div id="party-members" data-style-font-size="members_font_size + 'dp'" data-style-min-height="members_min_height + 'dp'" data-style-max-height="members_max_height + 'dp'">
                 <div class="party-member ui-roster-member" data-for="member : members" data-attr-id="'member-' + member.tag" data-attr-onclick="'select:' + member.tag" data-class-selected="member.selected" data-class-leader="member.leader" data-class-sp-self="member.self">
-                    <gauge class="member-health ui-vitals horizontal-sm-md red" data-class-unavailable="!member.available" data-attr-gvalue="member.hp_percent" gmax="100"><span class="member-name ui-roster-name">{{member.name}}</span></gauge>
+                    <gauge class="member-health ui-vitals horizontal-sm-md red" data-class-unavailable="!member.available" data-attr-gvalue="member.hp_percent" gmax="100"><span class="sp-plv"><span class="sp-dg"><span class="n0">0</span><span class="n1">1</span><span class="n2">2</span><span class="n3">3</span><span class="n4">4</span><span class="n5">5</span><span class="n6">6</span><span class="n7">7</span><span class="n8">8</span><span class="n9">9</span></span><span class="sp-dg"><span class="n0">0</span><span class="n1">1</span><span class="n2">2</span><span class="n3">3</span><span class="n4">4</span><span class="n5">5</span><span class="n6">6</span><span class="n7">7</span><span class="n8">8</span><span class="n9">9</span></span><span class="sp-dg"><span class="n0">0</span><span class="n1">1</span><span class="n2">2</span><span class="n3">3</span><span class="n4">4</span><span class="n5">5</span><span class="n6">6</span><span class="n7">7</span><span class="n8">8</span><span class="n9">9</span></span></span><span class="member-name ui-roster-name">{{member.name}}</span></gauge>
                     <div class="member-statuses ui-status-icons" data-if="member.available && member.statuses.size > 0">
                         <span class="member-status" data-for="status : member.statuses" data-attr-id="'status-' + member.tag + '-' + status.state_id" data-class-blink="status.blink" data-attr-onmouseover="'status-tooltip:' + member.tag + ':' + status.state_id" onmouseout="hide-tooltip"><img data-attr-sprite="'stateicon-' + status.icon" /></span>
                     </div>

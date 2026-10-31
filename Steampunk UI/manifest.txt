@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.62
-7e12cd100aa3811ef804b48663a9f8a9f10cb176|mod.ini
+version=1.63
+0de6662c1034b27531c6e8b1e47b33e2484258c7|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 7c1970d0318b8373d1b0d0443b8c19e6203f3f3a|files/Data/ui/themes/rose/game/arena_group.html
@@ -12,7 +12,7 @@ fcd4db4d6438c8a1016d09924bb414b8d7be5b3e|files/Data/ui/themes/rose/game/characte
 2d20d8813a3ed14887c059506cf671bd955076ab|files/Data/ui/themes/rose/game/character_stats.html
 babc20e31ed5e4e0613877aff47d3312362621b3|files/Data/ui/themes/rose/game/chat_box.html
 e9772fd553adbfe16e1df9c87ef1f62c2013a007|files/Data/ui/themes/rose/game/choice_box.html
-6373ac34fdb81ed3bb030b565fbd01cdb2b229fc|files/Data/ui/themes/rose/game/clan.html
+7cbae8991a64fc32811dce1bbe0fc7c33f28f254|files/Data/ui/themes/rose/game/clan.html
 12bde5280b79de84acf7bd0ed680293f1ff14540|files/Data/ui/themes/rose/game/clan_create.html
 5f4f545b463486384be5025da3c2d616bb620369|files/Data/ui/themes/rose/game/crafting.html
 5e661baf73f653256ae5311085e7965354db6b9c|files/Data/ui/themes/rose/game/disassembly.html
@@ -46,8 +46,8 @@ a790208fb267b9ef974d4e7aca791a9223234c8d|files/Data/ui/themes/rose/game/monster_
 38e0e46bacd55935512f6ad61af907978c74e2e0|files/Data/ui/themes/rose/game/npc_transaction.html
 ed4e6b1075aa4208de7a999078a498a682cbf3c8|files/Data/ui/themes/rose/game/number_input.html
 9ffac394fb7529b7d21c0378cea78e3d1ca2b906|files/Data/ui/themes/rose/game/options_bgfx.html
-5056c5b23e622ddb78330c6d0f52e11ebbf0f2ae|files/Data/ui/themes/rose/game/party.html
-54966d0c015deb512bdfcc01e0eb9613942fc2aa|files/Data/ui/themes/rose/game/party_finder.html
+0748f458c626f1f2c59ea5e0615185eaf26c6a6d|files/Data/ui/themes/rose/game/party.html
+e46225ce858c2cb8109c6721e03225c0c83c29f5|files/Data/ui/themes/rose/game/party_finder.html
 cc3556ca0e51494f1f0216a3d546ef8e1eb94d5a|files/Data/ui/themes/rose/game/party_options.html
 00392d857a8b3438061dcf45230cbd3ff6b8e70d|files/Data/ui/themes/rose/game/personal_store.html
 5f335565223d9b6be6ab97d6292d0b6c29df5081|files/Data/ui/themes/rose/game/personal_store_management.html
@@ -136,4 +136,4 @@ d79a66976d6b3eadb0e585a5bb13c06b67be7582|launcher/acct_h.png
 fcff2c51847e67100ae6fca2d0ffdb5fe9942741|launcher/more_n.png
 c9735755117dd4fa76a010d9d13085fefdd2dfb1|files/Data/ui/themes/rose/styles/sp_addons_steampunk.css
 d91eeca9018f74fcc0129e8769899178111feb8f|files/Data/ui/themes/rose/styles/sp_addons_steampunk_sprites.css
-954549bdb0200531ee4ce431fafd1119fc3d2849|files/Data/ui/themes/rose/game/sp_addons_window.html
+0fabf0a7c99bbb38230bbb24cd508b7ced7c65da|files/Data/ui/themes/rose/game/sp_addons_window.html
