@@ -1,6 +1,6 @@
 ; Update list for Steampunk UI. Upload this next to mod.ini and the files folder.
-version=1.63
-0de6662c1034b27531c6e8b1e47b33e2484258c7|mod.ini
+version=1.64
+4472d92f1728ce03a0031374b1197cd1082b8e97|mod.ini
 9f2484b9be9aa92de69d67da6cf9c51adcea414c|files/Data/ui/themes/rose/game/announce.html
 a79d709e26608c81581c7b0347e5a706bec7c4a8|files/Data/ui/themes/rose/game/arena_browser.css
 7c1970d0318b8373d1b0d0443b8c19e6203f3f3a|files/Data/ui/themes/rose/game/arena_group.html
@@ -46,7 +46,7 @@ a790208fb267b9ef974d4e7aca791a9223234c8d|files/Data/ui/themes/rose/game/monster_
 38e0e46bacd55935512f6ad61af907978c74e2e0|files/Data/ui/themes/rose/game/npc_transaction.html
 ed4e6b1075aa4208de7a999078a498a682cbf3c8|files/Data/ui/themes/rose/game/number_input.html
 9ffac394fb7529b7d21c0378cea78e3d1ca2b906|files/Data/ui/themes/rose/game/options_bgfx.html
-0748f458c626f1f2c59ea5e0615185eaf26c6a6d|files/Data/ui/themes/rose/game/party.html
+b04402263c67793dad3aa7930b1a257b26dae8c2|files/Data/ui/themes/rose/game/party.html
 e46225ce858c2cb8109c6721e03225c0c83c29f5|files/Data/ui/themes/rose/game/party_finder.html
 cc3556ca0e51494f1f0216a3d546ef8e1eb94d5a|files/Data/ui/themes/rose/game/party_options.html
 00392d857a8b3438061dcf45230cbd3ff6b8e70d|files/Data/ui/themes/rose/game/personal_store.html

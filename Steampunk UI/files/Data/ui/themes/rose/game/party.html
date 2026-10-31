@@ -325,11 +325,12 @@ end)
 -- window, your own character, and the levels the Party Finder, clan window and
 -- Group Manager remember (sp_level_cache.txt, filled from every Party Finder
 -- advert you look at). Members seen nowhere show no level. A remembered level
--- is from the last time that person was seen. Every 2 seconds; the digits are
+-- is from the last time that person was seen; your own level is saved there as
+-- soon as it changes, for your other game windows. Every 2 seconds; the digits are
 -- already in each row, so only their classes change (no text is made here).
 pcall(function()
     local document = document
-    local CACHE_FILE, cache, reread = 'sp_level_cache.txt', {}, 0
+    local CACHE_FILE, cache = 'sp_level_cache.txt', {}
     local SOURCES = '<div data-model="game-arena"><span class="sp-plv-src" data-for="m : members" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span>'
         .. '<span class="sp-plv-src" data-for="m : friends" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span>'
         .. '<span class="sp-plv-src" data-for="m : clan" data-attr-sp-name="m.name" data-attr-sp-level="m.level"></span></div>'
@@ -374,16 +375,26 @@ pcall(function()
     end
     local function update()
         if not added or not on() then return end
-        reread = reread + 1
-        if reread >= 5 then reread = 0; load_cache() end
-        local live, self_lv = {}, nil
+        load_cache()     -- every time: another game window on this PC may have saved a new level
+        local live, self_lv, self_name = {}, nil, nil
         each(document:QuerySelectorAll('.sp-plv-src'), function(s)
             local lvl = tonumber(s:GetAttribute('sp-level'))
             if lvl and lvl > 1 then     -- the game sends 1 when it doesn't know
                 live[trim(s:GetAttribute('sp-name'))] = lvl
-                if s:GetAttribute('sp-self') then self_lv = lvl end
+                if s:GetAttribute('sp-self') then self_lv, self_name = lvl, trim(s:GetAttribute('sp-name')) end
             end
         end)
+        -- save your own level as soon as it changes, so your other characters
+        -- (other game windows on this PC) show it in their party right away
+        if self_name and self_name ~= '' and cache[self_name] ~= self_lv then
+            cache[self_name] = self_lv
+            pcall(function()
+                local w = io.open(CACHE_FILE, 'w')
+                if not w then return end
+                for name, lvl in pairs(cache) do w:write(name, '=', lvl, '\n') end
+                w:close()
+            end)
+        end
         each(document:QuerySelectorAll('.party-member'), function(m)
             local box = m:QuerySelector('.sp-plv')
             if not box then return end
